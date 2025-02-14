@@ -1,5 +1,4 @@
 import { TextNode } from "@/components/nodes";
-import { CustomNodeComponent } from "@/components/nodes/CustomFlowNodes/CustomNodeComponent";
 import { Position } from "reactflow";
 import { Edge } from "reactflow";
 
@@ -253,8 +252,7 @@ export const nodesConfig = {
   ] as unknown as Node[],
   initialEdges: [{ id: "e1-1", source: "1", target: "2" }] as Edge[],
   nodeTypes: {
-    textNode: TextNode,
-    customNodeComponent: CustomNodeComponent
+    textNode: TextNode
   } as any,
 };
 
