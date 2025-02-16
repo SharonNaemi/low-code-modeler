@@ -246,11 +246,23 @@ export const nodesConfig = {
     },
     {
       id: 'Cla',
-      type: 'positionNode',
+      type: 'dynamicNode',
       data: {
         label: "wow, that was a great video\n",
         dataType: "float",
         inputs: [{
+          id: "input-id-00013",
+          name: "Network number",
+          label: "myTest",
+          ident: "ewf-file",
+          isArray: false,
+          isRequired: true,
+          type: "number",
+          descriptor: {
+            extensions: ["EWFx"]
+          }
+        }],
+        outputs: [{
           id: "input-id-00013",
           name: "Network number",
           label: "myTest",
