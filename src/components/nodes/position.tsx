@@ -79,7 +79,7 @@ export const PositionNode = memo((node: Node) => {
             type="target"
             id="output"
             position={Position.Right}
-            className="!absolute !right-[-20px] !top-[50%] !translate-y-[-50%] z-10 circle-port ml-4 !bg-blue-300 !border-blue-300"
+            className="!absolute !right-[-22px] !top-[50%] !translate-y-[-50%] z-10 classical-circle-port ml-4 !bg-blue-300 !border-blue-300"
           />
         </div>
       </div>
