@@ -25,11 +25,17 @@ export const TextNode = memo((node: Node) => {
   }, [alledges, id]);
 
   return (
-    <div
-      className={cn(
-        "bg-white border-[1px] shadow-2xl border-transparent rounded-md min-w-[200px] text-start",
-        selected && "border-blue-500",
-      )}
+    <div className={cn(
+       "w-[220px] h-[100px] rounded-[50px] bg-gray-300 flex flex-col items-center justify-center shadow-lg transition-all duration-200 px-4",
+        selected && "border-2 border-blue-500")}
+      //className={cn(
+       // "bg-white border-[1px] shadow-xl border-transparent rounded-2xl min-w-[220px] text-start p-3 transition-all duration-200",
+        //selected && "border-blue-500"
+        //"bg-white border-[1px] shadow-2xl border-transparent rounded-md min-w-[200px] text-start",
+        //selected && "border-blue-500",
+        
+      //)
+      
     >
       <span className="py-1 px-3 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 block rounded-t-md">
         Send Message

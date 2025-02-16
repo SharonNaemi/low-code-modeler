@@ -196,7 +196,8 @@ h1 {
   left: -5px;
 }
 .circle-port-right {
-  right: -18px;
+  right: -15px;
+  position: absolute;
 }
 
 .btn {

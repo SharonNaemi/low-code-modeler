@@ -52,7 +52,7 @@ function App() {
   const [metadata, setMetadata] = React.useState<any>(null);
   const [menu, setMenu] = useState(null);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint]=useState("http://localhost:8098/nisq-analyzer");
+  const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint] = useState("http://localhost:8098/nisq-analyzer");
   const [qprovEndpoint, setQProvEndpoint] = useState("http://localhost:5005");
   const [scriptSplitterEndpoint, setScriptSplitterEndpoint] = useState("http://localhost:8891")
 
@@ -333,65 +333,59 @@ function App() {
       />
       <Modal open={isModalOpen} onClose={() => { setIsModalOpen(false) }}>
         <div>
-          <h2 className="text-lg font-semibold">New Diagram</h2>
-          <p>Start creating your diagram here.</p>
+          <h2 className="text-lg font-semibold">Config Modal</h2>
+          <h3>NISQ Analyzer</h3>
+          <table className="config-table">
+            <tbody>
+              <tr>
+                <td align="right">NISQ Analyzer Endpoint:</td>
+                <td align="left">
+                  <input
+                    className="qwm-input"
+                    type="text"
+                    value={nisqAnalyzerEndpoint}
+                    onChange={(event) => setNisqAnalyzerEndpoint(event.target.value)}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Qunicorn</h3>
+          <table className="config-table">
+            <tbody>
+              <tr>
+                <td align="right">Qunicorn Endpoint:</td>
+                <td align="left">
+                  <input
+                    className="qwm-input"
+                    type="text"
+                    value={qprovEndpoint}
+                    onChange={(event) => setQProvEndpoint(event.target.value)}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Low-Code Backend:</h3>
+          <table className="config-table">
+            <tbody>
+              <tr>
+                <td align="right">Low-Code Backend Endpoint:</td>
+                <td align="left">
+                  <input
+                    className="qwm-input"
+                    type="text"
+                    value={scriptSplitterEndpoint}
+                    onChange={(event) => setScriptSplitterEndpoint(event.target.value)}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Modal>
-      <Modal open={isModalOpen} onClose={() => { setIsModalOpen(false) }}>
-  <div>
-    <h2 className="text-lg font-semibold">Config Modal</h2>
-    <h3>NISQ Analyzer</h3>
-    <table className="config-table">
-      <tbody>
-        <tr>
-          <td align="right">NISQ Analyzer Endpoint:</td>
-          <td align="left">
-            <input
-              className="qwm-input"
-              type="text"
-              value={nisqAnalyzerEndpoint}
-              onChange={(event) => setNisqAnalyzerEndpoint(event.target.value)}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>Qunicorn</h3>
-    <table className="config-table">
-      <tbody>
-        <tr>
-          <td align="right">Qunicorn Endpoint:</td>
-          <td align="left">
-            <input
-              className="qwm-input"
-              type="text"
-              value={qprovEndpoint}
-              onChange={(event) => setQProvEndpoint(event.target.value)}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>Low-Code Backend:</h3>
-    <table className="config-table">
-      <tbody>
-        <tr>
-          <td align="right">Low-Code Backend Endpoint:</td>
-          <td align="left">
-            <input
-              className="qwm-input"
-              type="text"
-              value={scriptSplitterEndpoint}
-              onChange={(event) => setScriptSplitterEndpoint(event.target.value)}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</Modal>
 
       <main className="flex">
         <div className="hidden basis-[300px] md:block lg:basis-[350px]">
