@@ -9,14 +9,14 @@ const selector = (state: { edges: Edge[] }) => ({
   edges: state.edges,
 });
 
-export const TextNode = memo((node: Node) => {
+export const DynamicNode = memo((node: Node) => {
   const { data, selected, id } = node;
   const { edges } = useStore(selector, shallow);
   const alledges = getConnectedEdges([node], edges);
 
   // Manage dynamic input/output variables
-  const [inputs, setInputs] = useState<IPortData[]>(data.inputs || []);
-  const [outputs, setOutputs] = useState<IPortData[]>(data.outputs || []);
+  const [inputs, setInputs] = useState<any>(data.inputs || []);
+  const [outputs, setOutputs] = useState<any>(data.outputs || []);
 
   // Function to add new input/output dynamically
   const addVariable = () => {

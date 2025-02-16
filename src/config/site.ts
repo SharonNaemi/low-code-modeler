@@ -1,4 +1,5 @@
 import { TextNode, DataTypeNode, PositionNode } from "@/components/nodes";
+import { DynamicNode } from "@/components/nodes/dynamically";
 import { Position } from "reactflow";
 import { Edge } from "reactflow";
 
@@ -220,7 +221,7 @@ export const nodesConfig = {
             typePort: "input",
             type: item.type,
           })),
-          dataType: "int"
+          dataType: "float"
       },
       position: { x: 650, y: 300 },
       targetPosition: Position.Left,
@@ -245,7 +246,7 @@ export const nodesConfig = {
     },
     {
       id: 'Cla',
-      type: 'dataTypeNode',
+      type: 'positionNode',
       data: {
         label: "wow, that was a great video\n",
         dataType: "float",
@@ -263,10 +264,6 @@ export const nodesConfig = {
         }]
       },
       position: { x: 0, y: 0 },
-      style: {
-        width: 200,
-        height: 400,
-      },
     },
     {
       id: 'B',
@@ -288,7 +285,8 @@ export const nodesConfig = {
   nodeTypes: {
     textNode: TextNode,
     dataTypeNode: DataTypeNode,
-    positionNode: PositionNode
+    positionNode: PositionNode,
+    dynamicNode: DynamicNode
   } as any,
 };
 
