@@ -187,6 +187,10 @@ h1 {
 }
 
 
+.grand-parent {
+  position:relative;
+}
+
 .circle-port:hover {
   background: #bbb;
   transition: background 200ms ease;
