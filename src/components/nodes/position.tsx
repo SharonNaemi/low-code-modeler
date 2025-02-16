@@ -5,7 +5,7 @@ import { IPortData } from "./model";
 export const PositionNode = memo((node: Node) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState("");
-  
+
   const [error, setError] = useState(false);
   const [yError, setYError] = useState(false);
   const { data } = node;
@@ -14,16 +14,22 @@ export const PositionNode = memo((node: Node) => {
   const yRef = useRef(null);
   const handleXChange = (e) => {
     const value = e.target.value;
-    // check if value contains a float if the datatype must be an integer
-    if (/[.]/.test(value) || (data.dataType === "int" && !/^\d*$/.test(value))) {
+    console.log(value);
+
+    // Check if value contains a float when it shouldn't or if it's not a number when required
+    if (value === "" ||
+      (data.dataType === "int" && !/^\d*$/.test(value)) ||
+      (/[.,]/.test(value) && data.dataType === "int")
+    ) {
       setError(true);
       setX(value);
       return;
     }
 
     setError(false);
-    setX(Number(value));
+    setX(value);
   };
+
 
   // Validate y input
   const handleYChange = (e) => {
@@ -39,7 +45,6 @@ export const PositionNode = memo((node: Node) => {
     setY(value);
   };
 
-  // currently a wrapping to deal with overlapping of blue and handle
   return (
     <div className="grand-parent">
       <div className="w-[320px] h-[150px] rounded-full bg-gray-800 overflow-hidden border border-solid border-gray-700 shadow-md">
@@ -52,9 +57,11 @@ export const PositionNode = memo((node: Node) => {
             <input
               ref={xRef}
               id="x"
-              type="text"
-              className={`p-1 text-black opacity-75 text-sm rounded-none w-20 text-center ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+              type="number"
+              className={`p-1 text-black opacity-75 text-sm rounded-none w-20 rounded-full text-center ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
               value={x}
+              placeholder="0"
+              step={data.dataType === "int"? 1 : 0.1}
               onChange={handleXChange}
             />
           </div>
@@ -65,8 +72,9 @@ export const PositionNode = memo((node: Node) => {
           <input
             ref={yRef}
             id="y"
-            className={`p-1 text-black opacity-75 text-sm rounded-none w-10 text-center ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+            className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
             value={y}
+            placeholder="a"
             onChange={handleYChange}
           />
           <Handle
