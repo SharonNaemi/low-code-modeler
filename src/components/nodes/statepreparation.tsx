@@ -47,9 +47,11 @@ export const StatePreparationNode = memo((node: Node) => {
   return (
     <div className="grand-parent">
       <div className="w-[320px] h-[180px] rounded-none bg-white border border-solid border-gray-700 shadow-md">
-        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate">
-          State Preparation
-        </div>
+      <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
+      <img src="/StatePreparation.png" className="h-6 w-6 object-contain" />
+      <span>State Preparation</span>
+    </div>
+
         <div className="custom-node-port-in space-y-2 px-3">
           <div className="relative flex items-center space-x-2 overflow-visible">
           <div>
