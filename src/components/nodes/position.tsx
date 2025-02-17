@@ -56,7 +56,7 @@ export const PositionNode = memo((node: Node) => {
               ref={xRef}
               id="x"
               type="number"
-              className={`p-1 text-black opacity-75 text-sm rounded-none w-20 rounded-full text-center border ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+              className={`p-1 text-black opacity-75 text-sm rounded-full w-20 rounded-full text-center border ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
               value={x}
               placeholder="0"
               step={data.dataType === "int" ? 1 : 0.1}
