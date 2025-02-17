@@ -12,6 +12,7 @@ export type NodeType =
 export interface Node {
   label: string;
   type: NodeType;
+  dataType: string;
 }
 
 export interface Categories {
@@ -21,14 +22,10 @@ export interface Categories {
 export const categories: { [key: string]: any } = {
   "Data Types": {
     "Classical Datatypes": [
-      { label: "int", type: "classicalInt" },
-      { label: "float", type: "classicalFloat" },
-      { label: "boolean", type: "classicalBoolean" },
-    ],
-    "Quantum Datatypes": [
-      { label: "qint", type: "quantumQint" },
-      { label: "qfloat", type: "quantumQfloat" },
-    ],
+      { label: "int", dataType: "int", type: "positionNode" },
+      { label: "float", dataType: "int",type: "positionNode" },
+      { label: "boolean", dataType: "int",type: "positionNode" },
+    ]
   },
   Operators: {
     "Assignment Operators": [

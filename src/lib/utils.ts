@@ -29,12 +29,16 @@ export function handleOnDrop(
   event: React.DragEvent<HTMLDivElement>,
   reactFlowWrapper: any,
   reactFlowInstance: any,
+  nodeDataType: string,
   setNodes: any,
 ) {
   event.preventDefault();
   if (reactFlowWrapper) {
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
     const type = event.dataTransfer.getData("application/reactflow");
+    const dataType = event.dataTransfer.getData("application/reactflow/dataType");
+    console.log(type)
+    console.log(nodeDataType)
    
     //let position2 = reactFlowInstance.screenToFlowPosition();
 
@@ -54,7 +58,7 @@ export function handleOnDrop(
       id: getId(),
       type,
       position,
-      data: { label: `${type} node` },
+      data: { label: `${type} node`, dataType: dataType }
     };
 
     setNodes(newNode);

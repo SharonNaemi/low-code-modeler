@@ -7,10 +7,12 @@ export const AddNodePanel = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   // Handle drag-and-drop functionality
-  const onDragStart = (event: React.DragEvent<HTMLDivElement>, node: Node) => {
+  const onDragStart = (event: React.DragEvent<HTMLDivElement>, node: any) => {
     event.dataTransfer.setData("application/reactflow", node.type);
+    event.dataTransfer.setData("application/reactflow/dataType", node.dataType);
     event.dataTransfer.effectAllowed = "move";
     console.log("drag start")
+    console.log(node)
   };
 
   // Toggle category open/collapse
