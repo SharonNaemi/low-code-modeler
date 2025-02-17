@@ -57,7 +57,7 @@ export const StatePreparationNode = memo((node: Node) => {
               type="target"
               id="input"
               position={Position.Left}
-              className="z-10 circle-port !bg-green-300 !border-green-300"
+              className="z-10 classical-circle-port-in !bg-blue-300 !border-blue-300"
               style={{ top: "12px" }}
             />
             <span className="text-black text-sm">Input</span>
@@ -85,7 +85,7 @@ export const StatePreparationNode = memo((node: Node) => {
               <input
                 ref={yRef}
                 id="y"
-                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
                 value={y}
                 placeholder="a"
                 onChange={handleYChange}
@@ -94,7 +94,7 @@ export const StatePreparationNode = memo((node: Node) => {
                 type="target"
                 id="output"
                 position={Position.Right}
-                className="!absolute !right-[-19px] !top-[50%] !translate-y-[-50%] z-10 classical-circle-port ml-4 !bg-blue-300 !border-blue-300"
+                className="!absolute !right-[-19px] !top-[50%] !translate-y-[-50%] z-10 circle-port-out ml-4 !bg-green-300 !border-green-300"
               />
             </div>
           </div>

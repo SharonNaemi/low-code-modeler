@@ -72,18 +72,6 @@ export const DynamicNode = memo((node: Node) => {
         </div>
 
 
-        <div className="px-3 py-1">
-          <label className="text-black text-xs">Encoding Type:</label>
-          <select
-            className="w-full p-1 mt-1 bg-gray-700 text-white border border-gray-600 rounded"
-            value={encodingType}
-            onChange={(e) => setEncodingType(e.target.value)}
-          >
-            <option value="Basis Encoding">Basis Encoding</option>
-            <option value="Amplitude Encoding">Amplitude Encoding</option>
-          </select>
-        </div>
-
         <div className="custom-node-port-out space-y-2 px-3">
           {outputs.map((output, index) => (
             <div className="relative flex items-center justify-end space-x-2 overflow-visible" key={output.id}>
