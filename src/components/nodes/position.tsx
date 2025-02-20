@@ -1,6 +1,5 @@
-import React, { memo, useState, useRef } from "react";
+import { memo, useState, useRef } from "react";
 import { Handle, Position, Node } from "reactflow";
-import { IPortData } from "./model";
 
 export const PositionNode = memo((node: Node) => {
   const [x, setX] = useState(0);
@@ -15,7 +14,6 @@ export const PositionNode = memo((node: Node) => {
 
   const handleXChange = (e) => {
     const value = e.target.value;
-    console.log(value);
 
     // Check if value contains a float when it shouldn't or if it's not a number when required
     if (value === "" ||
@@ -56,7 +54,7 @@ export const PositionNode = memo((node: Node) => {
               ref={xRef}
               id="x"
               type="number"
-              className={`p-1 text-black opacity-75 text-sm rounded-full w-20 rounded-full text-center border ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+              className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border ${error ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
               value={x}
               placeholder="0"
               step={data.dataType === "int" ? 1 : 0.1}
@@ -65,23 +63,35 @@ export const PositionNode = memo((node: Node) => {
           </div>
         </div>
 
-        <div className="absolute bottom-[35%] right-5 transform translate-y-1/2 flex items-center z-10">
-          <label htmlFor="y" className="text-black text-sm mr-2">Output</label>
-          <input
-            ref={yRef}
-            id="y"
-            className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-            value={y}
-            placeholder="a"
-            onChange={handleYChange}
-          />
-          <Handle
-            type="target"
-            id="output"
-            position={Position.Right}
-            className="!absolute !right-[-22px] !top-[50%] !translate-y-[-50%] z-10 classical-circle-port ml-4 !bg-blue-300 !border-blue-300"
-          />
-        </div>
+          <div className="flex items-center justify-end space-x-0">
+            <div className="flex items-center rounded-full overflow-hidden">
+            <div
+              className="flex items-center rounded-full overflow-hidden"
+              style={{
+                backgroundColor: 'rgba(105, 145, 210, 0.2)',
+                width: '150px',
+              }}
+            >
+              <label htmlFor="y" className="text-black text-sm mr-2">Output</label>
+              <input
+                ref={yRef}
+                id="y"
+                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                value={y}
+                placeholder="a"
+                onChange={handleYChange}
+              />
+              
+              <Handle
+                type="target"
+                id="output"
+                position={Position.Right}
+                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-blue-300 !border-black overflow-visible"
+              />
+              </div>
+            </div>
+          </div>
+        
       </div>
     </div>
   );
