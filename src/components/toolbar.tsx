@@ -20,19 +20,28 @@ const Toolbar: React.FC<ToolbarProps> = ({
     <div className="flex items-center justify-between bg-gray-100 p-4 border-b border-gray-300">
       <div className="space-x-4">
 	  <Button size="sm" onClick={onLoadJson}>
-          New Diagram
-        </Button>
-        <Button size="sm" onClick={onSave}>
-          Save Changes
+        New Diagram
         </Button>
         <Button size="sm" onClick={onRestore}>
-          Restore Changes
+          Open
+        </Button>
+        <Button size="sm" onClick={onSave}>
+          Save
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Save as SVG
+          Save as 
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Config
+          Upload
+        </Button>
+        <Button size="sm" onClick={onSaveAsSVG}>
+          Configuration
+        </Button>
+        <Button size="sm" onClick={onSaveAsSVG}>
+          Send to Backend
+        </Button>
+        <Button size="sm" onClick={onSaveAsSVG}>
+          Send to Qunicorn
         </Button>
       </div>
     </div>
