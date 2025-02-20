@@ -1,5 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui";
+import {
+  FilePlus,
+  FolderOpen,
+  Save,
+  Download,
+  UploadCloud,
+  Settings,
+  Send,
+  Server,
+} from "lucide-react";
 
 interface ToolbarProps {
   onSave: () => void;
@@ -14,33 +24,34 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onRestore,
   onSaveAsSVG,
   onOpenConfig,
-  onLoadJson
+  onLoadJson,
 }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-4 border-b border-gray-300">
-      <div className="space-x-4">
-	  <Button size="sm" onClick={onLoadJson}>
-        New Diagram
+      <div className="space-x-2 flex">
+        <Button size="sm" onClick={onLoadJson}>
+          <FilePlus className="w-4 h-4 mr-2" /> New Diagram
         </Button>
         <Button size="sm" onClick={onRestore}>
-          Open
+          <FolderOpen className="w-4 h-4 mr-2" /> Open
         </Button>
         <Button size="sm" onClick={onSave}>
-          Save
+          <Save className="w-4 h-4 mr-2" /> Save
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Save as 
+          <Download className="w-4 h-4 mr-2" /> Save as
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Upload
+          <UploadCloud className="w-4 h-4 mr-2" /> Upload
+        </Button>
+        <Button size="sm" onClick={onOpenConfig}>
+          <Settings className="w-4 h-4 mr-2" /> Configuration
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Configuration
+          <Send className="w-4 h-4 mr-2" /> Send to Backend
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
-          Send to Backend
-        </Button>
-        <Button size="sm" onClick={onSaveAsSVG}>
+          <img src="/qunicorn.jfif" className="w-5 h-5 mr-2" />
           Send to Qunicorn
         </Button>
       </div>

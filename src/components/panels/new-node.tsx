@@ -23,7 +23,7 @@ export const AddNodePanel = () => {
   };
 
   return (
-    <div className="h-screen w-full bg-white overflow-hidden">
+    <div className="h-screen w-full bg-gray-100 overflow-hidden">
       {/* Full-width sidebar */}
       <aside className="flex flex-col w-full h-full overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
         <nav className="space-y-4">
