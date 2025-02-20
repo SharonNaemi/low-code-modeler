@@ -24,12 +24,21 @@ export const MetadataPanel = ({
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
     const { id, value } = event.target;
-    console.log(id);
-    console.log(value);
 
     const updatedMetadata = {
       ...metadata,
-      [id]: value, // Use the `id` to update the correct metadata field
+      [id]: value,
+    };
+
+    onUpdateMetadata(updatedMetadata);
+  }
+
+  function handleCheckboxChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { id, checked } = event.target;
+
+    const updatedMetadata = {
+      ...metadata,
+      [id]: checked ? true : false,
     };
 
     onUpdateMetadata(updatedMetadata);
@@ -42,7 +51,9 @@ export const MetadataPanel = ({
           onClick={() => {
             setSelectedNode(null);
           }}
-        ></button>
+        >
+          <ArrowLeft />
+        </button>
         <h2 className="flex-grow text-center">Model Information</h2>
       </div>
       <hr />
@@ -50,14 +61,7 @@ export const MetadataPanel = ({
       <div className="p-2 mt-3 space-y-4">
         {metadata ? (
           <>
-            {[
-              "version",
-              "name",
-              "id",
-              "author",
-              "description",
-              "timestamp",
-            ].map((field) => (
+            {[ "version", "name", "id", "author", "description", "timestamp"].map((field) => (
               <div key={field}>
                 <label
                   className="block text-sm font-medium text-gray-700"
@@ -84,6 +88,72 @@ export const MetadataPanel = ({
                 )}
               </div>
             ))}
+
+            <div className="mt-4 border-t pt-4">
+              <h3 className="text-lg font-semibold text-gray-700">Optimization</h3>
+              <div className="space-y-4">
+ 
+                <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      id="optimizeWidth"
+                      checked={metadata.optimizeWidth || false}
+                      onChange={handleCheckboxChange}
+                      className="form-checkbox"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Enable Width Optimization</span>
+                  </label>
+                  {metadata.optimizeWidth && (
+                    <div className="mt-2">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="width"
+                      >
+                        Width
+                      </label>
+                      <input
+                        type="number"
+                        id="width"
+                        value={metadata.width || ""}
+                        onChange={handleChange}
+                        className="border block w-full border-gray-300 rounded-md sm:text-sm p-2"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      id="optimizeDepth"
+                      checked={metadata.optimizeDepth || false}
+                      onChange={handleCheckboxChange}
+                      className="form-checkbox"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Enable Depth Optimization</span>
+                  </label>
+                  {metadata.optimizeDepth && (
+                    <div className="mt-2">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="depth"
+                      >
+                        Depth
+                      </label>
+                      <input
+                        type="number"
+                        id="depth"
+                        value={metadata.depth || ""}
+                        onChange={handleChange}
+                        className="border block w-full border-gray-300 rounded-md sm:text-sm p-2"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           <p className="text-gray-500">No metadata available.</p>
