@@ -29,7 +29,6 @@ export function handleOnDrop(
   event: React.DragEvent<HTMLDivElement>,
   reactFlowWrapper: any,
   reactFlowInstance: any,
-  nodeDataType: string,
   setNodes: any,
 ) {
   event.preventDefault();
@@ -38,7 +37,7 @@ export function handleOnDrop(
     const type = event.dataTransfer.getData("application/reactflow");
     const dataType = event.dataTransfer.getData("application/reactflow/dataType");
     console.log(type)
-    console.log(nodeDataType)
+    console.log(dataType)
    
     //let position2 = reactFlowInstance.screenToFlowPosition();
 
