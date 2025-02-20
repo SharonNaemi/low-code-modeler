@@ -1,11 +1,9 @@
 import React, { memo, useState, useRef } from "react";
 import { Handle, Position, Node } from "reactflow";
-import { IPortData } from "./model";
 
 export const StatePreparationNode = memo((node: Node) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState("");
-
   const [error, setError] = useState(false);
   const [yError, setYError] = useState(false);
   const { data } = node;
@@ -16,9 +14,6 @@ export const StatePreparationNode = memo((node: Node) => {
 
   const handleXChange = (e) => {
     const value = e.target.value;
-    console.log(value);
-
-    // Check if value contains a float when it shouldn't or if it's not a number when required
     if (value === "" ||
       (data.dataType === "int" && !/^\d*$/.test(value)) ||
       (/[.,]/.test(value) && data.dataType === "int")
@@ -27,67 +22,80 @@ export const StatePreparationNode = memo((node: Node) => {
       setX(value);
       return;
     }
-
     setError(false);
     setX(value);
   };
 
   const handleYChange = (e) => {
     const value = e.target.value;
-    // Check if the first character is a letter or underscore
     if (!/^[a-zA-Z_]/.test(value) && value !== "") {
       setYError(true);
     } else {
       setYError(false);
     }
-
     setY(value);
   };
 
   return (
     <div className="grand-parent">
       <div className="w-[320px] h-[180px] rounded-none bg-white border border-solid border-gray-700 shadow-md">
-      <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
-      <img src="/StatePreparation.png" className="h-6 w-6 object-contain" />
-      <span>State Preparation</span>
-    </div>
-
-        <div className="custom-node-port-in space-y-2 px-3">
-          <div className="relative flex items-center space-x-2 overflow-visible">
-          <div>
-            <Handle
-              type="target"
-              id="input"
-              position={Position.Left}
-              className="z-10 classical-circle-port-in !bg-blue-300 !border-blue-300"
-              style={{ top: "12px" }}
-            />
-            <span className="text-black text-sm">Input</span>
-            </div>
-          </div>
+        {/* Header Section */}
+        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
+          <img src="/StatePreparation.png" className="h-6 w-6 object-contain" />
+          <span className="text-sm">State Preparation</span>
         </div>
 
-        <div className="px-3 py-1">
-          <label className="text-black text-xs">Encoding Type:</label>
+        {/* Encoding Type Selection */}
+        <div className="px-3 py-1 mb-1">
+          <label className="text-sm text-black">Encoding Type:</label>
           <select
-            className="w-full p-1 mt-1 bg-gray-700 text-white border border-gray-600 rounded"
+            className="w-full p-1 mt-1 bg-white text-sm text-black border border-gray-600 rounded"
             value={encodingType}
             onChange={(e) => setEncodingType(e.target.value)}
           >
             <option value="Basis Encoding">Basis Encoding</option>
             <option value="Amplitude Encoding">Amplitude Encoding</option>
+            <option value="Angle Encoding">Angle Encoding</option>
+            <option value="Matrix Encoding">Matrix Encoding</option>
           </select>
         </div>
 
+        {/* Input Port Section */}
+        <div className="custom-node-port-in mb-3">
+          <div className="relative flex items-center justify-between text-sm text-black py-1 px-3 rounded-full" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)' }}>
+            <Handle
+              type="target"
+              id="input"
+              position={Position.Left}
+              className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
+              style={{ top: "50%", transform: "translateY(-50%)" }}
+            />
+            <span className="pl-3">Input</span>
+            <Handle
+              type="target"
+              id="output"
+              position={Position.Right}
+              className="z-10 classical-circle-port-out !bg-blue-300 !border-black"
+              style={{ top: "50%", transform: "translateY(-50%)" }}
+            />
+          </div>
+        </div>
 
-        <div className="custom-node-port-out space-y-2 px-3">
-          <div className="relative flex items-center justify-end space-x-2 overflow-visible" >
-            <div className="flex items-center space-x-2">
-              <label htmlFor="y" className="text-black text-sm mr-2">Output</label>
+        {/* Output Port Section */}
+        <div className="custom-node-port-out">
+          <div className="relative flex items-center justify-end space-x-0 overflow-visible">
+            <div
+              className="flex items-center space-x-2 relative"
+              style={{
+                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                width: '150px',
+              }}
+            >
+              <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
               <input
                 ref={yRef}
                 id="y"
-                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
                 value={y}
                 placeholder="a"
                 onChange={handleYChange}
@@ -96,7 +104,7 @@ export const StatePreparationNode = memo((node: Node) => {
                 type="target"
                 id="output"
                 position={Position.Right}
-                className="!absolute !right-[-19px] !top-[50%] !translate-y-[-50%] z-10 circle-port-out ml-4 !bg-green-300 !border-green-300"
+                className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
               />
             </div>
           </div>
