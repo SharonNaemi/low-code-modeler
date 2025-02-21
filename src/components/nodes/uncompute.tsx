@@ -40,8 +40,8 @@ export const UncomputeNode = memo((node: Node) => {
     setY(value);
   };
 
-  const baseHeight = 100;
-  const extraHeightPerVariable = 40;
+  const baseHeight = 160;
+  const extraHeightPerVariable = 20;
   const dynamicHeight = baseHeight + (inputs.length + outputs.length) * extraHeightPerVariable;
 
   return (
@@ -57,58 +57,67 @@ export const UncomputeNode = memo((node: Node) => {
           {data.label}
         </div>
 
-        <div className="custom-node-port-in space-y-2 px-3 mb-3">
+        <div className="custom-node-port-in mb-3 mt-2">
           {inputs.map((input, index) => (
-            <div className="relative flex items-center space-x-2 overflow-visible" key={input.id}>
-              <div>
+            <div className="relative flex items-center overflow-visible mb-1" key={input.id}>
+              <div className="relative flex items-center justify-between text-sm text-black py-1 px-3 rounded-none w-full" style={{
+                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+              }}>
                 <Handle
                   type="target"
-                  id={input.id}
+                  id={input.label}
                   position={Position.Left}
-                  className="z-10 circle-port !bg-green-300 !border-green-300 !border-black"
-                  style={{ top: "12px" }}
+                  className="z-10 circle-port-op !bg-green-300 !border-black"
+                  style={{ top: "50%", transform: "translateY(-50%)" }}
+                />
+                <span className="pl-3">{input.label}</span>
+                <Handle
+                  type="source"
+                  id={input.label + "output"}
+                  position={Position.Right}
+                  className="z-10 circle-port-out !bg-green-300 !border-black"
+                  style={{ top: "50%", transform: "translateY(-50%)" }}
                   isValidConnection={(connection) => true}
                 />
-
-                <span className="text-black text-sm">{input.label}</span>
               </div>
             </div>
           ))}
+
           <button onClick={addVariable} className="add-variable-button mt-2 w-full bg-gray-300 py-1 rounded text-sm text-black">
             + Add More Variables
           </button>
         </div>
 
 
-        
+
         <div className="custom-node-port-out">
-                 <div className="relative flex items-center justify-end space-x-0 overflow-visible">
-                   <div
-                     className="flex items-center space-x-2 relative"
-                     style={{
-                       backgroundColor: 'rgba(124, 202, 154, 0.2)',
-                       width: '150px',
-                     }}
-                   >
-                     <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
-                     <input
-                      
-                       id="y"
-                       className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-                       value={y}
-                       placeholder="a"
-                       onChange={handleYChange}
-                     />
-                     <Handle
-                       type="source"
-                       id="output"
-                       position={Position.Right}
-                       className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
-                       isValidConnection={(connection) => true}
-                     />
-                   </div>
-                 </div>
-               </div>
+          <div className="relative flex items-center justify-end space-x-0 overflow-visible">
+            <div
+              className="flex items-center space-x-2 relative"
+              style={{
+                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                width: '150px',
+              }}
+            >
+              <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
+              <input
+
+                id="y"
+                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                value={y}
+                placeholder="a"
+                onChange={handleYChange}
+              />
+              <Handle
+                type="source"
+                id="output"
+                position={Position.Right}
+                className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                isValidConnection={(connection) => true}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

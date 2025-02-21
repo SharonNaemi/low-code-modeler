@@ -64,16 +64,20 @@ export const MeasurementNode = memo((node: Node) => {
           Measurement
         </div>
 
-        <div className="custom-node-port-in space-y-2 px-3 mb-3">
+        <div className="custom-node-port-in mb-3 mt-2">
           {inputs.map((input, index) => (
-            <div className="relative flex items-center space-x-2 overflow-visible" key={input.id}>
-              <div>
+            <div className="relative flex items-center text-black text-center overflow-visible" key={input.id}>
+              <div style={{
+                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                width: '40px',
+              }}>
                 <Handle
                   type="target"
                   id={input.id}
                   position={Position.Left}
-                  className="z-10 circle-port !bg-green-300 !border-green-300 !border-black"
+                  className="z-10 circle-port-m !bg-green-300 !border-green-300 !border-black"
                   style={{ top: "12px" }}
+                  isValidConnection={(connection) => true}
                 />
 
                 <span className="text-black text-sm">{input.label}</span>
