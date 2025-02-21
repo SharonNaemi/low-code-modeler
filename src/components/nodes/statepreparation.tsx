@@ -69,7 +69,7 @@ export const StatePreparationNode = memo((node: Node) => {
               className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
               style={{ top: "50%", transform: "translateY(-50%)" }}
             />
-            <span className="pl-3">Input</span>
+            <span className="pl-3">{node.data.inputs[0].label}</span>
             <Handle
               type="target"
               id="output"

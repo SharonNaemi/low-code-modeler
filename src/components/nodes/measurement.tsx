@@ -72,7 +72,7 @@ export const MeasurementNode = memo((node: Node) => {
                   type="target"
                   id={input.id}
                   position={Position.Left}
-                  className="z-10 circle-port !bg-green-300 !border-green-300"
+                  className="z-10 circle-port !bg-green-300 !border-green-300 !border-black"
                   style={{ top: "12px" }}
                 />
 
@@ -81,7 +81,7 @@ export const MeasurementNode = memo((node: Node) => {
             </div>
           ))}
           <button onClick={addVariable} className="add-variable-button mt-2 w-full bg-gray-300 py-1 rounded text-sm text-black">
-            + Add More Variable
+            + Add More Variables
           </button>
         </div>
 

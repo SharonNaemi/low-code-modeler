@@ -8,7 +8,7 @@ const selector = (state: { edges: Edge[] }) => ({
   edges: state.edges,
 });
 
-export const DynamicNode = memo((node: Node) => {
+export const UncomputeNode = memo((node: Node) => {
   const { data, selected } = node;
   const { edges } = useStore(selector, shallow);
   const alledges = getConnectedEdges([node], edges);
@@ -17,6 +17,7 @@ export const DynamicNode = memo((node: Node) => {
   const [outputs, setOutputs] = useState(data.outputs || []);
   const [encodingType, setEncodingType] = useState("Basis Encoding");
   const [yError, setYError] = useState(false);
+  const [y, setY] = useState("");
 
   const addVariable = () => {
     const newInputId = `input-${inputs.length + 1}`;
@@ -29,8 +30,17 @@ export const DynamicNode = memo((node: Node) => {
   const handleOutputChange = (id, newValue) => {
     setOutputs(outputs.map(output => output.id === id ? { ...output, value: newValue } : output));
   };
+  const handleYChange = (e) => {
+    const value = e.target.value;
+    if (!/^[a-zA-Z_]/.test(value) && value !== "") {
+      setYError(true);
+    } else {
+      setYError(false);
+    }
+    setY(value);
+  };
 
-  const baseHeight = 180;
+  const baseHeight = 100;
   const extraHeightPerVariable = 40;
   const dynamicHeight = baseHeight + (inputs.length + outputs.length) * extraHeightPerVariable;
 
@@ -47,7 +57,7 @@ export const DynamicNode = memo((node: Node) => {
           {data.label}
         </div>
 
-        <div className="custom-node-port-in space-y-2 px-3">
+        <div className="custom-node-port-in space-y-2 px-3 mb-3">
           {inputs.map((input, index) => (
             <div className="relative flex items-center space-x-2 overflow-visible" key={input.id}>
               <div>
@@ -55,7 +65,7 @@ export const DynamicNode = memo((node: Node) => {
                   type="target"
                   id={input.id}
                   position={Position.Left}
-                  className="z-10 circle-port !bg-green-300 !border-green-300"
+                  className="z-10 circle-port !bg-green-300 !border-green-300 !border-black"
                   style={{ top: "12px" }}
                 />
 
@@ -69,34 +79,34 @@ export const DynamicNode = memo((node: Node) => {
         </div>
 
 
+        
         <div className="custom-node-port-out">
-          {outputs.map((output, index) => (
-            <div className="relative flex items-center justify-end space-x-0 overflow-visible" key={output.id}>
-              <div
-                className="flex items-center space-x-2 relative"
-                style={{
-                  backgroundColor: 'rgba(124, 202, 154, 0.2)',
-                  width: '150px',
-                }}
-              >
-                <label htmlFor="y" className="text-sm text-black mr-2">{output.label}</label>
-                <input
-                  id="y"
-                  className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-                 
-                  placeholder="a"
-                  onChange={(e) => handleOutputChange(output.id, e.target.value)}
-                />
-                <Handle
-                  type="target"
-                  id={output.id}
-                  position={Position.Right}
-                  className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+                 <div className="relative flex items-center justify-end space-x-0 overflow-visible">
+                   <div
+                     className="flex items-center space-x-2 relative"
+                     style={{
+                       backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                       width: '150px',
+                     }}
+                   >
+                     <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
+                     <input
+                      
+                       id="y"
+                       className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                       value={y}
+                       placeholder="a"
+                       onChange={handleYChange}
+                     />
+                     <Handle
+                       type="target"
+                       id="output"
+                       position={Position.Right}
+                       className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                     />
+                   </div>
+                 </div>
+               </div>
       </div>
     </div>
   );
