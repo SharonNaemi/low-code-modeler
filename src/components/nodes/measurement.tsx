@@ -42,7 +42,7 @@ export const MeasurementNode = memo((node: Node) => {
   const handleYChange = (e) => {
     const value = e.target.value;
     // Check if the first character is a letter or underscore
-    if (!/^[a-zA-Z_]/.test(value) && value !== "") {
+    if (!/^[a-zA-Z_]/.test(value) || value == "") {
       setYError(true);
     } else {
       setYError(false);
@@ -64,7 +64,7 @@ export const MeasurementNode = memo((node: Node) => {
           Measurement
         </div>
 
-        <div className="custom-node-port-in space-y-2 px-3">
+        <div className="custom-node-port-in space-y-2 px-3 mb-3">
           {inputs.map((input, index) => (
             <div className="relative flex items-center space-x-2 overflow-visible" key={input.id}>
               <div>
@@ -86,27 +86,33 @@ export const MeasurementNode = memo((node: Node) => {
         </div>
 
 
-        <div className="custom-node-port-out space-y-2 px-3">
-          <div className="relative flex items-center justify-end space-x-2 overflow-visible" >
-            <div className="flex items-center space-x-2">
-              <label htmlFor="y" className="text-black text-sm mr-2">Output</label>
-              <input
-                ref={yRef}
-                id="y"
-                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-                value={y}
-                placeholder="a"
-                onChange={handleYChange}
-              />
-              <Handle
-                type="target"
-                id="output"
-                position={Position.Right}
-                className="!absolute !right-[-19px] !top-[50%] !translate-y-[-50%] z-10 classical-circle-port ml-4 !bg-blue-300 !border-blue-300"
-              />
-            </div>
-          </div>
-        </div>
+        <div className="custom-node-port-out">
+                  <div className="relative flex items-center justify-end space-x-0 overflow-visible">
+                    <div
+                      className="flex items-center space-x-2 relative rounded-full"
+                      style={{
+                        backgroundColor: 'rgba(105, 145, 210, 0.2)',
+                        width: '150px',
+                      }}
+                    >
+                      <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
+                      <input
+                        ref={yRef}
+                        id="y"
+                        className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                        value={y}
+                        placeholder="a"
+                        onChange={handleYChange}
+                      />
+                      <Handle
+                        type="target"
+                        id="output"
+                        position={Position.Right}
+                        className="z-10 classical-circle-port-out !bg-gray-300 !border-2 !border-dashed !border-black"
+                      />
+                    </div>
+                  </div>
+                </div>
       </div>
     </div>
   );

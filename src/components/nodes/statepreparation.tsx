@@ -41,7 +41,6 @@ export const StatePreparationNode = memo((node: Node) => {
       <div className="w-[320px] h-[180px] rounded-none bg-white border border-solid border-gray-700 shadow-md">
         {/* Header Section */}
         <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
-          <img src="/StatePreparation.png" className="h-6 w-6 object-contain" />
           <span className="text-sm">State Preparation</span>
         </div>
 
