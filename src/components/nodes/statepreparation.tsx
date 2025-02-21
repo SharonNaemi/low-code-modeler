@@ -71,11 +71,12 @@ export const StatePreparationNode = memo((node: Node) => {
             />
             <span className="pl-3">{node.data.inputs[0].label}</span>
             <Handle
-              type="target"
-              id="output"
+              type="source"
+              id="inoutput"
               position={Position.Right}
               className="z-10 classical-circle-port-out !bg-blue-300 !border-black"
               style={{ top: "50%", transform: "translateY(-50%)" }}
+              isValidConnection={(connection) => true}
             />
           </div>
         </div>
@@ -100,10 +101,11 @@ export const StatePreparationNode = memo((node: Node) => {
                 onChange={handleYChange}
               />
               <Handle
-                type="target"
+                type="source"
                 id="output"
                 position={Position.Right}
                 className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                isValidConnection={(connection) => true}
               />
             </div>
           </div>

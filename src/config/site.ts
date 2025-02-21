@@ -1,6 +1,14 @@
+import ClassicalEdge from "@/components/edges/classicalEdgeType";
+import CustomEdge from "@/components/edges/custom";
+import QuantumEdge from "@/components/edges/customEdgeType";
+import Wire from "@/components/edges/customEdgeType";
 import { TextNode, DataTypeNode, PositionNode } from "@/components/nodes";
 import { DynamicNode } from "@/components/nodes/dynamically";
-import { Position } from "reactflow";
+import { MeasurementNode } from "@/components/nodes/measurement";
+import { OperationNode } from "@/components/nodes/operation";
+import { StatePreparationNode } from "@/components/nodes/statepreparation";
+import { UncomputeNode } from "@/components/nodes/uncompute";
+import { MarkerType, Position } from "reactflow";
 import { Edge } from "reactflow";
 
 export const stageTest = {
@@ -187,56 +195,101 @@ export const stageTest = {
 export const nodesConfig = {
   initialNodes: [
     {
-      id: "1",
-      type: "group",
+      id: "54",
+      type: 'statePreparationNode',
       data: {
-        label: "hey check this video out\nhttps://youtu.be/dQw4w9WgXcQ",
+        label: "State Preparation",
+        inputs: [{
+          id: "ID",
+          label: "a",
+          typePort: "input",
+          type: "test"
+        }]
       },
-      position: { x: 1000, y: 400 },
-      sourcePosition: Position.Right,
+      position: { x: 700, y: 500 },
+      targetPosition: Position.Left,
     },
     {
-      id: "2",
-      type: 'textNode',
+      id: "55",
+      type: 'statePreparationNode',
       data: {
-        label: "wow, that was a great video\n",
-        inputs: stageTest.job.inputs.map((item) => ({
-            id: item.id,
-            label: item.name,
-            typePort: "input",
-            type: item.type,
-          })),
+        label: "State Preparation",
+        inputs: [{
+          id: "ID",
+          label: "b",
+          typePort: "input",
+          type: "test"
+        }]
       },
-      position: { x: 600, y: 300 },
+      position: { x: 700, y: 500 },
+      targetPosition: Position.Left,
+    },
+    {
+      id: "31",
+      type: 'measurementNode',
+      data: {
+        label: "Measurement",
+        inputs: [{
+          id: "e",
+          label: "e",
+          typePort: "input",
+          type: "test"
+        }]
+      },
+      position: { x: 700, y: 500 },
       targetPosition: Position.Left,
     },
     {
       id: "6",
       type: 'positionNode',
       data: {
-        label: "wow, that was a great video\n",
+        label: "int",
         inputs: stageTest.job.inputs.map((item) => ({
             id: item.id,
             label: item.name,
             typePort: "input",
             type: item.type,
           })),
-          dataType: "float"
+          dataType: "int"
       },
+      dataType: "int",
+      position: { x: 650, y: 300 },
+      targetPosition: Position.Left,
+    },
+    {
+      id: "7",
+      type: 'positionNode',
+      data: {
+        label: "int",
+        inputs: stageTest.job.inputs.map((item) => ({
+            id: item.id,
+            label: item.name,
+            typePort: "input",
+            type: item.type,
+          })),
+          dataType: "int"
+      },
+      dataType: "int",
       position: { x: 650, y: 300 },
       targetPosition: Position.Left,
     },
     {
       id: 'A',
-      type: 'textNode',
+      type: 'operationNode',
       data: {
-        label: "wow, that was a great video\n",
-        inputs: stageTest.job.inputs.map((item) => ({
-            id: item.id,
-            label: item.name,
-            typePort: "input",
-            type: item.type,
-          })),
+        label: "Add",
+        inputs: [{
+          id: "c",
+          label: "c",
+          typePort: "input",
+          type: "test"
+        },
+        {
+          id: "d",
+          label: "d",
+          typePort: "input",
+          type: "test"
+        },]
       },
       position: { x: 0, y: 0 },
       style: {
@@ -245,61 +298,45 @@ export const nodesConfig = {
       },
     },
     {
-      id: 'Cla',
-      type: 'dynamicNode',
+      id: 'U',
+      type: 'uncomputeNode',
       data: {
-        label: "wow, that was a great video\n",
-        dataType: "float",
+        label: "Uncompute",
         inputs: [{
-          id: "input-id-00013",
-          name: "Network number",
-          label: "myTest",
-          ident: "ewf-file",
-          isArray: false,
-          isRequired: true,
-          type: "number",
-          descriptor: {
-            extensions: ["EWFx"]
-          }
-        }],
-        outputs: [{
-          id: "input-id-00013",
-          name: "Network number",
-          label: "myTest",
-          ident: "ewf-file",
-          isArray: false,
-          isRequired: true,
-          type: "number",
-          descriptor: {
-            extensions: ["EWFx"]
-          }
-        }]
+          id: "c",
+          label: "c",
+          typePort: "input",
+          type: "test"
+        },
+        {
+          id: "d",
+          label: "d",
+          typePort: "input",
+          type: "test"
+        },]
       },
       position: { x: 0, y: 0 },
-    },
-    {
-      id: 'B',
-      type: 'input',
-      data: { label: 'child node 1' },
-      position: { x: 10, y: 10 },
-      parentId: 'A',
-      extent: 'parent',
-    },
-    {
-      id: 'C',
-      data: { label: 'child node 2' },
-      position: { x: 10, y: 90 },
-      parentId: 'A',
-      extent: 'parent',
-    },
+      style: {
+        width: 170,
+        height: 140,
+      },
+    }
   ] as unknown as Node[],
-  initialEdges: [{ id: "e1-1", source: "2", target: "6" }] as Edge[],
+  initialEdges: [{id:"e1", source: "6", target:"54", type: "quantumEdge", markerEnd: MarkerType.ArrowClosed, markerStart: MarkerType.Arrow}] as Edge[],
   nodeTypes: {
     textNode: TextNode,
     dataTypeNode: DataTypeNode,
     positionNode: PositionNode,
-    dynamicNode: DynamicNode
+    dynamicNode: DynamicNode,
+    measurementNode: MeasurementNode,
+    statePreparationNode: StatePreparationNode,
+    operationNode: OperationNode,
+    uncomputeNode: UncomputeNode
   } as any,
+  edgesTypes: {
+    quantumEdge: QuantumEdge,
+    classicalEdge: ClassicalEdge
+  }
 };
 
 export const initialDiagram = {

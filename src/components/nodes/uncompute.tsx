@@ -67,6 +67,7 @@ export const UncomputeNode = memo((node: Node) => {
                   position={Position.Left}
                   className="z-10 circle-port !bg-green-300 !border-green-300 !border-black"
                   style={{ top: "12px" }}
+                  isValidConnection={(connection) => true}
                 />
 
                 <span className="text-black text-sm">{input.label}</span>
@@ -99,10 +100,11 @@ export const UncomputeNode = memo((node: Node) => {
                        onChange={handleYChange}
                      />
                      <Handle
-                       type="target"
+                       type="source"
                        id="output"
                        position={Position.Right}
                        className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                       isValidConnection={(connection) => true}
                      />
                    </div>
                  </div>

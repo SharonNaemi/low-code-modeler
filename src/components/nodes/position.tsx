@@ -83,10 +83,11 @@ export const PositionNode = memo((node: Node) => {
               />
               
               <Handle
-                type="target"
+                type="source"
                 id="output"
                 position={Position.Right}
                 className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
               />
               </div>
             </div>

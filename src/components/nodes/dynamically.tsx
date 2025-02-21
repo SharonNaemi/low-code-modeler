@@ -92,6 +92,7 @@ export const DynamicNode = memo((node: Node) => {
                   id={output.id}
                   position={Position.Right}
                   className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                  isValidConnection={(connection) => true}
                 />
               </div>
             </div>

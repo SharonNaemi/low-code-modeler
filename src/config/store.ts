@@ -2,6 +2,7 @@ import {
   Connection,
   Edge,
   EdgeChange,
+  MarkerType,
   Node,
   NodeChange,
   OnConnect,
@@ -13,9 +14,11 @@ import {
 } from "reactflow";
 import { create } from "zustand";
 import { nodesConfig } from "./site";
+import {v4 as uuid} from "uuid";
 
 export type NodeData = {
   label: string;
+  dataType: string;
   isInitial?: boolean;
 };
 
@@ -98,6 +101,10 @@ const useStore = create<RFState>((set, get) => ({
   setEdges: (edge: Edge) => {
     const currentNodes = get().nodes;
     const currentEdges = get().edges;
+    for(let edge of currentEdges){
+      edge.type ="quantumEdge";
+     
+    }
     const newHistoryItem: HistoryItem = {
       nodes: [...currentNodes], // Copy the nodes array to avoid mutation
       edges: [...currentEdges], // Copy the edges array to avoid mutation
@@ -124,6 +131,7 @@ const useStore = create<RFState>((set, get) => ({
   onNodesChange: (changes: NodeChange[]) => {
     const currentNodes = applyNodeChanges(changes, get().nodes);
     const currentEdges = get().edges;
+    console.log(currentNodes)
     const newHistoryItem: HistoryItem = {
       nodes: [...get().nodes], // Copy the nodes array to avoid mutation
       edges: [...currentEdges], // Copy the edges array to avoid mutation
@@ -190,13 +198,34 @@ const useStore = create<RFState>((set, get) => ({
     console.log("History after update:", get().history);
     console.log("Current historyIndex:", get().historyIndex);
   },
-
+  
   onConnect: (connection: Connection) => {
     const currentNodes = get().nodes;
+    console.log(connection)
     const currentEdges = addEdge(connection, get().edges);
     const newHistoryItem: HistoryItem = {
       nodes: [...currentNodes], // Copy the nodes array to avoid mutation
       edges: [...get().edges], // Copy the edges array to avoid mutation
+    };
+    console.log(currentNodes)
+    let type ="classicalEdge";
+    let color = "#93C5FD";
+    for(let node of currentNodes) {
+      if(node.id === connection.source && node.type !== "positionNode"){
+        type = "quantumEdge";
+        color = "#86EFAC"
+      }
+    }
+    const edge = {
+      ...connection,
+      type: type,
+      id: uuid(),
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+        color: color,
+      },
     };
 
     console.log("Updating history (onConnect):");
@@ -206,7 +235,7 @@ const useStore = create<RFState>((set, get) => ({
 
     set({
       nodes: currentNodes,
-      edges: currentEdges,
+      edges: [edge, ...currentEdges],
       history: [
         ...get().history.slice(0, get().historyIndex + 1),
         newHistoryItem,
@@ -218,6 +247,7 @@ const useStore = create<RFState>((set, get) => ({
   },
 
   updateNodeLabel: (nodeId: string, nodeVal: string) => {
+    console.log("label")
     const currentNodes = get().nodes.map((node) => {
       if (node.id === nodeId) {
         node.data = { ...node.data, label: nodeVal };
