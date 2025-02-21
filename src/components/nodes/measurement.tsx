@@ -75,7 +75,7 @@ export const MeasurementNode = memo((node: Node) => {
                   type="target"
                   id={input.id}
                   position={Position.Left}
-                  className="z-10 circle-port-m !bg-green-300 !border-green-300 !border-black"
+                  className="z-10 circle-port-m !bg-green-300 !border-black"
                   style={{ top: "12px" }}
                   isValidConnection={(connection) => true}
                 />

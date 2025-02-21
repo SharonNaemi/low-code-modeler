@@ -86,7 +86,7 @@ export const PositionNode = memo((node: Node) => {
                 type="source"
                 id="output"
                 position={Position.Right}
-                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-blue-300 !border-black overflow-visible"
+                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
               />
               </div>

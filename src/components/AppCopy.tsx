@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -20,7 +20,6 @@ import { toSvg } from "html-to-image";
 import { initialDiagram } from "./config/site";
 import Modal from "./Modal";
 import './index.css';
-import CustomEdge from "./components/edges/custom";
 
 
 const selector = (state: {
@@ -56,6 +55,7 @@ function App() {
   const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint] = useState("http://localhost:8098/nisq-analyzer");
   const [qprovEndpoint, setQProvEndpoint] = useState("http://localhost:5005");
   const [scriptSplitterEndpoint, setScriptSplitterEndpoint] = useState("http://localhost:8891");
+  const [nodeDataType, setNodeDataType] = useState("");
 
   const {
     nodes,
@@ -78,12 +78,25 @@ function App() {
 
   const ref = useRef(null);
 
-  const onDragOver = React.useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      handleDragOver(event);
-    },
-    [],
-  );
+  const onDragOver = React.useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+  
+  useEffect(() => {
+    nodes.map((node) =>{
+      if (node.selected) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            label: nodeDataType, // Ensure nodeDataType is correctly used
+          },
+        };
+      }
+      return node;
+    });
+  }, [nodeDataType, setNodes]);
 
   const onDrop = React.useCallback(
     (event: any) => {
@@ -92,13 +105,12 @@ function App() {
         x: event.clientX,
         y: event.clientY,
       }));
- 
-      handleOnDrop(event, reactFlowWrapper, reactFlowInstance, setNodes);
+      const label = event.dataTransfer.getData("application/reactflow/label");
+      console.log(label)
+      handleOnDrop(event, reactFlowWrapper, reactFlowInstance, nodeDataType, setNodes);
     },
     [reactFlowInstance, setNodes],
   );
-
-  
 
   const flowKey = "example-flow";
   function handleSaveClick() {
@@ -392,7 +404,9 @@ function App() {
       </Modal>
 
       <main className="flex">
-       
+        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
+          <Palette />
+        </div>
         <div
           className="h-[calc(100vh_-_48px)] flex-grow"
           ref={reactFlowWrapper}
@@ -410,12 +424,16 @@ function App() {
             onPaneClick={onPaneClick}
             onDragOver={onDragOver}
             onDrop={onDrop}
+            onNodeDragStart={(event, node) => {
+              event.preventDefault();
+              console.log(node)
+              setNodeDataType(node.data.dataType);
+            }}
             fitView
             fitViewOptions={{ maxZoom: 1 }}
             onInit={setReactFlowInstance}
             snapToGrid={true}
             nodeTypes={nodesConfig.nodeTypes}
-            edgeTypes={nodesConfig.edgesTypes}
           >
             <Controls />
           
@@ -424,7 +442,9 @@ function App() {
             <MiniMap zoomable={true} pannable={true} />
           </ReactFlow>
         </div>
-        
+        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
+          <Panel metadata={metadata} onUpdateMetadata={setMetadata} />
+        </div>
       </main>
     </ReactFlowProvider>
   );

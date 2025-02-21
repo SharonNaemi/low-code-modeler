@@ -112,7 +112,7 @@ export const OperationNode = memo((node: Node) => {
                 type="source"
                 id="output"
                 position={Position.Right}
-                className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
+                className="z-10 circle-port-out !bg-green-300 !border-black"
                 isValidConnection={(connection) => true}
               />
             </div>

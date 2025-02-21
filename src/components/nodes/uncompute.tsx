@@ -87,37 +87,6 @@ export const UncomputeNode = memo((node: Node) => {
             + Add More Variables
           </button>
         </div>
-
-
-
-        <div className="custom-node-port-out">
-          <div className="relative flex items-center justify-end space-x-0 overflow-visible">
-            <div
-              className="flex items-center space-x-2 relative"
-              style={{
-                backgroundColor: 'rgba(124, 202, 154, 0.2)',
-                width: '150px',
-              }}
-            >
-              <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
-              <input
-
-                id="y"
-                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-none border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-                value={y}
-                placeholder="a"
-                onChange={handleYChange}
-              />
-              <Handle
-                type="source"
-                id="output"
-                position={Position.Right}
-                className="z-10 circle-port-out !bg-green-300 !border-green-300 !border-black"
-                isValidConnection={(connection) => true}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
