@@ -31,15 +31,12 @@ export const DataTypeNode = memo((node: Node) => {
         selected && "border-2 border-blue-500"
       )}
     >
-      {/* Top part with blue background */}
+
       <div className="w-full bg-blue-300 flex items-center justify-center rounded-t-[50px] py-2 relative">
         <span className="text-xs font-semibold text-black">{data.dataType}</span>
       </div>
+      <div className="w-full h-[1px] bg-black"></div>
 
-      {/* Underline */}
-      <div className="w-full h-[1px] bg-black"></div> {/* Line between sections */}
-
-      {/* Bottom part with white background and input */}
       <div className="w-full bg-white flex flex-col items-center py-2">
         <input
           type="text"

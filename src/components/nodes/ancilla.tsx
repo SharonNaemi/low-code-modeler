@@ -1,19 +1,21 @@
 import { memo, useState, useRef } from "react";
-import { Handle, Position, Node } from "reactflow";
+import { Handle, Position, Node, Edge } from "reactflow";
 import useStore from "@/config/store";
 import { shallow } from "zustand/shallow";
 
 const selector = (state: {
   selectedNode: Node | null;
+  edges: Edge[],
   updateNodeValue: (nodeId: string, field: string, nodeVal: string) => void;
   setSelectedNode: (node: Node | null) => void; 
 }) => ({
   selectedNode: state.selectedNode,
+  edges: state.edges,
   updateNodeValue: state.updateNodeValue,
   setSelectedNode: state.setSelectedNode
 });
 
-export const PositionNode = memo((node: Node) => {
+export const AncillaNode = memo((node: Node) => {
   const [x, setX] = useState("");
   const [y, setY] = useState("");
   const [error, setError] = useState(false);
@@ -23,7 +25,7 @@ export const PositionNode = memo((node: Node) => {
   const xRef = useRef(null);
   const yRef = useRef(null);
   
-  const { selectedNode, updateNodeValue, setSelectedNode } = useStore(selector, shallow);
+  const { selectedNode, updateNodeValue, setSelectedNode, edges } = useStore(selector, shallow);
 
   const handleXChange = (e) => {
     let value = e.target.value.trim();
@@ -34,26 +36,7 @@ export const PositionNode = memo((node: Node) => {
         setX(value);
         return;
       }
-    } else if (data.dataType === "float") {
-      // Ensure only numbers with at most ONE decimal point are allowed
-      if (!/^-?\d+(\.\d+)?$/.test(value) && value !== "") {
-        setError(true);
-        setX(value);
-        return;
-    }
-    } else if (data.dataType === "bit") {
-      if (value !== "0" && value !== "1" && value !== "") {
-        setError(true);
-        setX(value);
-        return;
-      }
-    } else if (data.dataType === "boolean") {
-      // Boolean uses a dropdown, so no input needed here
-      return;
-    } else if (data.dataType === "array") {
-      // Array input is handled separately
-      return;
-    }
+    } 
 
     setError(false);
     setX(value);
@@ -62,13 +45,6 @@ export const PositionNode = memo((node: Node) => {
   };
 
   const handleBooleanChange = (e) => {
-    const value = e.target.value;
-    setX(value);
-    node.data["value"] = value;
-    updateNodeValue(node.id, "value", value);
-  };
-
-  const handleBitChange = (e) => {
     const value = e.target.value;
     setX(value);
     node.data["value"] = value;
@@ -106,59 +82,24 @@ export const PositionNode = memo((node: Node) => {
 
   return (
     <div className="grand-parent">
-      <div className="w-[320px] h-[150px] rounded-full bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
-        <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate">
+      <div className="w-[320px] h-[150px] rounded-none bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
+        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate">
           {data.dataType}
         </div>
         <div className="px-2 py-3 flex justify-center">
           <div className="flex items-center mb-2">
-            <label htmlFor="x" className="text-black text-sm mr-2">Value</label>
-            
-            {data.dataType === "boolean" ? (
-              <select
-                ref={xRef}
-                id="x"
-                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-blue-300"
-                value={node.data.value || x}
-                onChange={handleBooleanChange}
-              >
-                <option value="true">true</option>
-                <option value="false">false</option>
-              </select>
-            ):
-            data.dataType === "bit" ? (
-              <select
-                ref={xRef}
-                id="x"
-                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-blue-300"
-                value={node.data.value || x}
-                onChange={handleBitChange}
-              >
-                <option value="0">0</option>
-                <option value="1">1</option>
-              </select>
-            ) : data.dataType === "array" ? (
-              <input
-                ref={xRef}
-                id="x"
-                type="text"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
-                value={node.data.value || x}
-                placeholder="1,2,3"
-                onChange={handleArrayChange}
-              />
-            ) : (
+            <label htmlFor="x" className="text-black text-sm mr-2">Size</label>
               <input
                 ref={xRef}
                 id="x"
                 type="number"
                 className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
-                value={node.data.value || x}
+                value={node.data.size || x}
                 placeholder="0"
-                step={data.dataType === "int" ? 1 : data.dataType === "float" ? 0.1 : 1}
+                step={1}
                 onChange={handleXChange}
               />
-            )}
+          
           </div>
         </div>
 
@@ -167,7 +108,7 @@ export const PositionNode = memo((node: Node) => {
             <div
               className="flex items-center rounded-md overflow-hidden"
               style={{
-                backgroundColor: 'rgba(105, 145, 210, 0.2)',
+                backgroundColor: 'rgba(212, 128, 72, 0.2)',
                 width: '150px',
               }}
             >
@@ -175,7 +116,7 @@ export const PositionNode = memo((node: Node) => {
               <input
                 ref={yRef}
                 id="outputIdentifier"
-                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border-2 ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-none border-2 ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-300'}`}
                 value={node.data.outputIdentifier || y}
                 placeholder="a"
                 onChange={handleYChange}
@@ -183,10 +124,11 @@ export const PositionNode = memo((node: Node) => {
               
               <Handle
                 type="source"
-                id="classicalHandleDataType"
+                id="output"
                 position={Position.Right}
-                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-black overflow-visible"
+                className="!absolute !top-[70%] z-10 circle-port-out !bg-orange-300 !border-black overflow-visible transform rotate-45"
                 isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge=> edge.source === node.id).length < 1}
               />
             </div>
           </div>

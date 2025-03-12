@@ -20,6 +20,7 @@ export const MeasurementNode = memo((node: Node) => {
   const [encodingType, setEncodingType] = useState("Basis Encoding");
   const [error, setError] = useState(false);
   const [yError, setYError] = useState(false);
+  const [indices, setIndices] = useState("");
 
   const xRef = useRef(null);
   const yRef = useRef(null);
@@ -34,7 +35,7 @@ export const MeasurementNode = memo((node: Node) => {
   };
 
 
-  const baseHeight = 140;
+  const baseHeight = 250;
   const extraHeightPerVariable = 40;
   const dynamicHeight = baseHeight + (inputs.length) * extraHeightPerVariable;
   console.log(dynamicHeight)
@@ -64,26 +65,40 @@ export const MeasurementNode = memo((node: Node) => {
           Measurement
         </div>
 
-        <div className="custom-node-port-in mb-3 mt-2">
-          {inputs.map((input, index) => (
-            <div className="relative flex items-center text-black text-center overflow-visible" key={input.id}>
-              <div style={{
-                backgroundColor: 'rgba(124, 202, 154, 0.2)',
-                width: '40px',
-              }}>
-                <Handle
-                  type="target"
-                  id={input.id}
-                  position={Position.Left}
-                  className="z-10 circle-port-m !bg-green-300 !border-black"
-                  style={{ top: "12px" }}
-                  isValidConnection={(connection) => true}
-                />
-
-                <span className="text-black text-sm">{input.label}</span>
-              </div>
+        <div className="px-2 py-3 flex justify-center">
+          <div className="flex items-center mb-2">
+            <label htmlFor="x" className="text-black text-sm mr-2">Indices</label>
+              <input
+                ref={xRef}
+                id="x"
+                type="text"
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                value={node.data.indices || indices}
+                placeholder="1,2,3"
+                onChange={e=>e}
+              />
             </div>
-          ))}
+
+            </div>
+        <div className="custom-node-port-in mb-3 mt-2">
+       
+        <div className="relative flex flex-col items-start text-black text-center overflow-visible">
+          <div style={{ padding: "4px" }}>
+
+            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: "rgba(105, 145, 210, 0.2)"}}>
+              <Handle
+                type="target"
+                id="output4"
+                position={Position.Left}
+                className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
+                style={{ top: "20px" }} 
+                isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge=> edge.target === node.id).length < 1}
+              />
+              <span className="text-black text-sm" >value(s)</span>
+            </div>
+            </div>
+            </div>
           <button onClick={addVariable} className="add-variable-button mt-2 w-full bg-gray-300 py-1 rounded text-sm text-black">
             + Add More Variables
           </button>
@@ -91,32 +106,32 @@ export const MeasurementNode = memo((node: Node) => {
 
 
         <div className="custom-node-port-out">
-                  <div className="relative flex items-center justify-end space-x-0 overflow-visible">
-                    <div
-                      className="flex items-center space-x-2 relative rounded-full"
-                      style={{
-                        backgroundColor: 'rgba(105, 145, 210, 0.2)',
-                        width: '150px',
-                      }}
-                    >
-                      <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
-                      <input
-                        ref={yRef}
-                        id="y"
-                        className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
-                        value={y}
-                        placeholder="a"
-                        onChange={handleYChange}
-                      />
-                      <Handle
-                        type="target"
-                        id="output"
-                        position={Position.Right}
-                        className="z-10 classical-circle-port-out !bg-gray-300 !border-2 !border-dashed !border-black"
-                      />
-                    </div>
-                  </div>
-                </div>
+          <div className="relative flex items-center justify-end space-x-0 overflow-visible">
+            <div
+              className="flex items-center space-x-2 relative rounded-full"
+              style={{
+                backgroundColor: 'rgba(105, 145, 210, 0.2)',
+                width: '150px',
+              }}
+            >
+              <label htmlFor="y" className="text-sm text-black mr-2">Output</label>
+              <input
+                ref={yRef}
+                id="y"
+                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                value={node.data.outputIdentifier || y}
+                placeholder="a"
+                onChange={handleYChange}
+              />
+              <Handle
+                type="target"
+                id="output"
+                position={Position.Right}
+                className="z-10 classical-circle-port-out !bg-gray-300 !border-2 !border-dashed !border-black"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
