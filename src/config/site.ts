@@ -3,6 +3,7 @@ import CustomEdge from "@/components/edges/custom";
 import QuantumEdge from "@/components/edges/customEdgeType";
 import Wire from "@/components/edges/customEdgeType";
 import { TextNode, DataTypeNode, PositionNode } from "@/components/nodes";
+import { AncillaNode } from "@/components/nodes/ancilla";
 import { DynamicNode } from "@/components/nodes/dynamically";
 import { MeasurementNode } from "@/components/nodes/measurement";
 import { OperationNode } from "@/components/nodes/operation";
@@ -193,136 +194,8 @@ export const stageTest = {
   }
 };
 export const nodesConfig = {
-  initialNodes: [
-    {
-      id: "54",
-      type: 'statePreparationNode',
-      data: {
-        label: "State Preparation",
-        inputs: [{
-          id: "ID",
-          label: "a",
-          typePort: "input",
-          type: "test"
-        }]
-      },
-      position: { x: 700, y: 500 },
-      targetPosition: Position.Left,
-    },
-    {
-      id: "55",
-      type: 'statePreparationNode',
-      data: {
-        label: "State Preparation",
-        inputs: [{
-          id: "ID",
-          label: "b",
-          typePort: "input",
-          type: "test"
-        }]
-      },
-      position: { x: 700, y: 500 },
-      targetPosition: Position.Left,
-    },
-    {
-      id: "31",
-      type: 'measurementNode',
-      data: {
-        label: "Measurement",
-        inputs: [{
-          id: "e",
-          label: "e",
-          typePort: "input",
-          type: "test"
-        }]
-      },
-      position: { x: 700, y: 500 },
-      targetPosition: Position.Left,
-    },
-    {
-      id: "6",
-      type: 'positionNode',
-      data: {
-        label: "int",
-        inputs: stageTest.job.inputs.map((item) => ({
-            id: item.id,
-            label: item.name,
-            typePort: "input",
-            type: item.type,
-          })),
-          dataType: "int"
-      },
-      dataType: "int",
-      position: { x: 650, y: 300 },
-      targetPosition: Position.Left,
-    },
-    {
-      id: "7",
-      type: 'positionNode',
-      data: {
-        label: "int",
-        inputs: stageTest.job.inputs.map((item) => ({
-            id: item.id,
-            label: item.name,
-            typePort: "input",
-            type: item.type,
-          })),
-          dataType: "int"
-      },
-      dataType: "int",
-      position: { x: 650, y: 300 },
-      targetPosition: Position.Left,
-    },
-    {
-      id: 'A',
-      type: 'operationNode',
-      data: {
-        label: "Add",
-        inputs: [{
-          id: "c",
-          label: "c",
-          typePort: "input",
-          type: "test"
-        },
-        {
-          id: "d",
-          label: "d",
-          typePort: "input",
-          type: "test"
-        },]
-      },
-      position: { x: 0, y: 0 },
-      style: {
-        width: 170,
-        height: 140,
-      },
-    },
-    {
-      id: 'U',
-      type: 'uncomputeNode',
-      data: {
-        label: "Uncompute",
-        inputs: [{
-          id: "c",
-          label: "c",
-          typePort: "input",
-          type: "test"
-        },
-        {
-          id: "d",
-          label: "d",
-          typePort: "input",
-          type: "test"
-        },]
-      },
-      position: { x: 0, y: 0 },
-      style: {
-        width: 170,
-        height: 140,
-      },
-    }
-  ] as unknown as Node[],
-  initialEdges: [{id:"e1", source: "6", target:"54", type: "quantumEdge", markerEnd: MarkerType.ArrowClosed, markerStart: MarkerType.Arrow}] as Edge[],
+  initialNodes: [ ] as unknown as Node[],
+  initialEdges: [] as Edge[],
   nodeTypes: {
     textNode: TextNode,
     dataTypeNode: DataTypeNode,
@@ -331,7 +204,9 @@ export const nodesConfig = {
     measurementNode: MeasurementNode,
     statePreparationNode: StatePreparationNode,
     operationNode: OperationNode,
-    uncomputeNode: UncomputeNode
+    uncomputeNode: UncomputeNode,
+    arithmeticOperatorNode: OperationNode,
+    ancillaNode: AncillaNode
   } as any,
   edgesTypes: {
     quantumEdge: QuantumEdge,
