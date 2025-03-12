@@ -46,13 +46,13 @@ export const MetadataPanel = ({
 
   return (
     <>
+    <aside className="flex flex-col w-full h-full overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
       <div className="p-2 font-semibold flex">
         <button
           onClick={() => {
             setSelectedNode(null);
           }}
         >
-          <ArrowLeft />
         </button>
         <h2 className="flex-grow text-center">Model Information</h2>
       </div>
@@ -159,6 +159,7 @@ export const MetadataPanel = ({
           <p className="text-gray-500">No metadata available.</p>
         )}
       </div>
+      </aside>
     </>
   );
 };

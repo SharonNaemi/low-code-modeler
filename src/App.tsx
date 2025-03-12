@@ -29,7 +29,9 @@ const selector = (state: {
   onNodesChange: any;
   onEdgesChange: any;
   onConnect: any;
+  onConnectEnd: any;
   setSelectedNode: (node: Node | null) => void;
+  updateNodeValue: (nodeId: string, field: string, nodeVal: string) => void;
   setNodes: (node: Node) => void;
   setEdges: (edge: Edge) => void;
   undo: () => void;
@@ -40,7 +42,9 @@ const selector = (state: {
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onConnectEnd: state.onConnectEnd,
   setSelectedNode: state.setSelectedNode,
+  updateNodeValue: state.updateNodeValue,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
   undo: state.undo,
@@ -50,7 +54,14 @@ const selector = (state: {
 function App() {
   const reactFlowWrapper = React.useRef<any>(null);
   const [reactFlowInstance, setReactFlowInstance] = React.useState<any>(null);
-  const [metadata, setMetadata] = React.useState<any>(null);
+  const [metadata, setMetadata] = React.useState<any>( {
+    version: "1.0.0",
+    name: "My Model",
+    id: `flow-${Date.now()}`,
+    description: "This is a model.",
+    timestamp: new Date().toISOString(),
+    author: "",
+  });
   const [menu, setMenu] = useState(null);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint] = useState("http://localhost:8098/nisq-analyzer");
@@ -63,8 +74,10 @@ function App() {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    onConnectEnd,
     setSelectedNode,
     setNodes,
+    updateNodeValue,
     setEdges,
   } = useStore(useShallow(selector));
 
@@ -84,6 +97,48 @@ function App() {
     },
     [],
   );
+  const onNodeDragStop = useCallback(
+    (evt, node) => {
+     if (node.type === "group") {
+       return;
+     }
+     console.log("onNodeDrag");
+     console.log(node);
+     let nodeT = nodes[0];
+     nodes.forEach((nd) => {
+       // Check if there's a group node in the array of nodes on the screen
+       if (nd.type === "statePreparationNode") {
+         //safety check to make sure there's a height and width
+         console.log(node);
+         console.log(nd.id);
+         let intersectionNodes = reactFlowInstance.getIntersectingNodes(node).map((n) => n.id);
+         console.log(intersectionNodes)
+
+           // Check if the dragged node is inside the group
+           if (intersectionNodes[0] == nd.id) {
+            console.log(nd);
+            const rec = { height: nd.height, width: nd.width, ...nd.position };
+
+             //Check if dragged node isn't already a child to the group
+             if (!node.parentNode) {
+              console.log("update node")
+               node.parentNode = nd.id;
+               node.extent = "parent";
+               
+               node.position = {
+                 x: node.positionAbsolute.x - nd.position.x,
+                 y: node.positionAbsolute.y - nd.position.y,
+               };
+               console.log(node);
+               nodeT = node;
+               updateNodeValue(node.id, "parentNode", nd.id);
+               updateNodeValue(node.id, "position", node.position);
+             }
+           }
+       }
+     });
+     //setNodes(nodeT);
+   }, [nodes]);
 
   const onDrop = React.useCallback(
     (event: any) => {
@@ -108,16 +163,15 @@ function App() {
     }
     console.log("davor");
     const flow = reactFlowInstance.toObject();
-    console.log("Ivh eill spiechern");
     console.log(flow);
 
     const validMetadata = metadata || {
-      version: "1.0.0", // Default version
-      name: "My Flow", // Default name
-      id: `flow-${Date.now()}`, // Unique ID, e.g., based on timestamp
-      description: "This is a description of the flow.", // Default description
-      timestamp: new Date().toISOString(), // Current timestamp in ISO format
-      author: "Sharon", // Default author
+      version: "1.0.0",
+      name: "My Flow",
+      id: `flow-${Date.now()}`,
+      description: "This is a description of the flow.",
+      timestamp: new Date().toISOString(),
+      author: ""
     };
     console.log(validMetadata);
     console.log(metadata);
@@ -291,6 +345,19 @@ function App() {
     }
   };
 
+  const overlappingNodeRef = useRef<Node | null>(null);
+
+
+  const onNodeDrag = React.useCallback((_: React.MouseEvent, node: Node, nodes: Node[]) => {
+    console.log(reactFlowInstance)
+    const intersections = reactFlowInstance.getIntersectingNodes(node).map((n) => n.id);
+    console.log(intersections)
+    //updateNodeValue(node.id, "parentNode", intersections)
+    console.log("trest")
+    console.log(intersections)
+    }
+  , [reactFlowInstance]);
+
   const onPaneClick = useCallback(() => {
     setMenu(null);
     setSelectedNode(null);
@@ -306,6 +373,7 @@ function App() {
   }) => {
     console.log("Configuration Saved:", config);
   };
+
   const handleSaveAsSVG = () => {
     if (ref.current === null) {
       console.error("React Flow container reference is null.");
@@ -335,7 +403,7 @@ function App() {
         onOpenConfig={handleOpenConfig}
         onLoadJson={handleLoadJson}
       />
-      <Modal open={isModalOpen} onClose={() => { setIsModalOpen(false) }}>
+      <Modal open={isConfigOpen} onClose={() => { setIsConfigOpen(false) }}>
         <div>
           <h2 className="text-lg font-semibold">Config Modal</h2>
           <h3>NISQ Analyzer</h3>
@@ -392,7 +460,9 @@ function App() {
       </Modal>
 
       <main className="flex">
-       
+      <div className="hidden basis-[300px] md:block lg:basis-[350px]">
+          <Palette />
+        </div>
         <div
           className="h-[calc(100vh_-_48px)] flex-grow"
           ref={reactFlowWrapper}
@@ -406,9 +476,12 @@ function App() {
             onNodeClick={(event: React.MouseEvent, node: Node) => {
               handleClick(event, node);
             }}
+            onConnectEnd={onConnectEnd}
             onConnect={onConnect}
             onPaneClick={onPaneClick}
             onDragOver={onDragOver}
+            onNodeDrag={onNodeDrag}
+            onNodeDragStop={onNodeDragStop}
             onDrop={onDrop}
             fitView
             fitViewOptions={{ maxZoom: 1 }}
@@ -424,7 +497,9 @@ function App() {
             <MiniMap zoomable={true} pannable={true} />
           </ReactFlow>
         </div>
-        
+        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
+          <Panel metadata={metadata} onUpdateMetadata={setMetadata} />
+        </div>
       </main>
     </ReactFlowProvider>
   );
