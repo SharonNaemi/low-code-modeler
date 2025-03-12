@@ -88,12 +88,11 @@ export const MeasurementNode = memo((node: Node) => {
             <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: "rgba(105, 145, 210, 0.2)"}}>
               <Handle
                 type="target"
-                id="output4"
+                id={`quantumHandleMeasurement${node.id}`}
                 position={Position.Left}
-                className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
+                className="z-10 circle-port-op !bg-green-300 !border-black"
                 style={{ top: "20px" }} 
                 isValidConnection={(connection) => true}
-                isConnectable={edges.filter(edge=> edge.target === node.id).length < 1}
               />
               <span className="text-black text-sm" >value(s)</span>
             </div>
@@ -125,7 +124,7 @@ export const MeasurementNode = memo((node: Node) => {
               />
               <Handle
                 type="target"
-                id="output"
+                id={`classicalHandle${node.id}`}
                 position={Position.Right}
                 className="z-10 classical-circle-port-out !bg-gray-300 !border-2 !border-dashed !border-black"
               />

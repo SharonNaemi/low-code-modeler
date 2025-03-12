@@ -34,6 +34,20 @@ export const StatePreparationNode = memo((node: Node) => {
   const [mounted, setMounted] = useState(false);
 
   const { updateNodeValue, setSelectedNode, setNodes, edges, nodes } = useStore(selector, shallow);
+  const [valueLabel, setValueLabel] = useState("value(s)");
+  const [ancillaLabel, setAncillaLabel] = useState("ancilla");
+
+  const handleConnect = (connection, type) => {
+    console.log("handleConnect")
+    if (connection && connection.source) {
+      if (type === "value") {
+        setValueLabel(`Connected: ${connection.source}`);
+      } else if (type === "ancilla") {
+        setAncillaLabel(`Connected: ${connection.source}`);
+      }
+    }
+  };
+
 
   const addChildNode = (parentId) => {
     const newNode = {
@@ -197,14 +211,17 @@ export const StatePreparationNode = memo((node: Node) => {
             <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: "rgba(105, 145, 210, 0.2)" }}>
               <Handle
                 type="target"
-                id={`classicalHandleStatePreparation${node.id}`} 
+                id={`classicalHandleStatePreparation${node.id}`}
                 position={Position.Left}
                 className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
                 style={{ top: "20px" }}
                 isConnectable={edges.filter(edge => edge.target === node.id).length < 2}
+                onConnect={(connection) => handleConnect(connection, "value")}
               />
-              <span className="text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>value(s)</span>
+              <span className="text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>{node.data.inputs[0]?.label || "value(s)"}</span>
+
             </div>
+
             <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(255, 165, 0, 0.2)' }}>
               <Handle
                 type="target"
@@ -216,8 +233,6 @@ export const StatePreparationNode = memo((node: Node) => {
                 isValidConnection={(connection) => { console.log(5); return false }}
               // hier noch connection.source.type !== positionNode
               //isConnectable={nodes.filter(node=> edges.filter(edge=> {console.log(edge); return edge.target === node.id && edge.targetHandle === "ancilla"}).length < 1) }
-
-
 
               />
               <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }} >ancilla</span>
@@ -267,7 +282,7 @@ export const StatePreparationNode = memo((node: Node) => {
                 position={Position.Right}
                 className="z-10 circle-port-out !bg-green-300 !border-black"
                 isValidConnection={(connection) => true}
-                isConnectable={edges.filter(edge=> edge.sourceHandle === "quantumHandleStatePreparationOutput"+node.id).length < 1}
+                isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
             </div>
           </div>
@@ -282,7 +297,7 @@ export const StatePreparationNode = memo((node: Node) => {
               position={Position.Right}
               className="z-10 circle-port-out !bg-green-300 !border-black"
               isValidConnection={() => true}
-              isConnectable={edges.filter(edge=> edge.sourceHandle === "quantumHandleUncomputeStatePreparation"+node.id).length < 1}
+              isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleUncomputeStatePreparation" + node.id).length < 1}
             />
           </div>
         </div>
