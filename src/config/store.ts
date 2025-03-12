@@ -277,20 +277,20 @@ const useStore = create<RFState>((set, get) => ({
       console.log(connection.source);
       console.log(nodeDataSource);
       const existingInput = nodeDataTarget.data.inputs.find(
-        (input) => input.id === nodeDataSource.id
-      );
-      
-      if (existingInput) {
-        // Update the existing entry
-        existingInput.label = nodeDataSource.data.outputIdentifier;
-      } else {
-        // Push a new entry
-        nodeDataTarget.data.inputs.push({
-          id: nodeDataSource.id,
-          label: nodeDataSource.data.outputIdentifier
-        });
-      }
-      
+  (input) => input.id === nodeDataSource.id
+);
+
+if (existingInput) {
+  // Update the existing entry
+  existingInput.label = nodeDataSource.data.outputIdentifier;
+} else {
+  // Push a new entry
+  nodeDataTarget.data.inputs.push({
+    id: nodeDataSource.id,
+    label: nodeDataSource.data.outputIdentifier
+  });
+}
+
       
       set({
         nodes: currentNodes,
@@ -359,44 +359,85 @@ const useStore = create<RFState>((set, get) => ({
   },
 
   updateNodeValue: (nodeId: string, identifier: string, nodeVal: string) => {
-    console.log("value")
-    console.log(nodeVal)
-    const currentNodes = get().nodes.map((node) => {
-      if (node.id === nodeId) {
-        if (identifier === "position") {
-          node.position = nodeVal;
-
-        } else {
-          node.data = { ...node.data, [identifier]: nodeVal };
-          //node.parentNode = nodeVal;
-        }
-      }
-      return node;
-    });
+    console.log("Updating node value for:", nodeId);
+    console.log("Identifier:", identifier, "New Value:", nodeVal);
 
     const currentEdges = get().edges;
+    let currentNodes = get().nodes.map((node) => {
+        // Update the node's position separately
+        if (node.id === nodeId && identifier === "position") {
+            node.position = nodeVal;
+            return node;
+        }
+        return node;
+    });
+
+    // Update inputs of target nodes connected by edges where this node is the source
+    currentEdges.forEach((edge) => {
+      console.log("edge")
+        if (edge.source === nodeId) {
+          console.log("found edge")
+            const targetNodeIndex = currentNodes.findIndex((n) => n.id === edge.target);
+            if (targetNodeIndex !== -1) {
+                const targetNode = { ...currentNodes[targetNodeIndex] };
+                const targetData = { ...targetNode.data };
+
+                // Ensure inputs exist
+                if (!targetData.inputs) targetData.inputs = [];
+
+                // Check if inputs already contain this nodeId
+                const inputIndex = targetData.inputs.findIndex((input) => input.id === nodeId);
+
+                if (inputIndex !== -1) {
+                    // Update existing input label
+                    targetData.inputs[inputIndex].label = nodeVal;
+                } else {
+                    // Add new input entry
+                    targetData.inputs.push({
+                        id: nodeId,
+                        label: nodeVal,
+                    });
+                }
+
+                // Update target node in the nodes list
+                targetNode.data = targetData;
+                currentNodes[targetNodeIndex] = targetNode;
+            }
+        }
+    });
+
+    // Update the node's other data fields if the identifier is not "position"
+    currentNodes = currentNodes.map((node) => {
+        if (node.id === nodeId && identifier !== "position") {
+            return {
+                ...node,
+                data: { ...node.data, [identifier]: nodeVal },
+            };
+        }
+        return node;
+    });
+
     const newHistoryItem: HistoryItem = {
-      nodes: [...get().nodes], // Copy the nodes array to avoid mutation
-      edges: [...currentEdges], // Copy the edges array to avoid mutation
+        nodes: [...currentNodes], // Copy nodes array to avoid mutation
+        edges: [...currentEdges], // Copy edges array to avoid mutation
     };
 
-    console.log("Updating history (updateNodeValue):");
-    console.log("Current Nodes:", get().nodes);
-    console.log("Current Edges:", currentEdges);
-    console.log("New History Item:", newHistoryItem);
+    console.log("Updating history (updateNodeValue):", newHistoryItem);
 
     set({
-      nodes: currentNodes,
-      edges: currentEdges,
-      history: [
-        ...get().history.slice(0, get().historyIndex + 1),
-        newHistoryItem,
-      ],
-      historyIndex: get().historyIndex + 1,
+        nodes: currentNodes,
+        edges: currentEdges,
+        history: [
+            ...get().history.slice(0, get().historyIndex + 1),
+            newHistoryItem,
+        ],
+        historyIndex: get().historyIndex + 1,
     });
+
     console.log("History after update:", get().history);
     console.log("Current historyIndex:", get().historyIndex);
-  },
+},
+
 
   undo: () => {
     const historyIndex = get().historyIndex;
