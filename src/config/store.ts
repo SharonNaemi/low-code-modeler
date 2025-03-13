@@ -93,6 +93,33 @@ const useStore = create<RFState>((set, get) => ({
     console.log("Current Edges:", currentEdges);
     console.log("New History Item:", newHistoryItem);
 
+    if(node.type === "measurementNode"){
+      node.data.indices = "";
+      node.data.outputIdentifier= "";
+    }
+
+    if(node.type === "positionNode"){
+      node.data.dataType = node.data.label;
+      node.data.value = "";
+      node.data.outputIdentifier= "";
+    }
+
+    if(node.type === "statePreparationNode" && node.data.label === "Encode Value"){
+      node.data.encodingType = "";
+      node.data.bound = 0;
+      node.data.size = "";
+      node.data.outputIdentifier= "";
+    }
+
+    if(node.type === "statePreparationNode" && node.data.label === "Prepare State"){
+      node.data.quantumStateName = "";
+      node.data.size = "";
+      node.data.outputIdentifier= "";
+    }
+    if(node.type === "operationNode" ){
+      node.data.operator = "";
+      node.data.outputIdentifier= "";
+    }
     set({
       nodes: [...currentNodes, node],
       edges: currentEdges,
