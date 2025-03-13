@@ -265,6 +265,10 @@ const useStore = create<RFState>((set, get) => ({
         type = "quantumEdge";
         color = "#93C5FD"
       }
+      if (node.id === connection.source && node.type === "ancillaNode") {
+        type = "ancillaEdge";
+        color = "#86EFAC";
+      }
 
       if (node.id === connection.source && node.type === "positionNode" && connection.targetHandle.includes("classicalHandle")) {
         insertEdge = true;

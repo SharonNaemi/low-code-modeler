@@ -1,3 +1,4 @@
+import AncillaEdge from "@/components/edges/ancillaEdgeType";
 import ClassicalEdge from "@/components/edges/classicalEdgeType";
 import CustomEdge from "@/components/edges/custom";
 import QuantumEdge from "@/components/edges/customEdgeType";
@@ -212,7 +213,8 @@ export const nodesConfig = {
   } as any,
   edgesTypes: {
     quantumEdge: QuantumEdge,
-    classicalEdge: ClassicalEdge
+    classicalEdge: ClassicalEdge,
+    ancillaEdge: AncillaEdge
   }
 };
 

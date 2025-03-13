@@ -5,6 +5,7 @@ import useStore from "@/config/store";
 import { shallow } from "zustand/shallow";
 import { Button } from "antd";
 import { useHandleConnections } from "@xyflow/react";
+import { cn } from "@/lib/utils";
 
 const selector = (state: {
   selectedNode: Node | null;
@@ -36,6 +37,16 @@ export const StatePreparationNode = memo((node: Node) => {
   const { updateNodeValue, setSelectedNode, setNodes, edges, nodes } = useStore(selector, shallow);
   const [valueLabel, setValueLabel] = useState("value(s)");
   const [ancillaLabel, setAncillaLabel] = useState("ancilla");
+
+  const hasTestTargetHandle = edges.some(edge => edge.targetHandle === "ancillaHandleEncodeValue" + node.id);
+  console.log(hasTestTargetHandle)
+
+  if (hasTestTargetHandle) {
+    console.log("An edge exists with targetHandle === 'test'");
+  } else {
+    console.log("No edge with targetHandle === 'test' found");
+  }
+
 
   const handleConnect = (connection, type) => {
     console.log("handleConnect")
@@ -222,12 +233,15 @@ export const StatePreparationNode = memo((node: Node) => {
 
             </div>
 
-            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor:  'rgba(137, 218, 131, 0.2)' }}>
+            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(137, 218, 131, 0.2)' }}>
               <Handle
                 type="target"
                 id={`ancillaHandleEncodeValue${node.id}`}
                 position={Position.Left}
-                className="z-10 classical-circle-port-st !bg-gray-500 !border-black w-4 transform rotate-45"
+                className={cn(
+                  "z-10 !border-black w-4 transform rotate-45",
+                  hasTestTargetHandle ? "classical-circle-port-st !bg-green-300" : "classical-circle-port-st !bg-gray-500"
+                )}
                 style={{ top: "40px" }}
                 onConnect={connection => console.log(connection)}
                 isValidConnection={(connection) => { console.log(5); return false }}
@@ -246,10 +260,14 @@ export const StatePreparationNode = memo((node: Node) => {
                 type="source"
                 id={`ancillaHandlePrepareState${node.id}`}
                 position={Position.Left}
-                className="z-10 classical-circle-port-st !bg-gray-500 !border-black w-4 transform rotate-45"
+                className={cn(
+                  "z-10 !border-black w-4 transform rotate-45",
+                  hasTestTargetHandle ? "classical-circle-port-st !bg-green-300" : "classical-circle-port-st !bg-gray-500"
+                )}
                 style={{ backgroundColor: 'rgba(137, 218, 131, 0.2)' }}
                 isValidConnection={() => true}
               />
+
               <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>ancilla</span>
             </div>
           </div>
