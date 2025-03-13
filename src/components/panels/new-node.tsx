@@ -55,8 +55,10 @@ export const AddNodePanel = () => {
                     onDragStart={(event) => onDragStart(event, node)}
                     draggable
                   >
+                   
+      <img src={node.icon} alt={node.label} className="w-70 h-70 object-contain" />
+    
                   
-                    <span className="font-semibold">{node.label}</span>
                   </div>
                 ))}
               </div>
@@ -84,9 +86,7 @@ export const AddNodePanel = () => {
                 <div className="pl-4 mt-2 space-y-4">
                   {Object.keys(categories[category]).map((subcategory) => (
                     <div key={subcategory}>
-                      <div className="font-semibold text-black-600">
-                        {subcategory}
-                      </div>
+                   
                       <div className="space-y-2 mt-2">
                         {categories[category][subcategory].map((node: Node) => (
                           <div

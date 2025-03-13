@@ -218,7 +218,7 @@ export const StatePreparationNode = memo((node: Node) => {
                 isConnectable={edges.filter(edge => edge.target === node.id).length < 2}
                 onConnect={(connection) => handleConnect(connection, "value")}
               />
-              <span className="text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>{node.data.inputs[0]?.label || "value(s)"}</span>
+              <span className="text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>{node.data.inputs[0]?.outputIdentifier || "value(s)"}</span>
 
             </div>
 
@@ -235,7 +235,7 @@ export const StatePreparationNode = memo((node: Node) => {
               //isConnectable={nodes.filter(node=> edges.filter(edge=> {console.log(edge); return edge.target === node.id && edge.targetHandle === "ancilla"}).length < 1) }
 
               />
-              <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }} >{node.data.inputs[1]?.label || "ancilla"}</span>
+              <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }} >{node.data.inputs[1]?.outputIdentifier || "ancilla"}</span>
             </div>
           </div>
         </div>)}

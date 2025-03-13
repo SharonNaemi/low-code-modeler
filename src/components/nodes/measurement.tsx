@@ -94,7 +94,7 @@ export const MeasurementNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="text"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
                 value={node.data.indices || indices}
                 placeholder="1,2,3"
                 onChange={e=>handleYChange(e, "indices")}

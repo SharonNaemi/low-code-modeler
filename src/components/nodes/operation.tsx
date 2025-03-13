@@ -117,7 +117,7 @@ export const OperationNode = memo((node: Node) => {
                 position={Position.Left}
                 className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
-              <span className="ml-4 text-black text-sm">{node.data.inputs[0]?.label || "Input 1"}</span>
+              <span className="ml-4 text-black text-sm">{node.data.inputs[0]?.outputIdentifier || "Input 1"}</span>
             </div>
             <div className="relative flex items-center" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)', width: '60px' }}>
               <Handle
@@ -126,16 +126,16 @@ export const OperationNode = memo((node: Node) => {
                 position={Position.Left}
                 className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
-              <span className="ml-4 text-black text-sm">{node.data.inputs[1]?.label || "Input 2"}</span>
+              <span className="ml-4 text-black text-sm">{node.data.inputs[1]?.outputIdentifier || "Input 2"}</span>
             </div>
-            <div className="relative flex items-center">
+            <div className="relative flex items-center" style={{ backgroundColor: 'rgba(137, 218, 131, 0.2)', width: '60px' }}>
               <Handle
-                type="source"
-                id="ancilla"
+                type="target"
+                id="ancillaHandle"
                 position={Position.Left}
                 className="z-10 classical-circle-port-op !bg-gray-500 !border-black w-4 transform rotate-45"
               />
-              <span className="ml-4 text-black text-sm">Ancilla</span>
+              <span className="ml-4 text-black text-sm">ancilla</span>
             </div>
           </div>
         </div>

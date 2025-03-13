@@ -77,7 +77,7 @@ export const categories: { [key: string]: any } = {
       { label: "Comparison Operator", type: "classicalOutputOperationNode", icon: "comparison.png" }
     ],
     "Min & Max": [{ label: "minMax", type: "classicalOutputOperationNode", icon: "minMax.png" }],
-    "Search": [{ label: "search", type: "classicalOutputOperationNode", icon: "search.png" }],
+    "Search": [{ label: "Search", type: "classicalOutputOperationNode", icon: "search.png" }],
   },
   "Custom Operators": {
     "Custom Quantum Operator": [

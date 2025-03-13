@@ -93,7 +93,7 @@ export const AncillaNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="number"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-green-300'}`}
                 value={node.data.size || x}
                 placeholder="0"
                 step={1}

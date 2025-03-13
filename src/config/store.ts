@@ -458,6 +458,16 @@ const useStore = create<RFState>((set, get) => ({
             targetData.inputs[inputIndex].label = nodeVal;
             targetData.inputs[inputIndex].outputIdentifier = nodeVal;
           }
+          if(identifier === "implementation"){
+            // Update existing input label
+            targetData.inputs[inputIndex].implementation = nodeVal;
+    
+          }
+          if(identifier === "implementationType"){
+            // Update existing input label
+            targetData.inputs[inputIndex].implementationType = nodeVal;
+    
+          }
           } else {
 
             
