@@ -13,6 +13,7 @@ export interface Node {
   label: string;
   type: NodeType;
   dataType: string;
+  icon: string;
 }
 
 export interface Categories {
@@ -22,11 +23,11 @@ export interface Categories {
 export const categories: { [key: string]: any } = {
   "Boundary Nodes": {
     "Classical To Quantum": [
-      { label: "Encode Value", type: "statePreparationNode" },
-      { label: "Prepare State", type: "statePreparationNode" },
+      { label: "Encode Value", type: "statePreparationNode", inputs: [], icon: "encodeValue.png" },
+      { label: "Prepare State", type: "statePreparationNode", icon: "prepareState.png" },
     ],
     "Quantum To Classical": [
-      { label: "Measurement", type: "measurementNode" },
+      { label: "Measurement", type: "measurementNode", icon: "measurement.png" },
     ]
   },
   "Circuit Blocks & Routines": {
@@ -47,14 +48,14 @@ export const categories: { [key: string]: any } = {
   },
   "Data Types": {
     "Classical Datatypes": [
-      { label: "Array", dataType: "Array", type: "positionNode" },
-      { label: "bit", dataType: "bit", type: "positionNode" },
-      { label: "boolean", dataType: "boolean", type: "positionNode" },
-      { label: "int", dataType: "int", type: "positionNode" },
-      { label: "float", dataType: "float", type: "positionNode" },
+      { label: "Array", dataType: "Array", type: "positionNode", icon: "array.png" },
+      { label: "bit", dataType: "bit", type: "positionNode", icon: "bit.png" },
+      { label: "boolean", dataType: "boolean", type: "positionNode", icon: "boolean.png" },
+      { label: "int", dataType: "int", type: "positionNode", icon: "int.png"  },
+      { label: "float", dataType: "float", type: "positionNode", icon: "float.png" },
     ],
     "Quantum Type": [
-      { label: "Ancilla", dataType: "ancillaNode", type: "ancillaNode" },
+      { label: "Ancilla", dataType: "ancillaNode", type: "ancillaNode", icon: "ancilla.png" },
     ]
   },
   "Flow Structures": {
@@ -67,16 +68,24 @@ export const categories: { [key: string]: any } = {
   },
   Operators: {
     "Arithmetic Operators": [
-      { label: "Arithmetic Operator", type: "arithmeticOperatorNode" }
+      { label: "Arithmetic Operator", type: "arithmeticOperatorNode", icon: "add.png" }
     ],
     "Bitwise Operators": [
-      { label: "Bitwise Operator", type: "operationNode" }
+      { label: "Bitwise Operator", type: "classicalOutputOperationNode", icon: "bitwise.png" }
     ],
-    "Custom Block": [{ label: "custom", type: "operationNode" }],
     "Comparison Operators": [
-      { label: "Comparison Operator", type: "operationNode" }
+      { label: "Comparison Operator", type: "classicalOutputOperationNode", icon: "comparison.png" }
     ],
-    "Min & Max": [{ label: "minMax", type: "operationNode" }],
-    "Search": [{ label: "search", type: "operationNode" }],
+    "Min & Max": [{ label: "minMax", type: "classicalOutputOperationNode", icon: "minMax.png" }],
+    "Search": [{ label: "search", type: "classicalOutputOperationNode", icon: "search.png" }],
+  },
+  "Custom Operators": {
+    "Custom Quantum Operator": [
+      { label: "Custom Quantum Operator", type: "arithmeticOperatorNode", icon: "add.png" }
+    ],
+    "Custom Classical Operator": [
+      { label: "Custom Classical Operator", type: "arithmeticOperatorNode", icon: "add.png" }
+    ],
   }
+
 };

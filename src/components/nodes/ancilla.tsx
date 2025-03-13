@@ -84,7 +84,7 @@ export const AncillaNode = memo((node: Node) => {
     <div className="grand-parent">
       <div className="w-[320px] h-[150px] rounded-none bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
         <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate">
-          {data.dataType}
+          Ancilla
         </div>
         <div className="px-2 py-3 flex justify-center">
           <div className="flex items-center mb-2">
@@ -93,7 +93,7 @@ export const AncillaNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="number"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.size || x}
                 placeholder="0"
                 step={1}

@@ -3,14 +3,29 @@ import { cn } from "@/lib/utils";
 import React, { memo, useState } from "react";
 import { Edge, Handle, Node, Position, getConnectedEdges } from "reactflow";
 import { shallow } from "zustand/shallow";
+import { Button } from "antd";
+import { motion } from "framer-motion";
 
-const selector = (state: { edges: Edge[] }) => ({
+
+const selector = (state: {
+  selectedNode: Node | null;
+  edges: Edge[],
+  nodes: Node[],
+  updateNodeValue: (nodeId: string, field: string, nodeVal: any) => void;
+  setNodes: (node: Node) => void;
+  setSelectedNode: (node: Node) => void;
+}) => ({
+  selectedNode: state.selectedNode,
   edges: state.edges,
+  nodes: state.nodes,
+  setNodes: state.setNodes,
+  updateNodeValue: state.updateNodeValue,
+  setSelectedNode: state.setSelectedNode
 });
 
 export const OperationNode = memo((node: Node) => {
   const { data, selected } = node;
-  const { edges } = useStore(selector, shallow);
+  const { edges, updateNodeValue, setSelectedNode } = useStore(selector, shallow);
   const alledges = getConnectedEdges([node], edges);
 
   const [inputs, setInputs] = useState(data.inputs || []);
@@ -21,6 +36,7 @@ export const OperationNode = memo((node: Node) => {
   const [outputIdentifierError, setOutputIdentifierError] = useState(false);
   const [outputIdentifier, setOutputIdentifier] = useState("");
   const [operation, setOperation] = useState("");
+  const [showingChildren, setShowingChildren] = useState(false);
 
   const addVariable = () => {
     const newInputId = `input-${inputs.length + 1}`;
@@ -35,11 +51,9 @@ export const OperationNode = memo((node: Node) => {
   };
   const handleYChange = (e, field) => {
     const value = e.target.value;
-    if (!/^[a-zA-Z_]/.test(value) && value !== "") {
-      setYError(true);
-    } else {
-      setYError(false);
-    }
+    node.data[field] = value;
+    updateNodeValue(node.id, field, value);
+    setSelectedNode(node);
     setY(value);
   };
   const handleOutputIdentifierChange = (e, field) => {
@@ -62,6 +76,12 @@ export const OperationNode = memo((node: Node) => {
   const dynamicHeight = baseHeight + (inputs.length + outputs.length) * extraHeightPerVariable;
 
   return (
+    <motion.div
+      className="grand-parent"
+      initial={false}
+      animate={{ width: showingChildren ? 360 : 320, height: showingChildren ? 400 : 373 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
     <div className="grand-parent">
       <div
         className={cn(
@@ -90,23 +110,23 @@ export const OperationNode = memo((node: Node) => {
         
         <div className="custom-node-port-in mb-3 mt-2">
           <div className="relative flex flex-col space-y-4 overflow-visible">
-            <div className="relative flex items-center">
+            <div className="relative flex items-center" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)', width: '60px' }}>
               <Handle
                 type="target"
                 id="quantumHandleOperation1"
                 position={Position.Left}
                 className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
-              <span className="ml-4 text-black text-sm">Input 1</span>
+              <span className="ml-4 text-black text-sm">{node.data.inputs[0]?.label || "Input 1"}</span>
             </div>
-            <div className="relative flex items-center">
+            <div className="relative flex items-center" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)', width: '60px' }}>
               <Handle
                 type="target"
                 id="quantumHandleOperation2"
                 position={Position.Left}
                 className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
-              <span className="ml-4 text-black text-sm">Input 2</span>
+              <span className="ml-4 text-black text-sm">{node.data.inputs[1]?.label || "Input 2"}</span>
             </div>
             <div className="relative flex items-center">
               <Handle
@@ -129,7 +149,7 @@ export const OperationNode = memo((node: Node) => {
             <div
               className="flex items-center space-x-2 relative"
               style={{
-                backgroundColor: 'rgba(62, 153, 210, 0.2)',
+                backgroundColor:'rgba(105, 145, 210, 0.2)',
                 width: '150px',
               }}
             >
@@ -154,7 +174,7 @@ export const OperationNode = memo((node: Node) => {
           </div>
         </div>
         <div className="relative flex items-center justify-end space-x-0 overflow-visible mt-2">
-          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(62, 153, 210, 0.2)', width: '150px' }}>
+          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)', width: '150px' }}>
             <span className="text-sm text-black mr-2">Uncompute</span>
 
             <Handle
@@ -167,7 +187,20 @@ export const OperationNode = memo((node: Node) => {
           </div>
         </div>
       </div>
+      <Button
+          onClick={() => setShowingChildren(!showingChildren)}
+          icon={showingChildren ? "-" : "+"}
+          style={{
+            position: "absolute",
+            bottom: "0px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            border: "1px solid black",
+            borderRadius: 0,
+          }}
+        />
     </div>
+    </motion.div>
   );
 
 });

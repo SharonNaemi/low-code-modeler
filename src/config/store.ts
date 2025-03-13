@@ -116,7 +116,7 @@ const useStore = create<RFState>((set, get) => ({
       node.data.size = "";
       node.data.outputIdentifier= "";
     }
-    if(node.type === "operationNode" ){
+    if(node.type === "arithmeticOperatorNode" ){
       node.data.operator = "";
       node.data.outputIdentifier= "";
     }
@@ -320,22 +320,22 @@ const useStore = create<RFState>((set, get) => ({
             dataType: nodeDataSource.data.dataType
           });
         }
-        if (nodeDataTarget.type === "measurementNode") {
+        
           if (nodeDataSource.type === "statePreparationNode") {
             // Push a new entry
             nodeDataTarget.data.inputs.push({
               id: nodeDataSource.id,
               outputIdentifier: nodeDataSource.data.outputIdentifier,
               size: nodeDataSource.data.size,
-              bound: nodeDataSource.data.bound || 0,
+              bound: nodeDataSource.data.bound,
               encodingType: nodeDataSource.data.encodingType,
-              implementation: nodeDataSource.data.implementation || "",
-              implementationType: nodeDataSource.data.implementationType || "",
-              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType || "",
-              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation || ""
+              implementation: nodeDataSource.data.implementation,
+              implementationType: nodeDataSource.data.implementationType,
+              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType,
+              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation
             });
           }
-          if (nodeDataSource.type === "operationNode") {
+          if (nodeDataSource.type === "arithmeticOperatorNode") {
             // Push a new entry
             nodeDataTarget.data.inputs.push({
               id: nodeDataSource.id,
@@ -347,7 +347,7 @@ const useStore = create<RFState>((set, get) => ({
               uncomputeImplementation: nodeDataSource.data.uncomputeImplementation || ""
             });
           }
-        }
+        
         // Push a new entry
         //nodeDataTarget.data.inputs.push({
           //id: nodeDataSource.id,
@@ -456,6 +456,7 @@ const useStore = create<RFState>((set, get) => ({
             if(identifier === "outputIdentifier"){
             // Update existing input label
             targetData.inputs[inputIndex].label = nodeVal;
+            targetData.inputs[inputIndex].outputIdentifier = nodeVal;
           }
           } else {
 
