@@ -23,7 +23,7 @@ export default function QuantumEdge({
     <>
       <BaseEdge
         style={{
-          stroke: "#86EFAC",
+          stroke: "#93C5FD",
           
         }}
         markerEnd={markerEnd}

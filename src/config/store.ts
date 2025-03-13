@@ -218,7 +218,7 @@ const useStore = create<RFState>((set, get) => ({
     };
     console.log(currentNodes)
     let type = "classicalEdge";
-    let color = "#93C5FD";
+    let color = "#F5A843";
     let nodeDataSource;
     let nodeDataTarget;
     console.log(connection)
@@ -236,7 +236,7 @@ const useStore = create<RFState>((set, get) => ({
 
       if (node.id === connection.source && node.type !== "positionNode") {
         type = "quantumEdge";
-        color = "#86EFAC"
+        color = "#93C5FD"
       }
 
       if (node.id === connection.source && node.type === "positionNode" && connection.targetHandle.includes("classicalHandle")) {

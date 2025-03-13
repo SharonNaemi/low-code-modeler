@@ -130,7 +130,7 @@ export const StatePreparationNode = memo((node: Node) => {
           />
         )}
 
-        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
+        <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate flex items-center justify-center space-x-2">
           <span className="text-sm">{node.data.label}</span>
         </div>
 
@@ -208,12 +208,12 @@ export const StatePreparationNode = memo((node: Node) => {
         {node.data.label === "Encode Value" && (<div className="relative flex flex-col items-start text-black text-center overflow-visible">
           <div style={{ padding: "4px" }}>
 
-            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: "rgba(105, 145, 210, 0.2)" }}>
+            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(255, 165, 0, 0.2)' }}>
               <Handle
                 type="target"
                 id={`classicalHandleStatePreparation${node.id}`}
                 position={Position.Left}
-                className="z-10 classical-circle-port-in !bg-blue-300 !border-black"
+                className="z-10 classical-circle-port-in !bg-orange-300 !border-black"
                 style={{ top: "20px" }}
                 isConnectable={edges.filter(edge => edge.target === node.id).length < 2}
                 onConnect={(connection) => handleConnect(connection, "value")}
@@ -222,7 +222,7 @@ export const StatePreparationNode = memo((node: Node) => {
 
             </div>
 
-            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(255, 165, 0, 0.2)' }}>
+            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor:  'rgba(137, 218, 131, 0.2)' }}>
               <Handle
                 type="target"
                 id={`ancillaHandleEncodeValue${node.id}`}
@@ -235,19 +235,19 @@ export const StatePreparationNode = memo((node: Node) => {
               //isConnectable={nodes.filter(node=> edges.filter(edge=> {console.log(edge); return edge.target === node.id && edge.targetHandle === "ancilla"}).length < 1) }
 
               />
-              <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }} >ancilla</span>
+              <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }} >{node.data.inputs[1]?.label || "ancilla"}</span>
             </div>
           </div>
         </div>)}
         {node.data.label === "Prepare State" && (<div className="relative flex flex-col items-start text-black text-center overflow-visible">
           <div style={{ padding: "4px" }}>
-            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(255, 165, 0, 0.2)' }}>
+            <div className="flex items-center space-x-2 mt-2" style={{ backgroundColor: 'rgba(137, 218, 131, 0.2)' }}>
               <Handle
                 type="source"
                 id={`ancillaHandlePrepareState${node.id}`}
                 position={Position.Left}
                 className="z-10 classical-circle-port-st !bg-gray-500 !border-black w-4 transform rotate-45"
-                style={{ backgroundColor: 'rgba(255, 165, 0, 0.5) ' }}
+                style={{ backgroundColor: 'rgba(137, 218, 131, 0.2)' }}
                 isValidConnection={() => true}
               />
               <span className="ml-2 text-black text-sm" style={{ visibility: showingChildren ? "hidden" : "visible" }}>ancilla</span>
@@ -261,7 +261,7 @@ export const StatePreparationNode = memo((node: Node) => {
             <div
               className="flex items-center space-x-2 relative"
               style={{
-                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                backgroundColor: 'rgba(105, 145, 210, 0.2)',
                 width: '150px',
               }}
             >
@@ -280,7 +280,7 @@ export const StatePreparationNode = memo((node: Node) => {
                 type="source"
                 id={`quantumHandleStatePreparationOutput${node.id}`}
                 position={Position.Right}
-                className="z-10 circle-port-out !bg-green-300 !border-black"
+                className="z-10 circle-port-out !bg-blue-300 !border-black"
                 isValidConnection={(connection) => true}
                 isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
@@ -288,14 +288,14 @@ export const StatePreparationNode = memo((node: Node) => {
           </div>
         </div>
         <div className="relative flex items-center justify-end space-x-0 overflow-visible mt-2">
-          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(124, 202, 154, 0.2)', width: '150px' }}>
+          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(105, 145, 210, 0.2)', width: '150px' }}>
             <span className="text-sm text-black mr-2">Uncompute</span>
 
             <Handle
               type="source"
               id={`quantumHandleUncomputeStatePreparation${node.id}`}
               position={Position.Right}
-              className="z-10 circle-port-out !bg-green-300 !border-black"
+              className="z-10 circle-port-out !bg-blue-300 !border-black"
               isValidConnection={() => true}
               isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleUncomputeStatePreparation" + node.id).length < 1}
             />

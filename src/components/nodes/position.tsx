@@ -107,7 +107,7 @@ export const PositionNode = memo((node: Node) => {
   return (
     <div className="grand-parent">
       <div className="w-[320px] h-[150px] rounded-full bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
-        <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate">
+        <div className="w-full bg-orange-300 text-black text-center font-semibold py-1 truncate">
           {data.dataType}
         </div>
         <div className="px-2 py-3 flex justify-center">
@@ -118,7 +118,7 @@ export const PositionNode = memo((node: Node) => {
               <select
                 ref={xRef}
                 id="x"
-                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-blue-300"
+                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-orange-300"
                 value={node.data.value || x}
                 onChange={handleBooleanChange}
               >
@@ -130,7 +130,7 @@ export const PositionNode = memo((node: Node) => {
               <select
                 ref={xRef}
                 id="x"
-                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-blue-300"
+                className="p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 bg-white border-orange-300"
                 value={node.data.value || x}
                 onChange={handleBitChange}
               >
@@ -142,7 +142,7 @@ export const PositionNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="text"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.value || x}
                 placeholder="1,2,3"
                 onChange={handleArrayChange}
@@ -152,7 +152,7 @@ export const PositionNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="number"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-20 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.value || x}
                 placeholder="0"
                 step={data.dataType === "int" ? 1 : data.dataType === "float" ? 0.1 : 1}
@@ -167,7 +167,7 @@ export const PositionNode = memo((node: Node) => {
             <div
               className="flex items-center rounded-md overflow-hidden"
               style={{
-                backgroundColor: 'rgba(105, 145, 210, 0.2)',
+                backgroundColor: 'rgba(212, 128, 72, 0.2)',
                 width: '150px',
               }}
             >
@@ -175,7 +175,7 @@ export const PositionNode = memo((node: Node) => {
               <input
                 ref={yRef}
                 id="outputIdentifier"
-                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border-2 ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm w-10 text-center rounded-full border-2 ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.outputIdentifier || y}
                 placeholder="a"
                 onChange={handleYChange}
@@ -185,7 +185,7 @@ export const PositionNode = memo((node: Node) => {
                 type="source"
                 id="classicalHandleDataType"
                 position={Position.Right}
-                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-blue-300 !border-black overflow-visible"
+                className="!absolute !top-[73%] z-10 classical-circle-port-round-out !bg-orange-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
               />
             </div>

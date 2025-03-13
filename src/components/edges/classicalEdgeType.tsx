@@ -23,7 +23,7 @@ export default function ClassicalEdge({
     <>
       <BaseEdge
         style={{
-          stroke: "#93C5FD",
+          stroke: "#F5A843",
           
         }}
         markerEnd={markerEnd}

@@ -108,7 +108,7 @@ export const AncillaNode = memo((node: Node) => {
             <div
               className="flex items-center rounded-md overflow-hidden"
               style={{
-                backgroundColor: 'rgba(212, 128, 72, 0.2)',
+                backgroundColor: 'rgba(137, 218, 131, 0.2)',
                 width: '150px',
               }}
             >
@@ -126,7 +126,7 @@ export const AncillaNode = memo((node: Node) => {
                 type="source"
                 id="output"
                 position={Position.Right}
-                className="!absolute !top-[70%] z-10 circle-port-out !bg-orange-300 !border-black overflow-visible transform rotate-45"
+                className="!absolute !top-[70%] z-10 circle-port-out !bg-green-200 !border-black overflow-visible transform rotate-45"
                 isValidConnection={(connection) => true}
                 isConnectable={edges.filter(edge=> edge.source === node.id).length < 1}
               />

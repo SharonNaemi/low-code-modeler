@@ -57,11 +57,11 @@ export const MeasurementNode = memo((node: Node) => {
       <div
         className={cn(
           "w-[320px] bg-white border border-solid border-gray-700 shadow-md",
-          selected && "border-blue-500"
+          selected && "border-orange-500"
         )}
         style={{ height: `${dynamicHeight}px` }}
       >
-        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate">
+        <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate">
           Measurement
         </div>
 
@@ -72,7 +72,7 @@ export const MeasurementNode = memo((node: Node) => {
                 ref={xRef}
                 id="x"
                 type="text"
-                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-blue-300'}`}
+                className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.indices || indices}
                 placeholder="1,2,3"
                 onChange={e=>e}
@@ -90,7 +90,7 @@ export const MeasurementNode = memo((node: Node) => {
                 type="target"
                 id={`quantumHandleMeasurement${node.id}`}
                 position={Position.Left}
-                className="z-10 circle-port-op !bg-green-300 !border-black"
+                className="z-10 circle-port-op !bg-blue-300 !border-black"
                 style={{ top: "20px" }} 
                 isValidConnection={(connection) => true}
               />
@@ -117,7 +117,7 @@ export const MeasurementNode = memo((node: Node) => {
               <input
                 ref={yRef}
                 id="y"
-                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-gray-500'}`}
+                className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.outputIdentifier || y}
                 placeholder="a"
                 onChange={handleYChange}

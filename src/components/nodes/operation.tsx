@@ -70,7 +70,7 @@ export const OperationNode = memo((node: Node) => {
         )}
         style={{ height: `${dynamicHeight}px` }}
       >
-        <div className="w-full bg-green-300 text-black text-center font-semibold py-1 truncate">
+        <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate">
           {data.label}
         </div>
         <div className="px-3 py-1 mb-1">
@@ -95,7 +95,7 @@ export const OperationNode = memo((node: Node) => {
                 type="target"
                 id="quantumHandleOperation1"
                 position={Position.Left}
-                className="z-10 circle-port-op !bg-green-300 !border-black"
+                className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
               <span className="ml-4 text-black text-sm">Input 1</span>
             </div>
@@ -104,7 +104,7 @@ export const OperationNode = memo((node: Node) => {
                 type="target"
                 id="quantumHandleOperation2"
                 position={Position.Left}
-                className="z-10 circle-port-op !bg-green-300 !border-black"
+                className="z-10 circle-port-op !bg-blue-300 !border-black"
               />
               <span className="ml-4 text-black text-sm">Input 2</span>
             </div>
@@ -129,7 +129,7 @@ export const OperationNode = memo((node: Node) => {
             <div
               className="flex items-center space-x-2 relative"
               style={{
-                backgroundColor: 'rgba(124, 202, 154, 0.2)',
+                backgroundColor: 'rgba(62, 153, 210, 0.2)',
                 width: '150px',
               }}
             >
@@ -147,21 +147,21 @@ export const OperationNode = memo((node: Node) => {
                 type="source"
                 id="quantumHandleStatePreparationOutput"
                 position={Position.Right}
-                className="z-10 circle-port-out !bg-green-300 !border-black"
+                className="z-10 circle-port-out !bg-blue-300 !border-black"
                 isValidConnection={(connection) => true}
               />
             </div>
           </div>
         </div>
         <div className="relative flex items-center justify-end space-x-0 overflow-visible mt-2">
-          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(124, 202, 154, 0.2)', width: '150px' }}>
+          <div className="flex items-center space-x-2 relative" style={{ backgroundColor: 'rgba(62, 153, 210, 0.2)', width: '150px' }}>
             <span className="text-sm text-black mr-2">Uncompute</span>
 
             <Handle
               type="source"
               id="quantumHandleUncomputeStatePreparation"
               position={Position.Right}
-              className="z-10 circle-port-out !bg-green-300 !border-black"
+              className="z-10 circle-port-out !bg-blue-300 !border-black"
               isValidConnection={() => true}
             />
           </div>
