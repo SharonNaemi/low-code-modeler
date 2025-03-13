@@ -248,7 +248,7 @@ const useStore = create<RFState>((set, get) => ({
       if (node.id === connection.source && connection.sourceHandle.includes("quantumHandle") && connection.targetHandle.includes("quantumHandle")) {
         insertEdge = true;
       }
-      
+
     }
     // Überprüfung: Existiert bereits eine Edge zur connection.targetHandle?
     const edgeExists = currentEdges.some(edge =>
@@ -273,25 +273,62 @@ const useStore = create<RFState>((set, get) => ({
     console.log("Current Edges:", get().edges);
     console.log("New History Item:", newHistoryItem);
     if (insertEdge && !edgeExists) {
-     
+
       console.log(connection.source);
       console.log(nodeDataSource);
       const existingInput = nodeDataTarget.data.inputs.find(
-  (input) => input.id === nodeDataSource.id
-);
+        (input) => input.id === nodeDataSource.id
+      );
 
-if (existingInput) {
-  // Update the existing entry
-  existingInput.label = nodeDataSource.data.outputIdentifier;
-} else {
-  // Push a new entry
-  nodeDataTarget.data.inputs.push({
-    id: nodeDataSource.id,
-    label: nodeDataSource.data.outputIdentifier
-  });
-}
+      if (existingInput) {
+        // Update the existing entry
+        existingInput.label = nodeDataSource.data.outputIdentifier;
+      } else {
+        if (nodeDataTarget.type === "statePreparationNode") {
+          // Push a new entry
+          nodeDataTarget.data.inputs.push({
+            id: nodeDataSource.id,
+            outputIdentifier: nodeDataSource.data.outputIdentifier,
+            value: nodeDataSource.data.value,
+            dataType: nodeDataSource.data.dataType
+          });
+        }
+        if (nodeDataTarget.type === "measurementNode") {
+          if (nodeDataSource.type === "statePreparationNode") {
+            // Push a new entry
+            nodeDataTarget.data.inputs.push({
+              id: nodeDataSource.id,
+              outputIdentifier: nodeDataSource.data.outputIdentifier,
+              size: nodeDataSource.data.size,
+              bound: nodeDataSource.data.bound || 0,
+              encodingType: nodeDataSource.data.encodingType,
+              implementation: nodeDataSource.data.implementation || "",
+              implementationType: nodeDataSource.data.implementationType || "",
+              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType || "",
+              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation || ""
+            });
+          }
+          if (nodeDataSource.type === "operationNode") {
+            // Push a new entry
+            nodeDataTarget.data.inputs.push({
+              id: nodeDataSource.id,
+              outputIdentifier: nodeDataSource.data.outputIdentifier,
+              operator: nodeDataSource.data.operator,
+              implementation: nodeDataSource.data.implementation || "",
+              implementationType: nodeDataSource.data.implementationType || "",
+              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType || "",
+              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation || ""
+            });
+          }
+        }
+        // Push a new entry
+        //nodeDataTarget.data.inputs.push({
+          //id: nodeDataSource.id,
+          //label: nodeDataSource.data.outputIdentifier
+        //});
+      }
 
-      
+
       set({
         nodes: currentNodes,
         edges: [edge, ...currentEdges],
@@ -364,79 +401,82 @@ if (existingInput) {
 
     const currentEdges = get().edges;
     let currentNodes = get().nodes.map((node) => {
-        // Update the node's position separately
-        if (node.id === nodeId && identifier === "position") {
-            node.position = nodeVal;
-            return node;
-        }
+      // Update the node's position separately
+      if (node.id === nodeId && identifier === "position") {
+        node.position = nodeVal;
         return node;
+      }
+      return node;
     });
 
     // Update inputs of target nodes connected by edges where this node is the source
     currentEdges.forEach((edge) => {
       console.log("edge")
-        if (edge.source === nodeId) {
-          console.log("found edge")
-            const targetNodeIndex = currentNodes.findIndex((n) => n.id === edge.target);
-            if (targetNodeIndex !== -1) {
-                const targetNode = { ...currentNodes[targetNodeIndex] };
-                const targetData = { ...targetNode.data };
+      if (edge.source === nodeId) {
+        console.log("found edge")
+        const targetNodeIndex = currentNodes.findIndex((n) => n.id === edge.target);
+        if (targetNodeIndex !== -1) {
+          const targetNode = { ...currentNodes[targetNodeIndex] };
+          const targetData = { ...targetNode.data };
 
-                // Ensure inputs exist
-                if (!targetData.inputs) targetData.inputs = [];
+          // Ensure inputs exist
+          if (!targetData.inputs) targetData.inputs = [];
 
-                // Check if inputs already contain this nodeId
-                const inputIndex = targetData.inputs.findIndex((input) => input.id === nodeId);
+          // Check if inputs already contain this nodeId
+          const inputIndex = targetData.inputs.findIndex((input) => input.id === nodeId);
 
-                if (inputIndex !== -1) {
-                    // Update existing input label
-                    targetData.inputs[inputIndex].label = nodeVal;
-                } else {
-                    // Add new input entry
-                    targetData.inputs.push({
-                        id: nodeId,
-                        label: nodeVal,
-                    });
-                }
+          if (inputIndex !== -1) {
+            if(identifier === "outputIdentifier"){
+            // Update existing input label
+            targetData.inputs[inputIndex].label = nodeVal;
+          }
+          } else {
 
-                // Update target node in the nodes list
-                targetNode.data = targetData;
-                currentNodes[targetNodeIndex] = targetNode;
-            }
+            
+            //targetData.inputs.push({
+              //id: nodeId,
+              //label: nodeVal,
+            //});
+          }
+
+          // Update target node in the nodes list
+          //targetNode.data = targetData;
+          //currentNodes[targetNodeIndex] = targetNode;
         }
+      }
     });
 
     // Update the node's other data fields if the identifier is not "position"
     currentNodes = currentNodes.map((node) => {
-        if (node.id === nodeId && identifier !== "position") {
-            return {
-                ...node,
-                data: { ...node.data, [identifier]: nodeVal },
-            };
-        }
-        return node;
+      if (node.id === nodeId && identifier !== "position") {
+        return {
+          ...node,
+          data: { ...node.data, [identifier]: nodeVal },
+        };
+      }
+      return node;
     });
 
     const newHistoryItem: HistoryItem = {
-        nodes: [...currentNodes], // Copy nodes array to avoid mutation
-        edges: [...currentEdges], // Copy edges array to avoid mutation
+      nodes: [...currentNodes], // Copy nodes array to avoid mutation
+      edges: [...currentEdges], // Copy edges array to avoid mutation
     };
 
     console.log("Updating history (updateNodeValue):", newHistoryItem);
 
     set({
-        nodes: currentNodes,
-        edges: currentEdges,
-        history: [
-            ...get().history.slice(0, get().historyIndex + 1),
-            newHistoryItem,
-        ],
-        historyIndex: get().historyIndex + 1,
+      nodes: currentNodes,
+      edges: currentEdges,
+      history: [
+        ...get().history.slice(0, get().historyIndex + 1),
+        newHistoryItem,
+      ],
+      historyIndex: get().historyIndex + 1,
     });
 
     console.log("History after update:", get().history);
     console.log("Current historyIndex:", get().historyIndex);
-},
+  },
 
 
   undo: () => {

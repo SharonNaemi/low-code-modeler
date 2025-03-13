@@ -36,6 +36,7 @@ export function handleOnDrop(
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
     const type = event.dataTransfer.getData("application/reactflow");
     const dataType = event.dataTransfer.getData("application/reactflow/dataType");
+    const label = event.dataTransfer.getData("application/reactflow/label");
     console.log(type)
     console.log(dataType)
    
@@ -57,7 +58,7 @@ export function handleOnDrop(
       id: getId(),
       type,
       position,
-      data: { label: `${type} node`, dataType: dataType }
+      data: { label: label, dataType: dataType, inputs: [], implementation: "", implementationType: "", uncomputeImplementationType: "", uncomputeImplementation: ""}
     };
 
     setNodes(newNode);
