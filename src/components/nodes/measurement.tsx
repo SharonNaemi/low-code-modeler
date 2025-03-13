@@ -4,13 +4,25 @@ import React, { memo, useState, useRef } from "react";
 import { Edge, Handle, Node, Position, getConnectedEdges } from "reactflow";
 import { shallow } from "zustand/shallow";
 
-const selector = (state: { edges: Edge[] }) => ({
+const selector = (state: {
+  selectedNode: Node | null;
+  edges: Edge[],
+  nodes: Node[],
+  updateNodeValue: (nodeId: string, field: string, nodeVal: any) => void;
+  setNodes: (node: Node) => void;
+  setSelectedNode: (node: Node) => void;
+}) => ({
+  selectedNode: state.selectedNode,
   edges: state.edges,
+  nodes: state.nodes,
+  setNodes: state.setNodes,
+  updateNodeValue: state.updateNodeValue,
+  setSelectedNode: state.setSelectedNode
 });
 
 export const MeasurementNode = memo((node: Node) => {
   const { data, selected } = node;
-  const { edges } = useStore(selector, shallow);
+  const { edges, updateNodeValue, setSelectedNode } = useStore(selector, shallow);
   const alledges = getConnectedEdges([node], edges);
   const [y, setY] = useState("");
 
@@ -40,8 +52,15 @@ export const MeasurementNode = memo((node: Node) => {
   const dynamicHeight = baseHeight + (inputs.length) * extraHeightPerVariable;
   console.log(dynamicHeight)
 
-  const handleYChange = (e) => {
+  const handleYChange = (e, field) => {
     const value = e.target.value;
+    if(field === "indices"){
+      setIndices(value);
+      node.data[field] = value;
+      updateNodeValue(node.id, field, value);
+      setSelectedNode(node);
+      return;
+    }
     // Check if the first character is a letter or underscore
     if (!/^[a-zA-Z_]/.test(value) || value == "") {
       setYError(true);
@@ -50,6 +69,9 @@ export const MeasurementNode = memo((node: Node) => {
     }
 
     setY(value);
+    node.data[field] = value;
+    updateNodeValue(node.id, field, value);
+    setSelectedNode(node);
   };
 
   return (
@@ -57,7 +79,7 @@ export const MeasurementNode = memo((node: Node) => {
       <div
         className={cn(
           "w-[320px] bg-white border border-solid border-gray-700 shadow-md",
-          selected && "border-orange-500"
+          selected && "border-blue-500"
         )}
         style={{ height: `${dynamicHeight}px` }}
       >
@@ -75,7 +97,7 @@ export const MeasurementNode = memo((node: Node) => {
                 className={`p-1 text-black opacity-75 text-sm rounded-full w-24 text-center border-2 ${error ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.indices || indices}
                 placeholder="1,2,3"
-                onChange={e=>e}
+                onChange={e=>handleYChange(e, "indices")}
               />
             </div>
 
@@ -94,7 +116,7 @@ export const MeasurementNode = memo((node: Node) => {
                 style={{ top: "20px" }} 
                 isValidConnection={(connection) => true}
               />
-              <span className="text-black text-sm" >{node.data.inputs[0]?.label || "value(s)"}</span>
+              <span className="text-black text-sm" >{node.data.inputs[0]?.outputIdentifier || "value(s)"}</span>
             </div>
             </div>
             </div>
@@ -120,7 +142,7 @@ export const MeasurementNode = memo((node: Node) => {
                 className={`p-1 text-sm text-black opacity-75 w-10 text-center rounded-full border ${yError ? 'bg-red-500 border-red-500' : 'bg-white border-orange-300'}`}
                 value={node.data.outputIdentifier || y}
                 placeholder="a"
-                onChange={handleYChange}
+                onChange={e =>handleYChange(e, "outputIdentifier")}
               />
               <Handle
                 type="target"
