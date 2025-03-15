@@ -1,29 +1,43 @@
-# Low-Code Modeler
+# Low Code Modeler
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Release](https://img.shields.io/github/v/release/SeQuenC-Consortium/low-code-modeler)](https://img.shields.io/github/v/release/SeQuenC-Consortium/low-code-modeler)
 
 A low code modeler which allows to model quantum algorithms.
-Todo add test badge
 
 ## Requirements
 
-The project was created with npm TODO and node TODO.
+The project was created with npm 10.9.0 and node 22.12.0.
 
 ## Installation
 
 To get started with this application, you will need to follow these steps:
 
 1. Clone the repository: `git clone `
-2. Install dependencies: `npm install`
+2. Install dependencies: `pnpm install`
 3. Start the development server: `npm run dev`
 4. Open the application in your browser at http://localhost:4242
 
+## Execution in Docker
+
+To build and run an own image execute:
+
+```
+docker build -t low-code-modeler .
+docker run --name low-code-modeler -p 4242:4242 low-code-modeler
+```
+
+Afterwards the application is available in a browser on [http://localhost:4242](http://localhost:4242).
+
 ## Directory Structure
 
-docs find documents
-src contains relevant files + subfolder
-public
+- docs – Contains documentation, use cases, and relevant guides.
+
+- src – logic for modeling constructs and validation.
+
+- public – Public assets and static files.
+
+- THIRD_PARTY_LICENSES – Contains third-party licenses and dependencies.
+
 
 ## Disclaimer of Warranty
 
