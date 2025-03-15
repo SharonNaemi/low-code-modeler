@@ -319,9 +319,7 @@ const useStore = create<RFState>((set, get) => ({
           // Push a new entry
           nodeDataTarget.data.inputs.push({
             id: nodeDataSource.id,
-            outputIdentifier: nodeDataSource.data.outputIdentifier,
-            value: nodeDataSource.data.value,
-            dataType: nodeDataSource.data.dataType
+           
           });
         }
         
@@ -329,26 +327,13 @@ const useStore = create<RFState>((set, get) => ({
             // Push a new entry
             nodeDataTarget.data.inputs.push({
               id: nodeDataSource.id,
-              outputIdentifier: nodeDataSource.data.outputIdentifier,
-              size: nodeDataSource.data.size,
-              bound: nodeDataSource.data.bound,
-              encodingType: nodeDataSource.data.encodingType,
-              implementation: nodeDataSource.data.implementation,
-              implementationType: nodeDataSource.data.implementationType,
-              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType,
-              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation
+              
             });
           }
           if (nodeDataSource.type === "arithmeticOperatorNode") {
             // Push a new entry
             nodeDataTarget.data.inputs.push({
-              id: nodeDataSource.id,
-              outputIdentifier: nodeDataSource.data.outputIdentifier,
-              operator: nodeDataSource.data.operator,
-              implementation: nodeDataSource.data.implementation || "",
-              implementationType: nodeDataSource.data.implementationType || "",
-              uncomputeImplementationType: nodeDataSource.data.uncomputeImplementationType || "",
-              uncomputeImplementation: nodeDataSource.data.uncomputeImplementation || ""
+              id: nodeDataSource.id
             });
           }
         
@@ -459,19 +444,10 @@ const useStore = create<RFState>((set, get) => ({
           if (inputIndex !== -1) {
             if(identifier === "outputIdentifier"){
             // Update existing input label
-            targetData.inputs[inputIndex].label = nodeVal;
+            //targetData.inputs[inputIndex].label = nodeVal;
             targetData.inputs[inputIndex].outputIdentifier = nodeVal;
           }
-          if(identifier === "implementation"){
-            // Update existing input label
-            targetData.inputs[inputIndex].implementation = nodeVal;
-    
-          }
-          if(identifier === "implementationType"){
-            // Update existing input label
-            targetData.inputs[inputIndex].implementationType = nodeVal;
-    
-          }
+          
           } else {
 
             
