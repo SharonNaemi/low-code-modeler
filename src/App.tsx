@@ -57,9 +57,7 @@ function App() {
   const [metadata, setMetadata] = React.useState<any>( {
     version: "1.0.0",
     name: "My Model",
-    id: `flow-${Date.now()}`,
     description: "This is a model.",
-    timestamp: new Date().toISOString(),
     author: "",
   });
   const [menu, setMenu] = useState(null);
@@ -97,7 +95,23 @@ function App() {
     },
     [],
   );
+  
+  
   const onNodeDragStop = useCallback(
+
+    /**
+     * 
+     * @param evt {
+        id: (nds.length + 1).toString(),
+        type: "custom",
+        position: { x: Math.random() * 100, y: Math.random() * 100 }, // Random position inside the parent
+        data: { label: `Child ${nds.length}` },
+        parentNode: parentId, // Link it to the parent
+        extent: "parent", // Keeps child within parent bounds
+      },
+     * @param node 
+     * @returns 
+     */
     (evt, node) => {
      if (node.type === "group") {
        return;
@@ -164,15 +178,12 @@ function App() {
     console.log("davor");
     const flow = reactFlowInstance.toObject();
     console.log(flow);
-
-    const validMetadata = metadata || {
-      version: "1.0.0",
-      name: "My Flow",
+    const validMetadata = {
+      ...metadata,
       id: `flow-${Date.now()}`,
-      description: "This is a description of the flow.",
       timestamp: new Date().toISOString(),
-      author: ""
     };
+
     console.log(validMetadata);
     console.log(metadata);
 
@@ -235,7 +246,7 @@ function App() {
           reactFlowInstance.setViewport({ x, y, zoom });
 
           if (flow.metadata) {
-            setMetadata(flow.metadata); // Set metadata to be displayed
+            setMetadata(flow.metadata);
             console.log("Metadata restored:", flow.metadata);
           }
         } catch (error) {
