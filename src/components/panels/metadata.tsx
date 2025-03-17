@@ -61,7 +61,7 @@ export const MetadataPanel = ({
       <div className="p-2 mt-3 space-y-4">
         {metadata ? (
           <>
-            {[ "version", "name", "id", "author", "description", "timestamp"].map((field) => (
+            {[ "version", "name", "author", "description"].map((field) => (
               <div key={field}>
                 <label
                   className="block text-sm font-medium text-gray-700"
