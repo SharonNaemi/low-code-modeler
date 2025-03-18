@@ -1,17 +1,15 @@
 import AncillaEdge from "@/components/edges/ancillaEdgeType";
 import ClassicalEdge from "@/components/edges/classicalEdgeType";
-import CustomEdge from "@/components/edges/custom";
 import QuantumEdge from "@/components/edges/customEdgeType";
-import Wire from "@/components/edges/customEdgeType";
 import { TextNode, DataTypeNode, PositionNode } from "@/components/nodes";
 import { AncillaNode } from "@/components/nodes/ancilla";
 import { ClassicalOutputOperationNode } from "@/components/nodes/classicalOutputOperation";
 import { DynamicNode } from "@/components/nodes/dynamically";
+import { GateNode } from "@/components/nodes/gate";
 import { MeasurementNode } from "@/components/nodes/measurement";
 import { OperationNode } from "@/components/nodes/operation";
 import { StatePreparationNode } from "@/components/nodes/statepreparation";
 import { UncomputeNode } from "@/components/nodes/uncompute";
-import { MarkerType, Position } from "reactflow";
 import { Edge } from "reactflow";
 
 export const stageTest = {
@@ -209,7 +207,8 @@ export const nodesConfig = {
     uncomputeNode: UncomputeNode,
     arithmeticOperatorNode: OperationNode,
     ancillaNode: AncillaNode,
-    classicalOutputOperationNode: ClassicalOutputOperationNode
+    classicalOutputOperationNode: ClassicalOutputOperationNode,
+    gateNode: GateNode
   } as any,
   edgesTypes: {
     quantumEdge: QuantumEdge,

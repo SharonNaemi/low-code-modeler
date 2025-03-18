@@ -40,32 +40,10 @@ export const AncillaNode = memo((node: Node) => {
 
     setError(false);
     setX(value);
-    node.data["value"] = value;
+    node.data["size"] = value;
     updateNodeValue(node.id, "value", value);
   };
 
-  const handleBooleanChange = (e) => {
-    const value = e.target.value;
-    setX(value);
-    node.data["value"] = value;
-    updateNodeValue(node.id, "value", value);
-  };
-
-  const handleArrayChange = (e) => {
-    const value = e.target.value;
-    const arrayValues = value.split(',').map(item => item.trim());
-    const validArray = arrayValues.every(item => !isNaN(Number(item)) && item !== "");
-
-    if (!validArray && value !== "") {
-      setError(true);
-    } else {
-      setError(false);
-    }
-
-    setX(value);
-    node.data["value"] = value;
-    updateNodeValue(node.id, "value", value);
-  };
 
   const handleYChange = (e) => {
     const value = e.target.value;

@@ -5,7 +5,9 @@
     "id": "flow-1742058524663",
     "description": "This is a model.",
     "timestamp": "2025-03-15T17:08:44.663Z",
-    "author": ""
+    "author": "",
+    "optimizeWidth": false,
+    "optimizeDepth": false
   },
   "nodes": [
     {
@@ -24,7 +26,8 @@
         "uncomputeImplementation": "",
         "dataType": "int",
         "value": "1",
-        "outputIdentifier": "a"
+        "outputIdentifier": "a",
+        "identifier": "c12345"
       },
       "width": 320,
       "height": 150,
@@ -45,17 +48,20 @@
         "label": "Encode Value",
         "inputs": [
           {
-            "id": "newNode0"
+            "id": "newNode0",
+            "outputIdentifier": "a",
+            "identifier": "c12345"
           }
         ],
-        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nx q31[0]",
+        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nqubit[2] q31;\nx q31[0];",
         "implementationType": "openqasm3",
         "uncomputeImplementationType": "",
         "uncomputeImplementation": "",
         "encodingType": "Basis Encoding",
         "bound": "0",
         "size": 2,
-        "outputIdentifier": "q31"
+        "outputIdentifier": "q31",
+        "identifier": "q67891"
       },
       "width": 320,
       "height": 373,
@@ -76,17 +82,20 @@
         "label": "Encode Value",
         "inputs": [
           {
-            "id": "newNode0"
+            "id": "newNode0",
+            "outputIdentifier": "a",
+            "identifier": "c12345"
           }
         ],
-        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nx q32[0]",
+        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nqubit[3] q32;\nx q32[0];",
         "implementationType": "openqasm3",
         "uncomputeImplementationType": "",
         "uncomputeImplementation": "",
         "encodingType": "Basis Encoding",
         "bound": "0",
         "size": 3,
-        "outputIdentifier": "q32"
+        "outputIdentifier": "q32",
+        "identifier": "q12345"
       },
       "width": 320,
       "height": 373,
@@ -108,19 +117,22 @@
         "inputs": [
           {
             "id": "newNode1",
-            "outputIdentifier": "q31"
+            "outputIdentifier": "q31",
+            "identifier": "q67891"
           },
           {
             "id": "newNode2",
-            "outputIdentifier": "q32"
+            "outputIdentifier": "q32",
+            "identifier": "q12345"
           }
         ],
-        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nccx q31[1], q32[1], q32[2];\ncx q31[1], q32[1];\nccx q31[0], q32[0], q33[1];\ncx q31[0], q32[0];\nccx q33[0], q32[0], q33[1];\nccx q33[1], q32[1], q32[2];\ncx q33[1], q32[1];\nccx q33[0], q32[0], q33[1];\ncx q31[0], q32[0];\nccx q31[0], q32[0], q33[1];\ncx q33[0], q32[0];\ncx q31[0], q32[0];",
+        "implementation": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nbit[3] c10;\nqubit[2] q31;\nqubit[3] q32;\nqubit[2] q33;ccx q31[1], q32[1], q32[2];\ncx q31[1], q32[1];\nccx q31[0], q32[0], q33[1];\ncx q31[0], q32[0];\nccx q33[0], q32[0], q33[1];\nccx q33[1], q32[1], q32[2];\ncx q33[1], q32[1];\nccx q33[0], q32[0], q33[1];\ncx q31[0], q32[0];\nccx q31[0], q32[0], q33[1];\ncx q33[0], q32[0];\ncx q31[0], q32[0];",
         "implementationType": "openqasm3",
         "uncomputeImplementationType": "",
         "uncomputeImplementation": "",
         "operator": "+",
-        "outputIdentifier": "q32"
+        "outputIdentifier": "q32",
+        "identifier": "q12345"
       },
       "width": 320,
       "height": 373,
@@ -145,6 +157,7 @@
         "uncomputeImplementationType": "",
         "uncomputeImplementation": "",
         "outputIdentifier": "q33",
+        "identifier": "q55441",
         "size": "2"
       },
       "width": 320,
@@ -166,7 +179,9 @@
         "label": "Measurement",
         "inputs": [
           {
-            "id": "newNode3"
+            "id": "newNode3",
+            "outputIdentifier": "q32",
+            "identifier": "q12345"
           }
         ],
         "implementation": "",
@@ -174,7 +189,8 @@
         "uncomputeImplementationType": "",
         "uncomputeImplementation": "",
         "indices": "1,2,3",
-        "outputIdentifier": "c"
+        "outputIdentifier": "c",
+        "identifier": "q45678"
       },
       "width": 320,
       "height": 290,
