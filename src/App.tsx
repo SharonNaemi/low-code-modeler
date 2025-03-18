@@ -65,6 +65,21 @@ function App() {
   const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint] = useState("http://localhost:8098/nisq-analyzer");
   const [qprovEndpoint, setQProvEndpoint] = useState("http://localhost:5005");
   const [scriptSplitterEndpoint, setScriptSplitterEndpoint] = useState("http://localhost:8891");
+  const [isLoadJsonModalOpen, setIsLoadJsonModalOpen] = useState(false);
+
+  const handleLoadJson = () => {
+    setIsLoadJsonModalOpen(true);
+  };
+
+  const confirmLoadJson = () => {
+    setIsLoadJsonModalOpen(false);
+    loadFlow(initialDiagram);
+  };
+
+  const cancelLoadJson = () => {
+    setIsLoadJsonModalOpen(false);
+  };
+
 
   const {
     nodes,
@@ -238,7 +253,14 @@ function App() {
           }
 
           if (flow.nodes) {
-            reactFlowInstance.setNodes(flow.nodes || []);
+            reactFlowInstance.setNodes(
+              flow.nodes.map((node: Node) => ({
+                ...node,
+                data: {
+                  ...node.data,
+                },
+              }))
+            );
             console.log("Nodes restored.");
           }
 
@@ -308,14 +330,15 @@ function App() {
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const handleLoadJson = () => {
-    setIsModalOpen(true);
-  };
+  //const handleLoadJson = () => {
+    //setIsModalOpen(true);
+    //loadFlow(initialDiagram);
+  //};
 
-  const confirmLoadJson = () => {
-    setIsModalOpen(false);
-    loadFlow(initialDiagram);
-  };
+  //const confirmLoadJson = () => {
+   // setIsModalOpen(false);
+    //loadFlow(initialDiagram);
+  //};
 
 
   //const handleLoadJson = () => {
@@ -414,6 +437,17 @@ function App() {
         onOpenConfig={handleOpenConfig}
         onLoadJson={handleLoadJson}
       />
+      <Modal open={isLoadJsonModalOpen} onClose={cancelLoadJson}>
+        <div>
+          <h2 className="text-lg font-semibold">New Diagram</h2>
+          <p>Are you sure you want to create a new model? This will overwrite the current flow.</p>
+          <div className="flex justify-end space-x-2 mt-4">
+          <button className="btn btn-primary" onClick={confirmLoadJson}>Yes</button>
+            <button className="btn btn-secondary" onClick={cancelLoadJson}>Cancel</button>
+       
+          </div>
+        </div>
+      </Modal>
       <Modal open={isConfigOpen} onClose={() => { setIsConfigOpen(false) }}>
         <div>
           <h2 className="text-lg font-semibold">Config Modal</h2>
