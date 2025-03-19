@@ -54,7 +54,7 @@ const selector = (state: {
 function App() {
   const reactFlowWrapper = React.useRef<any>(null);
   const [reactFlowInstance, setReactFlowInstance] = React.useState<any>(null);
-  const [metadata, setMetadata] = React.useState<any>( {
+  const [metadata, setMetadata] = React.useState<any>({
     version: "1.0.0",
     name: "My Model",
     description: "This is a model.",
@@ -63,8 +63,8 @@ function App() {
   const [menu, setMenu] = useState(null);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [nisqAnalyzerEndpoint, setNisqAnalyzerEndpoint] = useState("http://localhost:8098/nisq-analyzer");
-  const [qprovEndpoint, setQProvEndpoint] = useState("http://localhost:5005");
-  const [scriptSplitterEndpoint, setScriptSplitterEndpoint] = useState("http://localhost:8891");
+  const [qunicornEndpoint, setQunicornEndpoint] = useState("http://localhost:5005");
+  const [lowcodeBackendEndpoint, setLowcodeBackendEndpoint] = useState("http://localhost:8000");
   const [isLoadJsonModalOpen, setIsLoadJsonModalOpen] = useState(false);
 
   const handleLoadJson = () => {
@@ -110,8 +110,55 @@ function App() {
     },
     [],
   );
-  
-  
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  const sendToBackend = async () => {
+    setModalOpen(true);
+    setLoading(true);
+
+    try {
+
+      // must return the location where to poll
+      let response = await fetch(lowcodeBackendEndpoint + "/compile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reactFlowInstance.toObject()),
+      });
+
+      if (!response["Location"]) {
+        return {
+          error: "Received invalid response from Low Code Backend.",
+        };
+      }
+      //pollStatus(response["Location"]);
+    } catch (error) {
+      console.error("Error sending data:", error);
+      setLoading(false);
+    }
+  };
+
+  const pollStatus = async () => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(lowcodeBackendEndpoint + "/status");
+        const result = await response.json();
+        setStatus(result);
+
+        if (result.status === "complete") {
+          clearInterval(interval);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error polling status:", error);
+        clearInterval(interval);
+        setLoading(false);
+      }
+    }, 3000);
+  };
+
+
   const onNodeDragStop = useCallback(
 
     /**
@@ -128,46 +175,46 @@ function App() {
      * @returns 
      */
     (evt, node) => {
-     if (node.type === "group") {
-       return;
-     }
-     console.log("onNodeDrag");
-     console.log(node);
-     let nodeT = nodes[0];
-     nodes.forEach((nd) => {
-       // Check if there's a group node in the array of nodes on the screen
-       if (nd.type === "statePreparationNode") {
-         //safety check to make sure there's a height and width
-         console.log(node);
-         console.log(nd.id);
-         let intersectionNodes = reactFlowInstance.getIntersectingNodes(node).map((n) => n.id);
-         console.log(intersectionNodes)
+      if (node.type === "group") {
+        return;
+      }
+      console.log("onNodeDrag");
+      console.log(node);
+      let nodeT = nodes[0];
+      nodes.forEach((nd) => {
+        // Check if there's a group node in the array of nodes on the screen
+        if (nd.type === "statePreparationNode") {
+          //safety check to make sure there's a height and width
+          console.log(node);
+          console.log(nd.id);
+          let intersectionNodes = reactFlowInstance.getIntersectingNodes(node).map((n) => n.id);
+          console.log(intersectionNodes)
 
-           // Check if the dragged node is inside the group
-           if (intersectionNodes[0] == nd.id) {
+          // Check if the dragged node is inside the group
+          if (intersectionNodes[0] == nd.id) {
             console.log(nd);
             const rec = { height: nd.height, width: nd.width, ...nd.position };
 
-             //Check if dragged node isn't already a child to the group
-             if (!node.parentNode) {
+            //Check if dragged node isn't already a child to the group
+            if (!node.parentNode) {
               console.log("update node")
-               node.parentNode = nd.id;
-               node.extent = "parent";
-               
-               node.position = {
-                 x: node.positionAbsolute.x - nd.position.x,
-                 y: node.positionAbsolute.y - nd.position.y,
-               };
-               console.log(node);
-               nodeT = node;
-               updateNodeValue(node.id, "parentNode", nd.id);
-               updateNodeValue(node.id, "position", node.position);
-             }
-           }
-       }
-     });
-     //setNodes(nodeT);
-   }, [nodes]);
+              node.parentNode = nd.id;
+              node.extent = "parent";
+
+              node.position = {
+                x: node.positionAbsolute.x - nd.position.x,
+                y: node.positionAbsolute.y - nd.position.y,
+              };
+              console.log(node);
+              nodeT = node;
+              updateNodeValue(node.id, "parentNode", nd.id);
+              updateNodeValue(node.id, "position", node.position);
+            }
+          }
+        }
+      });
+      //setNodes(nodeT);
+    }, [nodes]);
 
   const onDrop = React.useCallback(
     (event: any) => {
@@ -176,13 +223,13 @@ function App() {
         x: event.clientX,
         y: event.clientY,
       }));
- 
+
       handleOnDrop(event, reactFlowWrapper, reactFlowInstance, setNodes);
     },
     [reactFlowInstance, setNodes],
   );
 
-  
+
 
   const flowKey = "example-flow";
   function handleSaveClick() {
@@ -331,13 +378,13 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   //const handleLoadJson = () => {
-    //setIsModalOpen(true);
-    //loadFlow(initialDiagram);
+  //setIsModalOpen(true);
+  //loadFlow(initialDiagram);
   //};
 
   //const confirmLoadJson = () => {
-   // setIsModalOpen(false);
-    //loadFlow(initialDiagram);
+  // setIsModalOpen(false);
+  //loadFlow(initialDiagram);
   //};
 
 
@@ -389,8 +436,8 @@ function App() {
     //updateNodeValue(node.id, "parentNode", intersections)
     console.log("trest")
     console.log(intersections)
-    }
-  , [reactFlowInstance]);
+  }
+    , [reactFlowInstance]);
 
   const onPaneClick = useCallback(() => {
     setMenu(null);
@@ -436,16 +483,23 @@ function App() {
         onSaveAsSVG={handleSaveAsSVG}
         onOpenConfig={handleOpenConfig}
         onLoadJson={handleLoadJson}
+        sendToBackend={sendToBackend}
       />
       <Modal open={isLoadJsonModalOpen} onClose={cancelLoadJson}>
         <div>
           <h2 className="text-lg font-semibold">New Diagram</h2>
           <p>Are you sure you want to create a new model? This will overwrite the current flow.</p>
           <div className="flex justify-end space-x-2 mt-4">
-          <button className="btn btn-primary" onClick={confirmLoadJson}>Yes</button>
+            <button className="btn btn-primary" onClick={confirmLoadJson}>Yes</button>
             <button className="btn btn-secondary" onClick={cancelLoadJson}>Cancel</button>
-       
+
           </div>
+        </div>
+      </Modal>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <div>
+          <h2>Processing</h2>
+          {loading ? <p>Loading...</p> : <p>Status: {status?.status || "Unknown"}</p>}
         </div>
       </Modal>
       <Modal open={isConfigOpen} onClose={() => { setIsConfigOpen(false) }}>
@@ -477,8 +531,8 @@ function App() {
                   <input
                     className="qwm-input"
                     type="text"
-                    value={qprovEndpoint}
-                    onChange={(event) => setQProvEndpoint(event.target.value)}
+                    value={qunicornEndpoint}
+                    onChange={(event) => setQunicornEndpoint(event.target.value)}
                   />
                 </td>
               </tr>
@@ -494,8 +548,8 @@ function App() {
                   <input
                     className="qwm-input"
                     type="text"
-                    value={scriptSplitterEndpoint}
-                    onChange={(event) => setScriptSplitterEndpoint(event.target.value)}
+                    value={lowcodeBackendEndpoint}
+                    onChange={(event) => setLowcodeBackendEndpoint(event.target.value)}
                   />
                 </td>
               </tr>
@@ -505,7 +559,7 @@ function App() {
       </Modal>
 
       <main className="flex">
-      <div className="hidden basis-[300px] md:block lg:basis-[350px]">
+        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
           <Palette />
         </div>
         <div
@@ -536,7 +590,7 @@ function App() {
             edgeTypes={nodesConfig.edgesTypes}
           >
             <Controls />
-          
+
             <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 
             <MiniMap zoomable={true} pannable={true} />

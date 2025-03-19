@@ -17,6 +17,7 @@ interface ToolbarProps {
   onSaveAsSVG: () => void;
   onOpenConfig: () => void;
   onLoadJson: () => void;
+  sendToBackend:()=> void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -25,6 +26,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   onSaveAsSVG,
   onOpenConfig,
   onLoadJson,
+  sendToBackend,
 }) => {
   return (
     <div className="flex items-center justify-between bg-gray-100 p-4 border-b border-gray-300">
@@ -47,7 +49,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <Button size="sm" onClick={onOpenConfig}>
           <Settings className="w-4 h-4 mr-2" /> Configuration
         </Button>
-        <Button size="sm" onClick={onSaveAsSVG}>
+        <Button size="sm" onClick={sendToBackend}>
           <Send className="w-4 h-4 mr-2" /> Send to Backend
         </Button>
         <Button size="sm" onClick={onSaveAsSVG}>
