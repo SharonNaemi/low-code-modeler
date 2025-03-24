@@ -28,7 +28,7 @@ export const GateNode = memo((node: Node) => {
         <div className="px-2 py-3 flex justify-center">
           <div className="flex items-center mb-2">
             <Handle
-              type="source"
+              type="target"
               id="classicalHandleDataTypeInput"
               position={Position.Left}
               className={`!absolute !top-[${isTwoQubit ? "55%" : "65%"}] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible`}
@@ -36,7 +36,7 @@ export const GateNode = memo((node: Node) => {
             />
             {isTwoQubit && (
             <Handle
-              type="source"
+              type="target"
               id="left-bottom"
               position={Position.Left}
               className="!absolute !top-[85%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
@@ -64,7 +64,6 @@ export const GateNode = memo((node: Node) => {
           </div>
         </div>
       </div>
-
     </div>
   );
 });

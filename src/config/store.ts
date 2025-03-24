@@ -12,6 +12,7 @@ import {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
+  getOutgoers,
 } from "reactflow";
 import { create } from "zustand";
 import { nodesConfig } from "./site";
@@ -92,33 +93,34 @@ const useStore = create<RFState>((set, get) => ({
     console.log("Current Nodes:", currentNodes);
     console.log("Current Edges:", currentEdges);
     console.log("New History Item:", newHistoryItem);
-
-    if(node.type === "measurementNode"){
+    const uniqueIdentifier = `q${Math.floor(100000 + Math.random() * 900000)}`;
+    node.data.identifier = uniqueIdentifier;
+    if (node.type === "measurementNode") {
       node.data.indices = "";
-      node.data.outputIdentifier= "";
+      node.data.outputIdentifier = "";
     }
 
-    if(node.type === "positionNode"){
+    if (node.type === "positionNode") {
       node.data.dataType = node.data.label;
       node.data.value = "";
-      node.data.outputIdentifier= "";
+      node.data.outputIdentifier = "";
     }
 
-    if(node.type === "statePreparationNode" && node.data.label === "Encode Value"){
+    if (node.type === "statePreparationNode" && node.data.label === "Encode Value") {
       node.data.encodingType = "";
       node.data.bound = 0;
       node.data.size = "";
-      node.data.outputIdentifier= "";
+      node.data.outputIdentifier = "";
     }
 
-    if(node.type === "statePreparationNode" && node.data.label === "Prepare State"){
+    if (node.type === "statePreparationNode" && node.data.label === "Prepare State") {
       node.data.quantumStateName = "";
       node.data.size = "";
-      node.data.outputIdentifier= "";
+      node.data.outputIdentifier = "";
     }
-    if(node.type === "arithmeticOperatorNode" ){
+    if (node.type === "arithmeticOperatorNode") {
       node.data.operator = "";
-      node.data.outputIdentifier= "";
+      node.data.outputIdentifier = "";
     }
     set({
       nodes: [...currentNodes, node],
@@ -249,6 +251,21 @@ const useStore = create<RFState>((set, get) => ({
     let nodeDataSource;
     let nodeDataTarget;
     console.log(connection)
+    const target = get().nodes.find((node) => node.id === connection.target);
+    const hasCycle = (node, visited = new Set()) => {
+      if (visited.has(node.id)){ console.log("has");return false;}
+
+      visited.add(node.id);
+
+      for (const outgoer of getOutgoers(node, get().nodes, get().edges)) {
+        if (outgoer.id === connection.source){console.log("me");return true;}
+        if (hasCycle(outgoer, visited)) {console.log("hasCcycle");return true;}
+      }
+    };
+
+    if (target.id === connection.source){console.log("source target");return false};
+    console.log(!hasCycle(target))
+    let cycle = !hasCycle(target);
     for (let node of currentNodes) {
       if (node.id === connection.source) {
         nodeDataSource = node;
@@ -319,28 +336,28 @@ const useStore = create<RFState>((set, get) => ({
           // Push a new entry
           nodeDataTarget.data.inputs.push({
             id: nodeDataSource.id,
-           
+
           });
         }
-        
-          if (nodeDataSource.type === "statePreparationNode") {
-            // Push a new entry
-            nodeDataTarget.data.inputs.push({
-              id: nodeDataSource.id,
-              
-            });
-          }
-          if (nodeDataSource.type === "arithmeticOperatorNode") {
-            // Push a new entry
-            nodeDataTarget.data.inputs.push({
-              id: nodeDataSource.id
-            });
-          }
-        
+
+        if (nodeDataSource.type === "statePreparationNode") {
+          // Push a new entry
+          nodeDataTarget.data.inputs.push({
+            id: nodeDataSource.id,
+
+          });
+        }
+        if (nodeDataSource.type === "arithmeticOperatorNode") {
+          // Push a new entry
+          nodeDataTarget.data.inputs.push({
+            id: nodeDataSource.id
+          });
+        }
+
         // Push a new entry
         //nodeDataTarget.data.inputs.push({
-          //id: nodeDataSource.id,
-          //label: nodeDataSource.data.outputIdentifier
+        //id: nodeDataSource.id,
+        //label: nodeDataSource.data.outputIdentifier
         //});
       }
 
@@ -415,86 +432,147 @@ const useStore = create<RFState>((set, get) => ({
     console.log("Updating node value for:", nodeId);
     console.log("Identifier:", identifier, "New Value:", nodeVal);
 
-    const currentEdges = get().edges;
-    let currentNodes = get().nodes.map((node) => {
-      // Update the node's position separately
-      if (node.id === nodeId && identifier === "position") {
-        node.position = nodeVal;
-        return node;
-      }
-      return node;
-    });
+    set((state) => {
+      const { nodes, edges } = state;
+      let updatedNodes = [...nodes];
+      let reuseQubit = false;
+      let sourceIdentifier = 0;
+      console.log(sourceIdentifier);
+      console.log("set state")
 
-    // Update inputs of target nodes connected by edges where this node is the source
-    currentEdges.forEach((edge) => {
-      console.log("edge")
-      if (edge.source === nodeId) {
-        console.log("found edge")
-        const targetNodeIndex = currentNodes.findIndex((n) => n.id === edge.target);
-        if (targetNodeIndex !== -1) {
-          const targetNode = { ...currentNodes[targetNodeIndex] };
-          const targetData = { ...targetNode.data };
+      // Update the target nodes that receive inputs from this node
+      edges.forEach((edge) => {
+        console.log(sourceIdentifier)
+        console.log(edge)
+        console.log(nodeId)
+        if (edge.source === nodeId) {
+          const targetNodeIndex = updatedNodes.findIndex((n) => n.id === edge.target);
+          if (targetNodeIndex !== -1) {
+            const targetNode = { ...updatedNodes[targetNodeIndex] };
+            const targetData = { ...targetNode.data };
+            const sourceNode = updatedNodes.find((n) => n.id === edge.source);
+            sourceIdentifier = sourceNode?.data?.identifier;
+            console.log("sourceIdentifier");
+            console.log(sourceIdentifier)
+            const sourceOutputIdentifier = sourceNode?.data?.outputIdentifier;
 
-          // Ensure inputs exist
-          if (!targetData.inputs) targetData.inputs = [];
+            if (!targetData.inputs) targetData.inputs = [];
 
-          // Check if inputs already contain this nodeId
-          const inputIndex = targetData.inputs.findIndex((input) => input.id === nodeId);
+            const inputIndex = targetData.inputs.findIndex((input) => input.id === nodeId);
 
-          if (inputIndex !== -1) {
-            if(identifier === "outputIdentifier"){
-            // Update existing input label
-            //targetData.inputs[inputIndex].label = nodeVal;
-            targetData.inputs[inputIndex].outputIdentifier = nodeVal;
+            if (identifier === "outputIdentifier") {
+              if (inputIndex !== -1) {
+                if (targetData.inputs[inputIndex].outputIdentifier === sourceOutputIdentifier) {
+                  targetData.inputs[inputIndex].outputIdentifier = nodeVal;
+                  targetData.inputs[inputIndex]["identifier"] = sourceIdentifier;
+                  targetData["identifier"] = sourceIdentifier
+                  reuseQubit = true;
+                  console.log(targetData["identifier"])
+                } else {
+                  targetData.inputs[inputIndex].outputIdentifier = nodeVal;
+                  targetData.inputs[inputIndex]["identifier"] = sourceIdentifier;
+                  targetData["identifier"] = sourceIdentifier
+                  console.log(targetData["identifier"])
+                  if (nodeVal.includes(sourceOutputIdentifier)) {
+                    reuseQubit = true;
+                  }
+                }
+              } else {
+                targetData.inputs.push({
+                  id: nodeId,
+                  outputIdentifier: nodeVal,
+                  "identifier": sourceIdentifier,
+                });
+                targetData["identifier"] = sourceIdentifier
+                console.log(targetData["identifier"])
+                if (nodeVal.includes(sourceOutputIdentifier)) {
+                  reuseQubit = true;
+                }
+              }
+            }
           }
-          
-          } else {
-
-            
-            //targetData.inputs.push({
-              //id: nodeId,
-              //label: nodeVal,
-            //});
-          }
-
-          // Update target node in the nodes list
-          //targetNode.data = targetData;
-          //currentNodes[targetNodeIndex] = targetNode;
         }
-      }
+        if (edge.target === nodeId) {
+          console.log("Target passt")
+          const targetNodeIndex = updatedNodes.findIndex((n) => n.id === edge.target);
+          if (targetNodeIndex !== -1) {
+            const targetNode = { ...updatedNodes[targetNodeIndex] };
+            const targetData = { ...targetNode.data };
+            const sourceNode = updatedNodes.find((n) => n.id === edge.source);
+            sourceIdentifier = sourceNode?.data?.identifier;
+            console.log("sourceIdentifier");
+            console.log(sourceIdentifier)
+            const sourceOutputIdentifier = sourceNode?.data?.outputIdentifier;
+
+            if (!targetData.inputs) targetData.inputs = [];
+
+            const inputIndex = targetData.inputs.findIndex((input) => input.id === sourceNode.id);
+
+            if (identifier === "outputIdentifier") {
+              if (inputIndex !== -1) {
+                if (targetData.inputs[inputIndex].outputIdentifier === sourceOutputIdentifier) {
+                  targetData.inputs[inputIndex].outputIdentifier = nodeVal;
+                  targetData.inputs[inputIndex]["identifier"] = sourceIdentifier;
+                  targetData["identifier"] = sourceIdentifier
+                  reuseQubit = true;
+                  console.log(targetData["identifier"])
+                } else {
+                  targetData.inputs[inputIndex].outputIdentifier = nodeVal;
+                  targetData.inputs[inputIndex]["identifier"] = sourceIdentifier;
+                  targetData["identifier"] = sourceIdentifier
+                  console.log(targetData["identifier"])
+                  if (nodeVal.includes(sourceOutputIdentifier)) {
+                    reuseQubit = true;
+                  }
+                }
+              } else {
+                targetData.inputs.push({
+                  id: nodeId,
+                  outputIdentifier: nodeVal,
+                  "identifier": sourceIdentifier,
+                });
+                targetData["identifier"] = sourceIdentifier
+                console.log(targetData["identifier"])
+                if (nodeVal.includes(sourceOutputIdentifier)) {
+                  reuseQubit = true;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Update the node's own properties
+      updatedNodes = updatedNodes.map((node) => {
+        if (node.id === nodeId) {
+          console.log(node.data["identifier"])
+          node.data["identifier"] = sourceIdentifier
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              [identifier]: nodeVal,
+
+            },
+          };
+        }
+        return node;
+      });
+
+      return {
+        nodes: updatedNodes,
+        edges: edges,
+        history: [
+          ...state.history.slice(0, state.historyIndex + 1),
+          { nodes: [...updatedNodes], edges: [...edges] },
+        ],
+        historyIndex: state.historyIndex + 1,
+      };
     });
 
-    // Update the node's other data fields if the identifier is not "position"
-    currentNodes = currentNodes.map((node) => {
-      if (node.id === nodeId && identifier !== "position") {
-        return {
-          ...node,
-          data: { ...node.data, [identifier]: nodeVal },
-        };
-      }
-      return node;
-    });
-
-    const newHistoryItem: HistoryItem = {
-      nodes: [...currentNodes], // Copy nodes array to avoid mutation
-      edges: [...currentEdges], // Copy edges array to avoid mutation
-    };
-
-    console.log("Updating history (updateNodeValue):", newHistoryItem);
-
-    set({
-      nodes: currentNodes,
-      edges: currentEdges,
-      history: [
-        ...get().history.slice(0, get().historyIndex + 1),
-        newHistoryItem,
-      ],
-      historyIndex: get().historyIndex + 1,
-    });
-
-    console.log("History after update:", get().history);
-    console.log("Current historyIndex:", get().historyIndex);
+    console.log("History updated successfully.");
   },
+
 
 
   undo: () => {
