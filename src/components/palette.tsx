@@ -12,7 +12,7 @@ export const Palette = () => {
   const CurrentPanel = getPanel(selectedNode?.type || "");
 
   return (
-    <div className="bg-gray-100 h-full border-gray-200 border">
+    <div className="bg-gray-100 h-full border-gray-200 ">
       <CurrentPanel />
     </div>
   );

@@ -66,7 +66,11 @@ function App() {
   const [qunicornEndpoint, setQunicornEndpoint] = useState("http://localhost:5005");
   const [lowcodeBackendEndpoint, setLowcodeBackendEndpoint] = useState("http://localhost:8000");
   const [isLoadJsonModalOpen, setIsLoadJsonModalOpen] = useState(false);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(true);
 
+  const togglePalette = () => {
+    setIsPaletteOpen((prev) => !prev);
+  };
   const handleLoadJson = () => {
     setIsLoadJsonModalOpen(true);
   };
@@ -120,12 +124,25 @@ function App() {
 
     try {
 
+      const validMetadata = {
+        ...metadata,
+        id: `flow-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+      };
+
+      console.log(validMetadata);
+      console.log(metadata);
+      const flow = reactFlowInstance.toObject();
+
+      const flowWithMetadata = { metadata: validMetadata, ...flow };
       // must return the location where to poll
       let response = await fetch(lowcodeBackendEndpoint + "/compile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reactFlowInstance.toObject()),
+        body: JSON.stringify(flowWithMetadata),
       });
+
+      console.log(await response.text());
 
       if (!response["Location"]) {
         return {
@@ -207,8 +224,8 @@ function App() {
               };
               console.log(node);
               nodeT = node;
-              updateNodeValue(node.id, "parentNode", nd.id);
-              updateNodeValue(node.id, "position", node.position);
+              //updateNodeValue(node.id, "parentNode", nd.id);
+              //updateNodeValue(node.id, "position", node.position);
             }
           }
         }
@@ -559,9 +576,27 @@ function App() {
       </Modal>
 
       <main className="flex">
-        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
-          <Palette />
+        <div className="relative flex  bg-gray-100 h-full border-gray-200 border">
+          <div
+            className={`transition-all duration-300 ${isPaletteOpen ? "w-[300px] lg:w-[350px]" : "w-0 overflow-hidden"}`}
+          >
+            {isPaletteOpen && <Palette />}
+          </div>
+          <button
+            onClick={togglePalette}
+            className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "right-0" : "hidden"}`}
+          >
+            {isPaletteOpen ? "←" : "→"}
+          </button>
+
         </div>
+        <button
+            onClick={togglePalette}
+            className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "hidden" : "-left-0"}`}
+          >
+            {isPaletteOpen ? "←" : "→"}
+          </button>
+
         <div
           className="h-[calc(100vh_-_48px)] flex-grow"
           ref={reactFlowWrapper}
