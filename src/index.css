@@ -6,11 +6,17 @@
   box-sizing: border-box;
 }
 
+.toolbar-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow:hidden
 }
 
 code {

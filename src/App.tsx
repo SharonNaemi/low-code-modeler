@@ -71,6 +71,12 @@ function App() {
   const togglePalette = () => {
     setIsPaletteOpen((prev) => !prev);
   };
+
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
+
+  const togglePanel = () => {
+    setIsPanelOpen((prev) => !prev);
+  };
   const handleLoadJson = () => {
     setIsLoadJsonModalOpen(true);
   };
@@ -494,14 +500,16 @@ function App() {
 
   return (
     <ReactFlowProvider>
-      <Toolbar
-        onSave={handleSaveClick}
-        onRestore={handleRestoreClick}
-        onSaveAsSVG={handleSaveAsSVG}
-        onOpenConfig={handleOpenConfig}
-        onLoadJson={handleLoadJson}
-        sendToBackend={sendToBackend}
-      />
+      <div className="toolbar-container">
+  <Toolbar
+    onSave={handleSaveClick}
+    onRestore={handleRestoreClick}
+    onSaveAsSVG={handleSaveAsSVG}
+    onOpenConfig={handleOpenConfig}
+    onLoadJson={handleLoadJson}
+    sendToBackend={sendToBackend}
+  />
+</div>
       <Modal open={isLoadJsonModalOpen} onClose={cancelLoadJson}>
         <div>
           <h2 className="text-lg font-semibold">New Diagram</h2>
@@ -575,7 +583,7 @@ function App() {
         </div>
       </Modal>
 
-      <main className="flex">
+      <main className="flex flex-col lg:flex-row h-screen overflow-hidden">
         <div className="relative flex  bg-gray-100 h-full border-gray-200 border">
           <div
             className={`transition-all duration-300 ${isPaletteOpen ? "w-[300px] lg:w-[350px]" : "w-0 overflow-hidden"}`}
@@ -591,11 +599,11 @@ function App() {
 
         </div>
         <button
-            onClick={togglePalette}
-            className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "hidden" : "-left-0"}`}
-          >
-            {isPaletteOpen ? "←" : "→"}
-          </button>
+          onClick={togglePalette}
+          className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "hidden" : "-left-0"}`}
+        >
+          {isPaletteOpen ? "←" : "→"}
+        </button>
 
         <div
           className="h-[calc(100vh_-_48px)] flex-grow"
@@ -631,9 +639,33 @@ function App() {
             <MiniMap zoomable={true} pannable={true} />
           </ReactFlow>
         </div>
-        <div className="hidden basis-[300px] md:block lg:basis-[350px]">
-          <Panel metadata={metadata} onUpdateMetadata={setMetadata} />
+
+        <div className="relative flex bg-gray-100 h-full border-gray-200 border">
+
+          <div
+            className={`transition-all duration-300 ${isPanelOpen ? "w-[300px] lg:w-[350px]" : "w-0 overflow-hidden"}`}
+          >
+
+            <button
+              onClick={togglePanel}
+              className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPanelOpen ? "left-0" : "hidden"}`}
+            >
+              {isPanelOpen ? "→" : "←"}
+            </button>
+
+
+            {isPanelOpen && <Panel metadata={metadata} onUpdateMetadata={setMetadata} />}
+          </div>
         </div>
+
+        <button
+          onClick={togglePanel}
+          className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPanelOpen ? "hidden" : "right-0"}`}
+        >
+          {isPanelOpen ? "→" : "←"}
+        </button>
+
+
       </main>
     </ReactFlowProvider>
   );
