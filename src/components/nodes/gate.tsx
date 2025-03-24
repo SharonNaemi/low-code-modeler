@@ -14,53 +14,94 @@ const selector = (state: {
 });
 
 export const GateNode = memo((node: Node) => {
-
   const { data } = node;
   const isTwoQubit = data.label === "CNOT";
-
+  const isThreeQubit = data.label === "Toffoli";
 
   return (
     <div className="grand-parent">
-      <div className="w-[100px] h-[100px] rounded-none bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
+      <div className="w-[120px] h-[120px] rounded-none bg-white overflow-hidden border border-solid border-gray-700 shadow-md">
         <div className="w-full bg-blue-300 text-black text-center font-semibold py-1 truncate">
           Gate
         </div>
         <div className="px-2 py-3 flex justify-center">
-          <div className="flex items-center mb-2">
+          <div className="flex items-center">
+         
             <Handle
               type="target"
-              id="classicalHandleDataTypeInput"
+              id={`quantumHandleGateInput1${node.id}`}
               position={Position.Left}
-              className={`!absolute !top-[${isTwoQubit ? "55%" : "65%"}] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible`}
+              className={`!absolute !top-[${isThreeQubit ? "45%" : isTwoQubit ? "55%" : "65%"}] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible`}
               isValidConnection={(connection) => true}
             />
             {isTwoQubit && (
-            <Handle
-              type="target"
-              id="left-bottom"
-              position={Position.Left}
-              className="!absolute !top-[85%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
-              isValidConnection={(connection) => true}
-            />
-          )}
-            <div className="absolute top-[65%]  -translate-x-1/2 -translate-y-1/2 text-center">
+              <Handle
+                type="target"
+                id={`quantumHandleGateInput2${node.id}`}
+                position={Position.Left}
+                className="!absolute !top-[85%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
+            )}
+            {isThreeQubit && (
+              <>
+                <Handle
+                  type="target"
+                  id={`quantumHandleGateInput2${node.id}`}
+                  position={Position.Left}
+                  className="!absolute !top-[65%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                  isValidConnection={(connection) => true}
+                />
+                <Handle
+                  type="target"
+                  id={`quantumHandleGateInput3${node.id}`}
+                  position={Position.Left}
+                  className="!absolute !top-[85%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                  isValidConnection={(connection) => true}
+                />
+              </>
+            )}
+
+   
+            <div className="absolute top-[65%] -translate-x-1/2 -translate-y-1/2 text-center">
               {data.label}
             </div>
+
+   
             <Handle
               type="source"
-              id="classicalHandleDataType"
+              id={`quantumHandleGateOutput1${node.id}`}
               position={Position.Right}
-              className={`!absolute !top-[${isTwoQubit ? "55%" : "65%"}] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible`}
-    
+              className={`!absolute !top-[${isThreeQubit ? "45%" : isTwoQubit ? "55%" : "65%"}] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible`}
               isValidConnection={(connection) => true}
             />
-            {isTwoQubit && (<Handle
-              type="source"
-              id="classicalHandleDataType"
-              position={Position.Right}
-              className="!absolute !top-[85%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
-              isValidConnection={(connection) => true}
-            />)}
+            {isTwoQubit && (
+              <Handle
+                type="source"
+                id={`quantumHandleGateOutput2${node.id}`}
+                position={Position.Right}
+                className="!absolute !top-[85%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
+            )}
+            {isThreeQubit && (
+              <>
+                <Handle
+                  type="source"
+                  id={`quantumHandleGateOutput2${node.id}`}
+                  position={Position.Right}
+                  className="!absolute !top-[65%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                  isValidConnection={(connection) => true}
+                />
+                <Handle
+                  type="source"
+                  id={`quantumHandleGateOutput3${node.id}`}
+                  position={Position.Right}
+                  className="!absolute !top-[85%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                  isValidConnection={(connection) => true}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

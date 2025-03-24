@@ -33,6 +33,7 @@ export const categories: { [key: string]: any } = {
   "Circuit Blocks & Routines": {
     "Circuit Blocks": [
       { label: "CNOT", type: "gateNode" },
+      { label: "Toffoli", type: "gateNode" },
       { label: "X", type: "gateNode" },
       { label: "Y", type: "gateNode" },
       { label: "Z", type: "gateNode" },
