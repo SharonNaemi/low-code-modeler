@@ -33,6 +33,7 @@ const selector = (state: {
   onConnectEnd: any;
   setSelectedNode: (node: Node | null) => void;
   updateNodeValue: (nodeId: string, field: string, nodeVal: string) => void;
+  updateParent: (nodeId: string, parentId: string, position: any) => void;
   setNodes: (node: Node) => void;
   setEdges: (edge: Edge) => void;
   undo: () => void;
@@ -46,6 +47,7 @@ const selector = (state: {
   onConnectEnd: state.onConnectEnd,
   setSelectedNode: state.setSelectedNode,
   updateNodeValue: state.updateNodeValue,
+  updateParent: state.updateParent,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
   undo: state.undo,
@@ -103,6 +105,7 @@ function App() {
     setSelectedNode,
     setNodes,
     updateNodeValue,
+    updateParent,
     setEdges,
   } = useStore(useShallow(selector));
 
@@ -234,7 +237,7 @@ function App() {
               };
               console.log(node);
               nodeT = node;
-              //updateNodeValue(node.id, "parentNode", nd.id);
+              updateParent(node.id, nd.id, node.position);
               //updateNodeValue(node.id, "position", node.position);
             }
           }

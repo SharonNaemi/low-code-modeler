@@ -547,6 +547,18 @@ const useStore = create<RFState>((set, get) => ({
         if (node.id === nodeId) {
           console.log(node.data["identifier"])
           node.data["identifier"] = sourceIdentifier
+          if(identifier === "parentNode"){
+            console.log("update parentnode")
+            node.parentNode = nodeVal
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                [identifier]: nodeVal,
+  
+              },
+            };
+          }
           return {
             ...node,
             data: {
@@ -558,6 +570,8 @@ const useStore = create<RFState>((set, get) => ({
         }
         return node;
       });
+
+      console.log(updatedNodes)
 
       return {
         nodes: updatedNodes,
@@ -572,9 +586,53 @@ const useStore = create<RFState>((set, get) => ({
 
     console.log("History updated successfully.");
   },
+  updateParent:(nodeId: string, parentId: string, position: any) => {
+    console.log("Updating parent value for:", nodeId);
+    console.log("Identifier:", parentId);
 
+    set((state) => {
+      const { nodes, edges } = state;
+      let updatedNodes = [...nodes];
+      let reuseQubit = false;
+      let sourceIdentifier = 0;
+      console.log(sourceIdentifier);
+      console.log("set state")
 
+      
 
+      // Update the node's own properties
+      updatedNodes = updatedNodes.map((node) => {
+        if (node.id === nodeId) {
+          console.log(node.data["identifier"])
+          
+          node.parentNode = parentId;
+          node.position = position;
+          node.extent = "parent"
+          return {
+            ...node,
+            data: {
+              ...node.data
+            },
+          };
+        }
+        return node;
+      });
+
+      console.log(updatedNodes)
+
+      return {
+        nodes: updatedNodes,
+        edges: edges,
+        history: [
+          ...state.history.slice(0, state.historyIndex + 1),
+          { nodes: [...updatedNodes], edges: [...edges] },
+        ],
+        historyIndex: state.historyIndex + 1,
+      };
+    });
+
+    console.log("History updated successfully.");
+  },
   undo: () => {
     const historyIndex = get().historyIndex;
     if (historyIndex > 0) {
