@@ -7,9 +7,11 @@ import ReactFlow, {
   Node,
   ReactFlowProvider,
   MiniMap,
+  getOutgoers,
+  getNodesBounds
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { Panel, Palette, ContextMenu } from "./components";
+import { Panel, Palette} from "./components";
 import Toolbar from "./components/toolbar";
 import { nodesConfig } from "./config/site";
 import useStore from "./config/store";
@@ -20,7 +22,6 @@ import { toSvg } from "html-to-image";
 import { initialDiagram } from "./config/site";
 import Modal from "./Modal";
 import './index.css';
-import CustomEdge from "./components/edges/custom";
 
 
 const selector = (state: {
@@ -89,6 +90,7 @@ function App() {
   const cancelLoadJson = () => {
     setIsLoadJsonModalOpen(false);
   };
+  const [helperLines, setHelperLines] = useState(null);
 
 
   const {
@@ -183,6 +185,7 @@ function App() {
 
 
   const onNodeDragStop = useCallback(
+    
 
     /**
      * 
@@ -198,6 +201,7 @@ function App() {
      * @returns 
      */
     (evt, node) => {
+      setHelperLines(null);
       if (node.type === "group") {
         return;
       }
@@ -398,6 +402,27 @@ function App() {
     [setMenu, setSelectedNode],
   );
 
+  const isValidConnection = useCallback(
+    (connection) => {
+      console.log("isValid")
+ 
+      const target = nodes.find((node) => node.id === connection.target);
+      const hasCycle = (node, visited = new Set()) => {
+        if (visited.has(node.id)) return false;
+ 
+        visited.add(node.id);
+ 
+        for (const outgoer of getOutgoers(node, nodes, edges)) {
+          if (outgoer.id === connection.source) return true;
+          if (hasCycle(outgoer, visited)) return true;
+        }
+      };
+ 
+      if (target.id === connection.source) return false;
+      return !hasCycle(target);
+    },
+    [],
+  );
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   //const handleLoadJson = () => {
@@ -451,8 +476,74 @@ function App() {
 
   const overlappingNodeRef = useRef<Node | null>(null);
 
+  const onNodeDrag = React.useCallback((event: React.MouseEvent, node: Node, nodes: Node[]) => {
+    console.log(reactFlowInstance.getNodes())
+    const currentNodes = reactFlowInstance.getNodes();
+    console.log(node.position.x);
+    console.log(helperLines)
+    console.log(event.clientX)
+    
+    let verticalLine = null;
+    let horizontalLine = null;
 
-  const onNodeDrag = React.useCallback((_: React.MouseEvent, node: Node, nodes: Node[]) => {
+    console.log(verticalLine);
+    console.log(horizontalLine)
+    const bounds = getNodesBounds(currentNodes);
+    console.log(bounds);
+    const { x, y, zoom } = reactFlowInstance.getViewport();
+    console.log(x);
+    console.log(y);
+      const snapThreshold = 0; // Adjust threshold for snapping
+      console.log(ref.current?.getBoundingClientRect())
+    const boundingRect = ref.current?.getBoundingClientRect()
+    const cneter = reactFlowInstance.screenToFlowPosition({
+      x: boundingRect.x + boundingRect.width,
+      y: boundingRect.y + boundingRect.height
+    })
+    console.log(cneter)
+    const screenY = reactFlowInstance.flowToScreenPosition({x:node.position.x, y: node.position.y});
+    console.log(screenY);
+    console.log(reactFlowInstance.getZoom())
+
+      // Find closest nodes for alignment
+      currentNodes.forEach((otherNode) => {
+        if (otherNode.id === node.id) return;
+
+        // Check for horizontal alignment
+        if (Math.abs(node.position.y - otherNode.position.y) === snapThreshold) {
+          console.log("horizontalLine")
+          const screen = reactFlowInstance.flowToScreenPosition({x:node.position.x, y: node.position.y});
+          console.log(screen);
+          horizontalLine = screen.y -70;
+        }
+      });
+    
+      // Only update helperLines if there's alignment
+    if (verticalLine !== null ){
+      setHelperLines({
+        x: verticalLine,
+        y: null
+      });
+    }
+    if(horizontalLine !== null) {
+      
+      setHelperLines({
+        x: null,
+        y: horizontalLine
+      });
+    } 
+    if(horizontalLine === null && verticalLine === null) {
+      
+      setHelperLines({
+        x: null,
+        y: null
+      });
+    } 
+    console.log(helperLines)
+    console.log(node.position.x)
+
+
+    //findGuidelines(node);
     console.log(reactFlowInstance)
     const intersections = reactFlowInstance.getIntersectingNodes(node).map((n) => n.id);
     console.log(intersections)
@@ -460,7 +551,7 @@ function App() {
     console.log("trest")
     console.log(intersections)
   }
-    , [reactFlowInstance]);
+    , [reactFlowInstance, helperLines]);
 
   const onPaneClick = useCallback(() => {
     setMenu(null);
@@ -501,15 +592,15 @@ function App() {
   return (
     <ReactFlowProvider>
       <div className="toolbar-container">
-  <Toolbar
-    onSave={handleSaveClick}
-    onRestore={handleRestoreClick}
-    onSaveAsSVG={handleSaveAsSVG}
-    onOpenConfig={handleOpenConfig}
-    onLoadJson={handleLoadJson}
-    sendToBackend={sendToBackend}
-  />
-</div>
+        <Toolbar
+          onSave={handleSaveClick}
+          onRestore={handleRestoreClick}
+          onSaveAsSVG={handleSaveAsSVG}
+          onOpenConfig={handleOpenConfig}
+          onLoadJson={handleLoadJson}
+          sendToBackend={sendToBackend}
+        />
+      </div>
       <Modal open={isLoadJsonModalOpen} onClose={cancelLoadJson}>
         <div>
           <h2 className="text-lg font-semibold">New Diagram</h2>
@@ -584,26 +675,16 @@ function App() {
       </Modal>
 
       <main className="flex flex-col lg:flex-row h-screen overflow-hidden">
-        <div className="relative flex  bg-gray-100 h-full border-gray-200 border">
+        <div className="relative flex h-full border-gray-200 border">
           <div
             className={`transition-all duration-300 ${isPaletteOpen ? "w-[300px] lg:w-[350px]" : "w-0 overflow-hidden"}`}
           >
             {isPaletteOpen && <Palette />}
           </div>
-          <button
-            onClick={togglePalette}
-            className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "right-0" : "hidden"}`}
-          >
-            {isPaletteOpen ? "←" : "→"}
-          </button>
+      
 
         </div>
-        <button
-          onClick={togglePalette}
-          className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPaletteOpen ? "hidden" : "-left-0"}`}
-        >
-          {isPaletteOpen ? "←" : "→"}
-        </button>
+    
 
         <div
           className="h-[calc(100vh_-_48px)] flex-grow"
@@ -623,6 +704,7 @@ function App() {
             onPaneClick={onPaneClick}
             onDragOver={onDragOver}
             onNodeDrag={onNodeDrag}
+            isValidConnection={isValidConnection}
             onNodeDragStop={onNodeDragStop}
             onDrop={onDrop}
             fitView
@@ -631,7 +713,36 @@ function App() {
             snapToGrid={true}
             nodeTypes={nodesConfig.nodeTypes}
             edgeTypes={nodesConfig.edgesTypes}
-          >
+          >{helperLines && (
+            <>
+              {helperLines.x !== null && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: helperLines.x,
+                    top: 0,
+                    height: "100%",
+                    width: "1px",
+                    background: "red",
+                    pointerEvents: "none"
+                  }}
+                />
+              )}
+              {helperLines.y !== null && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: helperLines.y, //(ref.current?.scrollTop || 0),
+                    left: 0,
+                    width: "100%",
+                    height: "1px",
+                    background: "red",
+                    pointerEvents: "none"
+                  }}
+                />
+              )}
+            </>
+          )}
             <Controls />
 
             <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
@@ -646,24 +757,13 @@ function App() {
             className={`transition-all duration-300 ${isPanelOpen ? "w-[300px] lg:w-[350px]" : "w-0 overflow-hidden"}`}
           >
 
-            <button
-              onClick={togglePanel}
-              className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPanelOpen ? "left-0" : "hidden"}`}
-            >
-              {isPanelOpen ? "→" : "←"}
-            </button>
-
+         
 
             {isPanelOpen && <Panel metadata={metadata} onUpdateMetadata={setMetadata} />}
           </div>
         </div>
 
-        <button
-          onClick={togglePanel}
-          className={`absolute top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-l-lg shadow-md hover:bg-gray-600 z-50 ${isPanelOpen ? "hidden" : "right-0"}`}
-        >
-          {isPanelOpen ? "→" : "←"}
-        </button>
+   
 
 
       </main>
