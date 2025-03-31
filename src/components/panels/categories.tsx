@@ -63,7 +63,7 @@ export const categories: { [key: string]: any } = {
       { label: "If-Then-Else", type: "ifElseNode" },
     ],
     "Loop": [
-      { label: "Repeat", type: "repeatNode" }
+      { label: "Repeat", type: "controlStructureNode" }
     ],
   },
   Operators: {
