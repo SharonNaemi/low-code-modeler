@@ -26,25 +26,43 @@ export const GateNode = memo((node: Node) => {
         </div>
         <div className="px-2 py-3 flex justify-center">
           <div className="flex items-center">
-         
-            <Handle
-              type="target"
-              id={`quantumHandleGateInput1${node.id}`}
-              position={Position.Left}
-              className={`!absolute !top-[${isThreeQubit ? "45%" : isTwoQubit ? "55%" : "65%"}] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible`}
-              isValidConnection={(connection) => true}
-            />
+          {!isTwoQubit && !isThreeQubit && (
+              <Handle
+                type="target"
+                id={`quantumHandleGateInput1${node.id}`}
+                position={Position.Left}
+                className="!absolute !top-[65%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
+            )}
+           
             {isTwoQubit && (
+              <>
+              <Handle
+                type="target"
+                id={`quantumHandleGateInput1${node.id}`}
+                position={Position.Left}
+                className="!absolute !top-[55%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
               <Handle
                 type="target"
                 id={`quantumHandleGateInput2${node.id}`}
                 position={Position.Left}
-                className="!absolute !top-[85%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                className="!absolute !top-[75%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
               />
+            </>
             )}
             {isThreeQubit && (
               <>
+              <Handle
+                  type="target"
+                  id={`quantumHandleGateInput1${node.id}`}
+                  position={Position.Left}
+                  className="!absolute !top-[45%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                  isValidConnection={(connection) => true}
+                />
                 <Handle
                   type="target"
                   id={`quantumHandleGateInput2${node.id}`}
@@ -68,24 +86,42 @@ export const GateNode = memo((node: Node) => {
             </div>
 
    
-            <Handle
-              type="source"
-              id={`quantumHandleGateOutput1${node.id}`}
-              position={Position.Right}
-              className={`!absolute !top-[${isThreeQubit ? "45%" : isTwoQubit ? "55%" : "65%"}] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible`}
-              isValidConnection={(connection) => true}
-            />
+            {!isTwoQubit && !isThreeQubit && (
+              <Handle
+                type="source"
+                id={`quantumHandleGateOutput1${node.id}`}
+                position={Position.Right}
+                className="!absolute !top-[65%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
+            )}
             {isTwoQubit && (
+              <>
+              <Handle
+                type="source"
+                id={`quantumHandleGateOutput1${node.id}`}
+                position={Position.Right}
+                className="!absolute !top-[55%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
               <Handle
                 type="source"
                 id={`quantumHandleGateOutput2${node.id}`}
                 position={Position.Right}
-                className="!absolute !top-[85%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                className="!absolute !top-[75%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
               />
+            </>
             )}
             {isThreeQubit && (
               <>
+              <Handle
+                type="source"
+                id={`quantumHandleGateOutput1${node.id}`}
+                position={Position.Right}
+                className="!absolute !top-[45%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
+                isValidConnection={(connection) => true}
+              />
                 <Handle
                   type="source"
                   id={`quantumHandleGateOutput2${node.id}`}
