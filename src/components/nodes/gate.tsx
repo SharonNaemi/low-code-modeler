@@ -1,14 +1,16 @@
 import { memo, useState, useRef } from "react";
-import { Handle, Position, Node, useUpdateNodeInternals } from "reactflow";
+import { Handle, Position, Node, useUpdateNodeInternals, Edge } from "reactflow";
 import useStore from "@/config/store";
 import { shallow } from "zustand/shallow";
 
 const selector = (state: {
   selectedNode: Node | null;
+  edges: Edge[];
   updateNodeValue: (nodeId: string, field: string, nodeVal: string) => void;
   setSelectedNode: (node: Node | null) => void;
 }) => ({
   selectedNode: state.selectedNode,
+  edges: state.edges,
   updateNodeValue: state.updateNodeValue,
   setSelectedNode: state.setSelectedNode
 });
@@ -17,6 +19,7 @@ export const GateNode = memo((node: Node) => {
   const { data } = node;
   const isTwoQubit = data.label === "CNOT";
   const isThreeQubit = data.label === "Toffoli";
+  const { edges } = useStore(selector, shallow);
 
   return (
     <div className="grand-parent">
@@ -33,6 +36,7 @@ export const GateNode = memo((node: Node) => {
                 position={Position.Left}
                 className="!absolute !top-[65%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
+
               />
             )}
            
@@ -42,7 +46,7 @@ export const GateNode = memo((node: Node) => {
                 type="target"
                 id={`quantumHandleGateInput1${node.id}`}
                 position={Position.Left}
-                className="!absolute !top-[55%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
+                className=" !top-[55%] z-10 circle-port-op !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
               />
               <Handle
@@ -93,6 +97,7 @@ export const GateNode = memo((node: Node) => {
                 position={Position.Right}
                 className="!absolute !top-[65%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
             )}
             {isTwoQubit && (
@@ -103,6 +108,7 @@ export const GateNode = memo((node: Node) => {
                 position={Position.Right}
                 className="!absolute !top-[55%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
               <Handle
                 type="source"
@@ -110,6 +116,7 @@ export const GateNode = memo((node: Node) => {
                 position={Position.Right}
                 className="!absolute !top-[75%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
             </>
             )}
@@ -121,6 +128,7 @@ export const GateNode = memo((node: Node) => {
                 position={Position.Right}
                 className="!absolute !top-[45%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                 isValidConnection={(connection) => true}
+                isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
               />
                 <Handle
                   type="source"
@@ -128,6 +136,7 @@ export const GateNode = memo((node: Node) => {
                   position={Position.Right}
                   className="!absolute !top-[65%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                   isValidConnection={(connection) => true}
+                  isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
                 />
                 <Handle
                   type="source"
@@ -135,6 +144,7 @@ export const GateNode = memo((node: Node) => {
                   position={Position.Right}
                   className="!absolute !top-[85%] z-10 circle-port-out !bg-blue-300 !border-black overflow-visible"
                   isValidConnection={(connection) => true}
+                  isConnectable={edges.filter(edge => edge.sourceHandle === "quantumHandleStatePreparationOutput" + node.id).length < 1}
                 />
               </>
             )}

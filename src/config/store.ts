@@ -296,6 +296,9 @@ const useStore = create<RFState>((set, get) => ({
       if (node.id === connection.source && connection.sourceHandle.includes("quantumHandle") && connection.targetHandle.includes("quantumHandle")) {
         insertEdge = true;
       }
+      if (node.id === connection.source && connection.sourceHandle.includes("ancillaHandle") && nodeDataTarget.type==="gateNode" && connection.targetHandle.includes("quantumHandle")) {
+        insertEdge = true;
+      }
 
     }
     // Überprüfung: Existiert bereits eine Edge zur connection.targetHandle?

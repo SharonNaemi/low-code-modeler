@@ -102,7 +102,7 @@ export const AncillaNode = memo((node: Node) => {
               
               <Handle
                 type="source"
-                id="output"
+                id={`ancillaHandleOutput${node.id}`}
                 position={Position.Right}
                 className="!absolute !top-[70%] z-10 circle-port-out !bg-green-200 !border-black overflow-visible transform rotate-45"
                 isValidConnection={(connection) => true}
