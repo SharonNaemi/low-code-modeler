@@ -26,8 +26,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.openapi",
-    "sphinxcontrib.datatemplates",
-    "autoapi.extension",
+    "sphinxcontrib.datatemplates"
 ]
 
 # https://sphinx-autoapi.readthedocs.io/en/latest/reference/config.html
