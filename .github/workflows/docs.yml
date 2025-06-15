@@ -20,9 +20,6 @@ jobs:
       - name: uv Sync (including dev-dependencies)
         run: uv sync --all-groups --frozen
 
-      - name: Extract OpenAPI spec
-        run: uv run --no-sync extract-openapi.py
-
       - name: Extract SBOM
         run: uv run cyclonedx-py venv -o docs/_static/sbom.json
 
