@@ -22,14 +22,14 @@ Each node has an *operator* property to define its function.
 .. figure:: images/quantumOperators.png
    :alt: Quantum Operators
    :align: center
-   :width: 400px
+   :width: 600px
 
    Quantum Operators 
 
 .. figure:: images/classicalOperators.png
    :alt: Classical Operators
    :align: center
-   :width: 400px
+   :width: 600px
 
    Classical Operators 
 
