@@ -16,10 +16,10 @@ The main components of the *Low-Code Modeler*:
 
 The system interacts with the following components:
 
-- **Low-Code Backend:** Enriches modeling constructs with corresponding OpenQASM 3 implementations, selecting or adapting them based on the required circuit width. Returns the resulting OpenQASM code to the frontend.  
-- **NISQ Analyzer:** Helps select suitable quantum devices and filters out backends that do not support conditional operations.  
-- **QProv:** Continuously collects and stores information about available quantum devices and supports the updated selection logic.  
-- **Qunicorn:** Executes the OpenQASM code once a suitable backend is selected.
+- **Low-Code Backend:** enriches modeling constructs with corresponding OpenQASM 3 implementations, selecting or adapting them based on the required circuit width. Returns the resulting OpenQASM code to the frontend.  
+- **NISQ Analyzer:** helps select suitable quantum devices and filters out backends that do not support conditional operations.  
+- **QProv:** continuously collects and stores information about available quantum devices and supports the updated selection logic.  
+- **Qunicorn:** executes the OpenQASM code once a suitable backend is selected.
 
 .. figure:: images/architecture.png
    :alt: System architecture
@@ -36,7 +36,7 @@ Modeling Constructs and Blocks
 
 The quantum low-code tool provides modeling constructs for defining quantum applications at different levels of abstraction. In particular, quantum modeling constructs offer both higher-level abstractions and lower-level modeling blocks representing quantum gates, while supporting users across a broad spectrum of quantum computing expertise.
 
-The constructs are organized into five categories: Data Types, Circuit-Level Nodes, Boundary Nodes, Operators, Control Structure Nodes, and Custom Nodes. Each category includes visual elements that enable users to build quantum circuits, workflows, and logic in an intuitive way.
+The constructs are organized into six categories: Data Types, Circuit-Level Nodes, Boundary Nodes, Operators, Control Structure Nodes, and Custom Nodes. Each category includes visual elements that enable users to build quantum circuits, workflows, and logic in an intuitive way.
 
 Detailed descriptions and examples for each construct type are provided in the corresponding subsections.
 
@@ -49,4 +49,4 @@ Detailed descriptions and examples for each construct type are provided in the c
    modelingconstructs_boundaryNodes
    modelingconstructs_operators
    modelingconstructs_controlStructureNodes
-   modelingconstructs_customnodes
+   modelingconstructs_customNodes
