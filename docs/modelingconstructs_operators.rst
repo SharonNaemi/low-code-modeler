@@ -19,6 +19,16 @@ Each node has an *operator* property to define its function.
   - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
   - Min/Max: `min`, `max`
 
-.. figure:: img/operators.png
-   :alt: Operator categories and structure
+.. figure:: img/quantumOperators.png
+   :alt: Quantum Operators
    :align: center
+   :width: 400px
+   :caption: Quantum operators 
+
+.. figure:: img/classicalOperators.png
+   :alt: Classical Operators
+   :align: center
+   :width: 400px
+   :caption: Classical operators
+
+

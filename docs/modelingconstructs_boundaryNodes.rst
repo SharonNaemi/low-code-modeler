@@ -10,6 +10,6 @@ The following boundary nodes are supported:
 
 - **Measurement**: Takes one quantum register input and produces two outputs: classical measurement results and the post-measurement quantum state. Users can select specific qubits to measure. Measurements default to the Z-basis but other bases can be chosen using Pauli strings.
 
-.. figure:: images/boundary_nodes.png
+.. figure:: images/boundaryNodes.png
    :alt: Boundary Nodes illustration
    :align: center
