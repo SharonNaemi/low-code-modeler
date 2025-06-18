@@ -29,7 +29,7 @@ documentation for details.
    project_introduction
 
 .. toctree::
-   :caption: Modeling Constructs
+   :caption: Modeling Constructs and Blocks
    :maxdepth: 2
 
    modelingconstructs_boundaryNodes
@@ -38,3 +38,9 @@ documentation for details.
    modelingconstructs_circuitLevelNodes
    modelingconstructs_customNodes
    modelingconstructs_controlStructureNodes
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Disclaimer
+
+   disclaimer
