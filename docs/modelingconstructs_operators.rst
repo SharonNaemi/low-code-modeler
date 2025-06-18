@@ -14,21 +14,21 @@ Each node has an *operator* property to define its function.
 
 - **Supported operators:**
 
-  - Arithmetic: `+`, `-`, `*`, `/`, `%`
-  - Bitwise: `AND`, `OR`, `XOR`, `NOT`
-  - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
-  - Min/Max: `min`, `max`
+   - Arithmetic: `+`, `-`, `*`, `/`, `%`
+   - Bitwise: `AND`, `OR`, `XOR`, `NOT`
+   - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
+   - Min/Max: `min`, `max`
 
-.. figure:: imgages/quantumOperators.png
+.. figure:: images/quantumOperators.png
    :alt: Quantum Operators
    :align: center
    :width: 400px
    :caption: Quantum operators 
 
-.. figure:: imgages/classicalOperators.png
+.. figure:: images/classicalOperators.png
    :alt: Classical Operators
    :align: center
    :width: 400px
-   :caption: Classical operators
+   :caption: Classical operators 
 
 
