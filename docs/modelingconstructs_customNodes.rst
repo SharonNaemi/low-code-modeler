@@ -1,15 +1,13 @@
 Custom Nodes
-=========
+------------
 
-Operators are core functional elements that manipulate data within the model. They can perform mathematical, logical, or quantum operations.
+To support flexibility beyond predefined functionality, the modeling framework allows the creation of **custom nodes**.
 
-Operator categories:
+- Custom nodes can be defined for both **classical** and **quantum** contexts.
+- Users can specify an arbitrary number of **input** and **output** ports using configurable properties.
+- This enables modeling of **non-standard** or **complex operations** that may not be covered by built-in node types.
+- Custom nodes allow the tool to adapt to **user-specific logic** and **evolving modeling needs**.
 
-- **Arithmetic**: Add, Subtract, Multiply
-- **Logical**: AND, OR, NOT
-- **Quantum Gates**: Hadamard (H), Pauli-X, CNOT
-
-.. image:: images/ancillaIcon.png
-   :alt: Operators Diagram
+.. figure:: img/customnodes.png
+   :alt: Example of custom node configuration
    :align: center
-   :width: 70%

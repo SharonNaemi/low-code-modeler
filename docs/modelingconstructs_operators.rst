@@ -12,11 +12,12 @@ Output types vary by category:
 
 Each node has an *operator* property to define its function.
 
-Supported operators:
-- Arithmetic: `+`, `-`, `*`, `/`, `%`
-- Bitwise: `AND`, `OR`, `XOR`, `NOT`
-- Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
-- Min/Max: `min`, `max`
+- **Supported operators:**
+
+  - Arithmetic: `+`, `-`, `*`, `/`, `%`
+  - Bitwise: `AND`, `OR`, `XOR`, `NOT`
+  - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
+  - Min/Max: `min`, `max`
 
 .. figure:: img/operators.png
    :alt: Operator categories and structure
