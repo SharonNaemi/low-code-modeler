@@ -1,15 +1,26 @@
-Circuit-level Nodes
-=========
+Circuit-Level Nodes
+-------------------
 
-Operators are core functional elements that manipulate data within the model. They can perform mathematical, logical, or quantum operations.
+At the circuit level, the modeler includes quantum gates and a qubit element. The qubit is a source node with one output port. Gates are modeled by arity: single-qubit gates have one input and one output, two-qubit gates have two, and so on.
 
-Operator categories:
+Gates are either non-parameterized or parameterized. Parameterized gates display required float parameters, which must be set by the user and can be expressed in radians or degrees. The number of parameters is fixed and visually indicated.
 
-- **Arithmetic**: Add, Subtract, Multiply
-- **Logical**: AND, OR, NOT
-- **Quantum Gates**: Hadamard (H), Pauli-X, CNOT
 
-.. image:: images/ancillaIcon.png
-   :alt: Operators Diagram
+The model also supports broadcasting, allowing gates to apply element-wise across equally sized registers. 
+
+.. figure:: ../images/circuit_level_nodes.png
+   :alt: Circuit-Level Nodes Overview
    :align: center
-   :width: 70%
+   :width: 80%
+
+   Illustration of circuit-level quantum gates and qubit nodes.
+
+Splitter and Merger nodes support register manipulation. A Splitter divides a quantum register into individual qubits, requiring a specified size. A Merger combines single qubits into a quantum register.
+
+.. figure:: ../images/splitter_merger_nodes.png
+   :alt: Splitter and Merger Nodes
+   :align: center
+   :width: 80%
+
+   Illustration of the Splitter and Merger modeling constructs.
+

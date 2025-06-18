@@ -6,15 +6,7 @@ Project Description
 
 This quantum low-code tool enables users to model quantum algorithms combining classical and quantum logic in a visual, node-based interface.
 
-.. _fig-architecture:
-.. figure:: images/architecture.png
-   :alt: System architecture
-   :name: fig-architecture
-   :target: https://your-link-to-fullsize-or-related-page.com
-
-   Overview of the system architecture with the main components of the *Low-Code Modeler*.
-
-:ref:`fig-architecture` presents an overview of the system architecture with the main components of the *Low-Code Modeler*:
+The main components of the *Low-Code Modeler*:
 
 - **Editor**: drag-and-drop interface for modeling quantum applications using visual constructs  
 - **Validator**: checks syntactic and semantic correctness of the created models  
@@ -29,22 +21,32 @@ The system interacts with the following components:
 - **QProv:** Continuously collects and stores information about available quantum devices and supports the updated selection logic.  
 - **Qunicorn:** Executes the OpenQASM code once a suitable backend is selected.
 
+.. figure:: images/architecture.png
+   :alt: System architecture
+   :target: images/architecture.png
+   :width: 600px
+
+   System architecture of the quantum low-code tool.
+
 
 
 
 Modeling Constructs
 -------------------
 
-This tool provides several modeling constructs.  
-Click on a construct below to learn more:
+The quantum low-code tool provides modeling constructs for defining quantum applications at different levels of abstraction. In particular, quantum modeling constructs offer both higher-level abstractions and lower-level modeling blocks representing quantum gates, while supporting users across a broad spectrum of quantum computing expertise.
+
+The constructs are organized into five categories: Data Types, Circuit-Level Nodes, Boundary Nodes, Operators, Control Structure Nodes, and Custom Nodes. Each category includes visual elements that enable users to build quantum circuits, workflows, and logic in an intuitive way.
+
+Detailed descriptions and examples for each construct type are provided in the corresponding subsections.
 
 .. toctree::
    :maxdepth: 1
    :titlesonly:
-
-   modelingconstructs_boundaryNodes
-   modelingconstructs_operators
+   
    modelingconstructs_dataTypes
    modelingconstructs_circuitLevelNodes
-   modelingconstructs_customnodes
+   modelingconstructs_boundaryNodes
+   modelingconstructs_operators
    modelingconstructs_controlStructureNodes
+   modelingconstructs_customnodes
