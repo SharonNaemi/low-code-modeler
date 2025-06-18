@@ -8,6 +8,6 @@ To support flexibility beyond predefined functionality, the modeling framework a
 - This enables modeling of **non-standard** or **complex operations** that may not be covered by built-in node types.
 - Custom nodes allow the tool to adapt to **user-specific logic** and **evolving modeling needs**.
  
-.. figure:: img/customNodes.png
+.. figure:: images/customNodes.png
    :alt: Example of custom node configuration
    :align: center

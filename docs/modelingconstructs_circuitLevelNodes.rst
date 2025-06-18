@@ -8,7 +8,7 @@ Gates are either non-parameterized or parameterized. Parameterized gates display
 
 The model also supports broadcasting, allowing gates to apply element-wise across equally sized registers. 
 
-.. figure:: ../images/circuitLevelNodes.png
+.. figure:: images/circuitLevelNodes.png
    :alt: Circuit-Level Nodes Overview
    :align: center
    :width: 80%
@@ -17,7 +17,7 @@ The model also supports broadcasting, allowing gates to apply element-wise acros
 
 Splitter and Merger nodes support register manipulation. A Splitter divides a quantum register into individual qubits, requiring a specified size. A Merger combines single qubits into a quantum register.
 
-.. figure:: ../images/splitterMerger.png
+.. figure:: images/splitterMerger.png
    :alt: Splitter and Merger Nodes
    :align: center
    :width: 80%

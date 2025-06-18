@@ -7,6 +7,6 @@ Control structure nodes enable conditional execution and repetition of quantum o
 
 - **If-Else**: Executes based on a single classical input as a *condition*. Both *if* and *else* branches must have matching input and output types and sizes. If one branch is empty, it behaves as an identity. New variables can be defined inside these blocks, but they remain local to the block's scope.
 
-.. figure:: img/controlStructure.png
+.. figure:: imgages/controlStructure.png
    :alt: Control structure nodes
    :align: center
