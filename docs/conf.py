@@ -12,9 +12,9 @@ import sys
 # set system path to /leqo-backend/
 sys.path.insert(0, os.path.abspath("../"))
 
-project = "LEQO-Backend"
-copyright = "2025, LEQO Backend Team"
-author = "Arne Gabriel, Johannes Heugel, Lukas Kurz, Len Lazarus, Louis Radek"
+project = "Quantum Low-Code Tool"
+copyright = "2025, Sharon-Naemi Stiliadou"
+author = "Sharon-Naemi Stiliadou"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

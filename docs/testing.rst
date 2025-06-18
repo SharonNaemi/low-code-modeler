@@ -1,14 +1,18 @@
-Testing
+Getting started
 =======
 
-This project uses `pytest <https://docs.pytest.org/en/stable/>`_ for testing.
 
-Run Tests
 ---------
 
-Run all tests using the following command:
+To start the project, install first all dependencies
 
 .. code-block:: shell
 
-	uv run pytest tests
+	pnpm install
+
+
+Then run the project via:
+.. code-block:: shell
+
+	npm run dev
 
