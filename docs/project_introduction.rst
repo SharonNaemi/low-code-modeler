@@ -6,14 +6,15 @@ Project Description
 
 This quantum low-code tool enables users to model quantum algorithms combining classical and quantum logic in a visual, node-based interface.
 
+.. _fig-architecture:
 .. figure:: images/architecture.png
    :alt: System architecture
    :name: fig-architecture
    :target: https://your-link-to-fullsize-or-related-page.com
 
    Overview of the system architecture with the main components of the *Low-Code Modeler*.
-   
-:numref:`fig-architecture` presents an overview of the system architecture with the main components of the *Low-Code Modeler*:
+
+:ref:`fig-architecture` presents an overview of the system architecture with the main components of the *Low-Code Modeler*:
 
 - **Editor**: drag-and-drop interface for modeling quantum applications using visual constructs  
 - **Validator**: checks syntactic and semantic correctness of the created models  
