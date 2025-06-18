@@ -28,8 +28,51 @@ The system interacts with the following components:
 
    System architecture of the quantum low-code tool.
 
+User Interface
+-------------------
 
+The modeler interface consists of several components that facilitate the creation and execution of quantum applications.
 
+At the top of the screen is the *toolbar*, which provides functions such as:
+
+- *New Diagram*
+- *Open*
+- *Save*
+- *Save As*
+- *Upload*
+- *Configuration*
+- *Send to Backend*
+- *Send to Qunicorn*
+
+These options enable users to manage files, configure the modeling tool, and deploy quantum applications. Tooltips and visual feedback confirm actions and enhance usability.
+
+On the left side is the *palette*, offering a searchable, categorized list of modeling elements. Categories include:
+
+- *Boundary Nodes*
+- *Circuit Nodes*
+- *Data Types*
+- *Control Structure Nodes*
+- *Operators*
+- *Custom Operators*
+
+Users can drag and drop elements from the palette onto the canvas. Usability features include a responsive search bar, intuitive category labels, and collapsible groups to reduce visual clutter.
+
+The central *canvas area* serves as the main workspace for diagram construction. It features a grid layout to support alignment and design precision. Users can interact with the canvas using keyboard and mouse controls, including:
+
+- Zooming in and out
+- Resetting the view
+- Locking the canvas via controls located at the bottom left
+- Keyboard shortcuts:
+
+   - *Delete* to remove nodes
+   - Arrow keys for moving elements
+   - Lasso tool (hold *Shift*) to select multiple nodes
+   - *Undo/Redo* functionality to support editing
+
+.. figure:: images/userInterface.png
+   :alt: User Interface
+   :target: images/userInterface.png
+   :width: 600px
 
 Modeling Constructs and Blocks
 -------------------
