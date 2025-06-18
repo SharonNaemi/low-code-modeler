@@ -7,7 +7,7 @@ To support flexibility beyond predefined functionality, the modeling framework a
 - Users can specify an arbitrary number of **input** and **output** ports using configurable properties.
 - This enables modeling of **non-standard** or **complex operations** that may not be covered by built-in node types.
 - Custom nodes allow the tool to adapt to **user-specific logic** and **evolving modeling needs**.
-
+ 
 .. figure:: img/customnodes.png
    :alt: Example of custom node configuration
    :align: center

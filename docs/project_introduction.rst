@@ -31,7 +31,7 @@ The system interacts with the following components:
 
 
 
-Modeling Constructs
+Modeling Constructs and Blocks
 -------------------
 
 The quantum low-code tool provides modeling constructs for defining quantum applications at different levels of abstraction. In particular, quantum modeling constructs offer both higher-level abstractions and lower-level modeling blocks representing quantum gates, while supporting users across a broad spectrum of quantum computing expertise.
