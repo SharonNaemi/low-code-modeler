@@ -1,18 +1,25 @@
-Getting started
-=======
+Getting Started
+===============
 
+Set up and run the project locally by following the steps below.
 
----------
+Installation
+------------
 
-To start the project, install first all dependencies
+First, install all project dependencies using:
 
 .. code-block:: shell
 
-	pnpm install
+   pnpm install
 
+Running the Project
+-------------------
 
-Then run the project via:
+Once the dependencies are installed, start the development server with:
+
 .. code-block:: shell
 
-	npm run dev
+   npm run dev
+
+
 
