@@ -1,15 +1,23 @@
 Operators
-=========
+---------
 
-Operators are core functional elements that manipulate data within the model. They can perform mathematical, logical, or quantum operations.
+Operators are grouped into arithmetic, bitwise, comparison, and min/max categories.
 
-Operator categories:
+- **Arithmetic, bitwise, and comparison** operators take two inputs.
+- **Min/max** operators take a single input collection.
 
-- **Arithmetic**: Add, Subtract, Multiply
-- **Logical**: AND, OR, NOT
-- **Quantum Gates**: Hadamard (H), Pauli-X, CNOT
+Output types vary by category:
+- Arithmetic operators produce quantum outputs.
+- Bitwise, comparison, and min/max operators produce classical outputs.
 
-.. image:: images/ancillaIcon.png
-   :alt: Operators Diagram
+Each node has an *operator* property to define its function.
+
+Supported operators:
+- Arithmetic: `+`, `-`, `*`, `/`, `%`
+- Bitwise: `AND`, `OR`, `XOR`, `NOT`
+- Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- Min/Max: `min`, `max`
+
+.. figure:: img/operators.png
+   :alt: Operator categories and structure
    :align: center
-   :width: 70%
