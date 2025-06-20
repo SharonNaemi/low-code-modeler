@@ -11,12 +11,12 @@ Shor’s algorithm is used for integer factorization. Let `n` be the number to b
    <div style="display: flex; justify-content: space-between; gap: 1em;">
 
      <div style="flex: 1; text-align: center;">
-       <img src="_images/deutschJozsa.png" alt="Deutsch–Jozsa algorithm" style="width:100%;">
+       <img src="images/deutschJozsa.png" alt="Deutsch–Jozsa algorithm" style="width:100%;">
        <p><em>Deutsch–Jozsa algorithm modeled in the tool</em></p>
      </div>
 
      <div style="flex: 1; text-align: center;">
-       <img src="_images/shor.png" alt="Shor’s algorithm" style="width:100%;">
+       <img src="images/shor.png" alt="Shor’s algorithm" style="width:100%;">
        <p><em>Shor’s algorithm modeled in the tool</em></p>
      </div>
 
