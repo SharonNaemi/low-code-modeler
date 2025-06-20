@@ -17,7 +17,7 @@ Modeling such a circuit at the gate level requires a certain level of expertise 
 
    .. figure:: images/ghz7preparestate.png
       :alt: GHZ state modeled using Prepare State block
-      :width: 78%
+      :width: 48%
       :align: center
 
       GHZ state modeled using Prepare State block
