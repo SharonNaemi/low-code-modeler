@@ -8,7 +8,7 @@ The first use case illustrates the modeling of a GHZ state with 7 qubits. This m
 
    .. figure:: images/ghz7.png
       :alt: GHZ state modeled with gate-level nodes
-      :width: 48%
+      :width: 78%
       :align: center
 
       GHZ state modeled with gate-level nodes
@@ -17,7 +17,7 @@ Modeling such a circuit at the gate level requires a certain level of expertise 
 
    .. figure:: images/ghz7preparestate.png
       :alt: GHZ state modeled using Prepare State block
-      :width: 48%
+      :width: 78%
       :align: center
 
       GHZ state modeled using Prepare State block

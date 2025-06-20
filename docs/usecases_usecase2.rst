@@ -6,7 +6,7 @@ The Deutsch–Jozsa algorithm determines whether a given function is constant or
 
    .. figure:: images/deutschJozsa.png
       :alt: Deutsch–Jozsa algorithm modeled in the tool
-      :width: 48%
+      :width: 78%
       :align: center
 
       Deutsch–Jozsa algorithm modeled in the tool
@@ -16,7 +16,7 @@ Shor’s algorithm is used for integer factorization. Let `n` be the number to b
 
    .. figure:: images/shor.png
       :alt: Shor’s algorithm modeled in the tool
-      :width: 48%
+      :width: 78%
       :align: center
 
       Shor’s algorithm modeled in the tool
