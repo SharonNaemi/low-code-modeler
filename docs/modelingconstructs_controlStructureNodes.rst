@@ -9,7 +9,6 @@ Control structure nodes enable conditional execution and repetition of quantum o
 
  .. figure:: images/controlStructureNodes.png
       :alt: Control Structure Nodes
-      :width: 80%
       :align: center
 
    Control structure nodes
